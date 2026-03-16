@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cinematography Robotic Arm — Avery Wong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Bricolage+Grotesque:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #2a3038;
+      color: #edf1f8;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: -180px; left: 50%;
+      transform: translateX(-50%);
+      width: 900px; height: 600px;
+      background: radial-gradient(ellipse, rgba(160,168,180,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 60px; display: flex; justify-content: space-between; align-items: center;
+      padding: 0 2.5rem;
+      background: rgba(20,23,29,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(180,185,195,0.25);
+    }
+    .nav-logo { font-family: 'Bricolage Grotesque', sans-serif; font-size: 0.95rem; font-weight: 600; color: #edf1f8; text-decoration: none; }
+    .nav-links { display: flex; gap: 0.2rem; list-style: none; align-items: center; }
+    .nav-links > li > a { font-size: 0.83rem; font-weight: 500; color: #a8b0c0; text-decoration: none; padding: 0.4rem 0.9rem; border-radius: 6px; transition: all 0.18s; display: flex; align-items: center; gap: 4px; }
+    .nav-links > li > a:hover { color: #edf1f8; background: #2a3038; }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown .chevron { width: 12px; height: 12px; transition: transform 0.2s; opacity: 0.6; }
+    .nav-dropdown:hover > a .chevron { transform: rotate(180deg); }
+    .nav-dropdown:hover > a { color: #edf1f8; background: #2a3038; }
+    .dropdown-menu { position: absolute; top: calc(100% + 8px); right: 0; background: #1a1e26; border: 1px solid rgba(180,185,195,0.25); border-radius: 10px; padding: 0.4rem; min-width: 260px; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.18s ease, transform 0.18s ease; z-index: 200; }
+    .nav-dropdown:hover .dropdown-menu { opacity: 1; pointer-events: all; transform: translateY(0); }
+    .dropdown-menu a { display: flex !important; flex-direction: column; gap: 2px; padding: 0.6rem 0.85rem !important; border-radius: 7px !important; background: transparent !important; color: #a8b0c0 !important; text-decoration: none; transition: all 0.15s !important; }
+    .dropdown-menu a:hover { background: #2a3038 !important; color: #edf1f8 !important; }
+    .dropdown-menu a .d-title { font-size: 0.83rem; font-weight: 500; color: inherit; }
+    .dropdown-menu a .d-sub { font-size: 0.7rem; color: #7a8090; }
+    .dropdown-divider { height: 1px; background: rgba(180,185,195,0.25); margin: 0.35rem 0.5rem; }
+    .page-wrap { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 7rem 2.5rem 5rem; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.83rem; color: #a8b0c0; text-decoration: none; margin-bottom: 2.5rem; transition: color 0.18s; }
+    .back-link:hover { color: #c8d2e8; }
+    .label-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #c8d2e8; margin-bottom: 0.65rem; }
+    .label-pill::before { content: ''; width: 16px; height: 1px; background: #c8d2e8; }
+    h1 { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; color: #edf1f8; line-height: 1.1; margin-bottom: 0.75rem; }
+    h2 { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 700; letter-spacing: -0.02em; color: #edf1f8; line-height: 1.2; margin-bottom: 1rem; }
+    .proj-meta-bar { display: flex; flex-wrap: wrap; gap: 1.75rem; margin: 1.5rem 0 2rem; padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(180,185,195,0.25); background: #2a3038; }
+    .proj-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .proj-meta-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.09em; color: #7a8090; }
+    .proj-meta-val { font-size: 0.88rem; color: #edf1f8; font-weight: 500; }
+    .proj-section { margin-bottom: 2.5rem; }
+    .proj-section p { font-size: 0.95rem; color: #a8b0c0; line-height: 1.85; margin-bottom: 0.9rem; }
+    .proj-section ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+    .proj-section ul li { font-size: 0.92rem; color: #a8b0c0; padding-left: 1.2rem; position: relative; line-height: 1.7; }
+    .proj-section ul li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 5px; height: 5px; border-radius: 50%; background: #c8d2e8; opacity: 0.6; }
+    .divider { height: 1px; background: rgba(180,185,195,0.25); margin: 2rem 0; }
+    .ptag { font-size: 0.7rem; font-weight: 500; padding: 0.25rem 0.65rem; border-radius: 5px; background: rgba(180,185,195,0.15); color: #c8d2e8; border: 1px solid rgba(180,185,195,0.35); }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .proj-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(180,185,195,0.25); flex-wrap: wrap; gap: 1rem; }
+    .proj-nav a { font-size: 0.83rem; color: #a8b0c0; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.18s; }
+    .proj-nav a:hover { color: #c8d2e8; }
+    .proj-section img { width:100%; border-radius:10px; border:2px solid var(--t-border); display:block; }
+    footer { position: relative; z-index: 1; text-align: center; padding: 1.5rem; border-top: 1px solid rgba(180,185,195,0.25); font-size: 0.78rem; color: #7a8090; }
+    @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 1; transform: none; transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.animate { opacity: 0; transform: translateY(20px); }
+    .reveal.animate.visible { opacity: 1; transform: none; }
+    @media (max-width: 700px) { nav { padding: 0 1.5rem; } .page-wrap { padding: 6rem 1.5rem 4rem; } }
+  </style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="index.html">Avery Wong</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li class="nav-dropdown">
+      <a href="projects.html">Projects
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </a>
+      <div class="dropdown-menu">
+        <a href="projects.html"><span class="d-title">All Projects</span><span class="d-sub">Selected work overview</span></a>
+        <div class="dropdown-divider"></div>
+        <a href="project-1.html"><span class="d-title">Cinematography Robotic Arm</span><span class="d-sub">MIE 243</span></a>
+        <a href="project-2.html"><span class="d-title">Smart Rehabilitation Knee Sleeve</span><span class="d-sub">True North Competition</span></a>
+        <a href="project-3.html"><span class="d-title">Desk with Integrated Charging Ports</span><span class="d-sub">APS 112</span></a>
+        <a href="project-4.html"><span class="d-title">Ball Bearing &amp; Screwdriver Dissections</span><span class="d-sub">MIE 243</span></a>
+      </div>
+    </li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+<div class="page-wrap">
+  <a class="back-link reveal" href="projects.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    All Projects
+  </a>
+  <div class="reveal">
+    <div class="label-pill">Project 01</div>
+    <h1>Cinematography Robotic Arm</h1>
+  </div>
+  <div class="proj-meta-bar reveal">
+    <div class="proj-meta-item"><span class="proj-meta-label">Course</span><span class="proj-meta-val">MIE 243 — Mechanical Engineering Design</span></div>
+    <div class="proj-meta-item"><span class="proj-meta-label">Role</span><span class="proj-meta-val">CAD Lead · Motor Selection</span></div>
+    <div class="proj-meta-item"><span class="proj-meta-label">Tags</span><div class="proj-tags" style="margin-top:4px;"><span class="ptag">CAD</span><span class="ptag">Assembly and Exploded Views</span><span class="ptag">BOM</span><span class="ptag">Iterative Design</span></div></div>
+  </div>
+  <div class="divider"></div>
+  <div class="proj-section reveal"><h2>Overview</h2>
+<p>For my design course MIE 243, my team and I were tasked with creating an advanced conceptual design of a low-cost, long-reach robot arm targeting advanced hobbyists and beginner cinematographers. I primarily worked on 3D modelling the robot in SolidWorks and selecting motors based on torque and speed requirements.</p>
+</div>
+<div class="proj-section reveal"><h2>Design</h2>
+<ul>
+<li>The robot arm sits on a motorized dolly and has six degrees of freedom (DOF), enabling flexible camera positioning.</li>
+<li>I created an exploded view assembly drawing with a full Bill of Materials (BOM) for a key sub-assembly.</li>
+<li>Detailed concentric engineering drawings were produced for individual parts, including Housing 5 Part 1 machined from Aluminum 6061-T6.</li>
+</ul>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1.25rem;">
+      <div style="background:var(--t-surface);border:2px solid var(--t-border);border-radius:10px;aspect-ratio:16/10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--t-dim);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span style="font-size:0.75rem;">Add image here</span>
+        <span style="font-size:0.68rem;opacity:0.6;">Replace with &lt;img src="..."&gt;</span>
+      </div>
+      <div style="background:var(--t-surface);border:2px solid var(--t-border);border-radius:10px;aspect-ratio:16/10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--t-dim);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span style="font-size:0.75rem;">Add image here</span>
+        <span style="font-size:0.68rem;opacity:0.6;">Replace with &lt;img src="..."&gt;</span>
+      </div>
+      <div style="background:var(--t-surface);border:2px solid var(--t-border);border-radius:10px;aspect-ratio:16/10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--t-dim);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span style="font-size:0.75rem;">Add image here</span>
+        <span style="font-size:0.68rem;opacity:0.6;">Replace with &lt;img src="..."&gt;</span>
+      </div>
+      <div style="background:var(--t-surface);border:2px solid var(--t-border);border-radius:10px;aspect-ratio:16/10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--t-dim);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span style="font-size:0.75rem;">Add image here</span>
+        <span style="font-size:0.68rem;opacity:0.6;">Replace with &lt;img src="..."&gt;</span>
+      </div>
+</div>
+</div>
+<div class="proj-section reveal"><h2>Iterations</h2>
+<ul>
+<li>The team initially designed the dolly with a belt drive system but switched to a motorized wheel drive after determining the belt drive was too costly for the project budget.</li>
+<li>Multiple candidate designs were evaluated at each stage before converging on the final configuration.</li>
+</ul>
+</div>
+<div class="proj-section reveal"><h2>Key Takeaways</h2>
+<p>This project strengthened my SolidWorks skills — from part modelling to assembly management and engineering drawings. It also gave me hands-on experience with motor sizing and the importance of cost-driven design decisions in iterative engineering.</p>
+</div>
+
+  <div class="proj-nav">
+    <span></span>
+    <a href="projects.html" style="color:#7a8090;">All Projects</a>
+    <a href="project-2.html">Smart Rehabilitation Knee Sleeve →</a>
+  </div>
+</div>
+
+<div style="height:8px;background:#000;margin-top:4rem;"></div>
+<div id="contact" style="position:relative;z-index:1;max-width:900px;margin:0 auto;padding:3.5rem 2.5rem 4rem;background:#2a3038;">
+  <div style="border:2px solid #000;border-radius:16px;padding:2.5rem;background:#fff;">
+    <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(1.4rem,3vw,1.9rem);font-weight:700;letter-spacing:-0.02em;color:#1e2d4d;margin-bottom:0.5rem;">Contact</div>
+    <p style="font-size:0.9rem;color:#64748b;margin-bottom:1.5rem;">Open to internships, co-ops, and engineering opportunities.</p>
+    <div style="display:flex;flex-direction:column;gap:0.55rem;">
+      <div style="font-size:0.84rem;color:#64748b;display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:#1e2d4d;opacity:0.5;flex-shrink:0;display:inline-block;"></span>&#97;&#118;&#101;&#114;&#121;&#119;&#111;&#110;&#103;&#51;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</div>
+      <div style="font-size:0.84rem;color:#64748b;display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:#1e2d4d;opacity:0.5;flex-shrink:0;display:inline-block;"></span>(778) 685-0986</div>
+      <div style="font-size:0.84rem;color:#64748b;display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:#1e2d4d;opacity:0.5;flex-shrink:0;display:inline-block;"></span>linkedin.com/in/averywong0</div
