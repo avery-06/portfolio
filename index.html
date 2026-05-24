@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth"> <!-- Added scroll-smooth here -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,20 +7,26 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --sapphire: #0F52BA;
+        }
         body { font-family: 'Inter', -apple-system, sans-serif; background-color: #f5f5f7; color: #1d1d1f; overflow-x: hidden; }
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         
         /* Realistic Gear Styling */
-        #gear-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0.1; }
-        .gear-body { fill: none; stroke: #1d1d1f; stroke-width: 1.5; }
-        .gear-fill { fill: #1d1d1f; opacity: 0.05; }
+        #gear-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0.12; }
+        .gear-body { fill: none; stroke: #1d1d1f; stroke-width: 1.2; }
         
         /* Bento Grid Styling */
         .bento-card { transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); background: white; border-radius: 2.5rem; overflow: hidden; border: 1px solid rgba(0,0,0,0.03); }
         .bento-card:hover { transform: scale(1.02); box-shadow: 0 30px 60px -12px rgba(0,0,0,0.1); }
         
+        /* Typography Accents */
+        .text-sapphire { color: var(--sapphire); }
+        .bg-sapphire { background-color: var(--sapphire); }
+        
         /* Cursor Animation */
-        .cursor { display: inline-block; width: 3px; background-color: #0071e3; margin-left: 4px; animation: blink 1s infinite; }
+        .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
@@ -29,23 +35,21 @@
     <!-- Realistic Engineering Gears Background -->
     <div id="gear-container">
         <svg width="100%" height="100%" viewBox="0 0 1000 1000">
-            <!-- Large Engineering Gear (Top Right) -->
             <g id="gear1" transform="translate(850, 200)">
-                <circle cx="0" cy="0" r="20" class="gear-body"/> <!-- Center Bore -->
-                <circle cx="0" cy="0" r="120" class="gear-body" stroke-dasharray="20 10"/> <!-- Outer Teeth -->
-                <line x1="-20" y1="0" x2="-120" y2="0" class="gear-body"/> <!-- Spokes -->
-                <line x1="20" y1="0" x2="120" y2="0" class="gear-body"/>
-                <line x1="0" y1="-20" x2="0" y2="-120" class="gear-body"/>
-                <line x1="0" y1="20" x2="0" y2="120" class="gear-body"/>
-                <circle cx="0" cy="0" r="130" class="gear-body" style="stroke-width: 8; stroke-dasharray: 5 15;"/> <!-- Teeth Profile -->
+                <circle cx="0" cy="0" r="18" class="gear-body"/>
+                <rect x="-5" y="-25" width="10" height="10" class="gear-body"/>
+                <circle cx="0" cy="0" r="120" class="gear-body" stroke-dasharray="1, 12" stroke-width="15"/>
+                <circle cx="0" cy="0" r="110" class="gear-body"/>
+                <line x1="-20" y1="0" x2="-100" y2="0" class="gear-body"/> 
+                <line x1="20" y1="0" x2="100" y2="0" class="gear-body"/>
+                <line x1="0" y1="-20" x2="0" y2="-100" class="gear-body"/>
+                <line x1="0" y1="20" x2="0" y2="100" class="gear-body"/>
             </g>
-
-            <!-- Medium Engineering Gear (Mid Left) -->
-            <g id="gear2" transform="translate(100, 600)">
-                <circle cx="0" cy="0" r="15" class="gear-body"/>
-                <circle cx="0" cy="0" r="80" class="gear-body" stroke-dasharray="15 8"/>
-                <path d="M-15 0 L-80 0 M15 0 L80 0 M0 -15 L0 -80 M0 15 L0 80" class="gear-body"/>
-                <circle cx="0" cy="0" r="90" class="gear-body" style="stroke-width: 6; stroke-dasharray: 4 12;"/>
+            <g id="gear2" transform="translate(120, 650)">
+                <circle cx="0" cy="0" r="12" class="gear-body"/>
+                <circle cx="0" cy="0" r="80" class="gear-body" stroke-dasharray="1, 10" stroke-width="12"/>
+                <circle cx="0" cy="0" r="72" class="gear-body"/>
+                <path d="M-12 12 L-50 50 M12 -12 L50 -50 M-12 -12 L-50 -50 M12 12 L50 50" class="gear-body"/>
             </g>
         </svg>
     </div>
@@ -53,11 +57,12 @@
     <!-- Navigation -->
     <nav class="glass fixed top-0 w-full z-50 border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
-            <a href="index.html" class="tracking-tight hover:opacity-60 transition">Avery Wong</a>
+            <a href="#" class="tracking-tight hover:opacity-60 transition font-bold">Avery Wong</a>
             <div class="space-x-8">
-                <a href="projects.html" class="hover:text-blue-600 transition">Projects</a>
-                <a href="#about" class="hover:text-blue-600 transition">About</a>
-                <a href="mailto:averywong3@gmail.com" class="hover:text-blue-600 transition">Contact</a>
+                <!-- Change 1: Updated href to #projects -->
+                <a href="#projects" class="hover:text-sapphire transition">Projects</a>
+                <a href="#about" class="hover:text-sapphire transition">About</a>
+                <a href="#contact" class="hover:text-sapphire transition">Contact</a>
             </div>
         </div>
     </nav>
@@ -68,21 +73,26 @@
             <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-4">
                 <span id="typewriter"></span><span class="cursor">&nbsp;</span>
             </h1>
+            <!-- Added a call-to-action button that also jumps to projects -->
+            <div class="mt-12">
+                <a href="#projects" class="bg-black text-white px-8 py-3 rounded-full font-medium hover:bg-gray-800 transition">View Work</a>
+            </div>
         </div>
     </section>
 
     <!-- Project Grid -->
-    <section class="max-w-6xl mx-auto px-6 py-20">
+    <!-- Change 2: Added id="projects" to this section -->
+    <section id="projects" class="max-w-6xl mx-auto px-6 py-20">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
             
             <!-- Project 1 -->
             <a href="project-1.html" class="md:col-span-8 bento-card p-12 flex flex-col justify-between min-h-[450px]">
                 <div>
-                    <span class="text-blue-600 font-bold uppercase tracking-widest text-xs">Featured Project</span>
+                    <span class="text-sapphire font-bold uppercase tracking-widest text-xs">Featured Project</span>
                     <h3 class="text-4xl font-bold mt-4 tracking-tight">Cinematography <br>Robotic Arm</h3>
                     <p class="text-gray-500 mt-6 text-lg max-w-md leading-relaxed">6-DOF conceptual design utilizing timing belt transmission for high-accuracy cinema positioning.</p>
                 </div>
-                <div class="flex items-center gap-2 text-sm font-bold text-blue-600">
+                <div class="flex items-center gap-2 text-sm font-bold text-sapphire">
                     Explore Case Study 
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
@@ -94,7 +104,7 @@
                     <h3 class="text-2xl font-bold">Smart Knee Sleeve</h3>
                     <p class="text-gray-400 mt-2">Biomedical rehab tracking with sEMG sensors.</p>
                 </div>
-                <div class="text-xs font-bold tracking-widest text-blue-400 uppercase">True North Competition</div>
+                <div class="text-xs font-bold tracking-widest text-sapphire uppercase">True North Competition</div>
             </a>
 
             <!-- Project 3 -->
@@ -110,45 +120,55 @@
                 <p class="text-gray-500">Reverse-engineering high-precision assemblies.</p>
                 <div class="text-sm font-bold text-gray-400 italic">MIE 243</div>
             </a>
-
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-24 px-6 border-t border-gray-200 mt-20">
+    <!-- About Section (Placeholder added so the link works) -->
+    <section id="about" class="max-w-6xl mx-auto px-6 py-20 border-t border-gray-100">
+        <h2 class="text-4xl font-bold mb-8">About Me</h2>
+        <p class="text-gray-500 text-lg max-w-2xl">
+            I am a mechanical engineer passionate about high-fidelity design and advanced robotics. 
+            Currently completing my studies at the University of Toronto.
+        </p>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 px-6 border-t border-gray-200 mt-20">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
-            <p>© 2025 Avery Wong • Mechanical Engineer</p>
-            <div class="flex gap-8 mt-4 md:mt-0">
-                <a href="https://www.linkedin.com/in/averywong0" class="hover:text-black transition">LinkedIn</a>
-                <a href="mailto:averywong3@gmail.com" class="hover:text-black transition">Email</a>
+            <div>
+                <h2 class="text-2xl font-bold text-black mb-2 tracking-tight">Design by Avery.</h2>
+                <p>© 2025 Avery Wong • Mechanical Engineer</p>
+            </div>
+            <div class="flex gap-8 mt-6 md:mt-0">
+                <a href="https://www.linkedin.com/in/averywong0" class="hover:text-sapphire transition font-bold">LinkedIn</a>
+                <a href="mailto:averywong3@gmail.com" class="hover:text-sapphire transition font-bold">Email</a>
             </div>
         </div>
     </footer>
 
     <script>
-        // 1. Typewriter Animation
-        const text = "Mechanical Engineer.";
-        const speed = 100; // milliseconds per character
-        let i = 0;
+        const fullText = "Mechanical Engineer.";
+        const splitIndex = 11; 
+        const speed = 100;
+        let charIndex = 0;
 
         function typeWriter() {
-            if (i < text.length) {
-                document.getElementById("typewriter").innerHTML += text.charAt(i);
-                i++;
+            if (charIndex < fullText.length) {
+                const typewriterEl = document.getElementById("typewriter");
+                let mechanicalPart = fullText.substring(0, Math.min(charIndex + 1, splitIndex));
+                let engineerPart = charIndex >= splitIndex ? fullText.substring(splitIndex, charIndex + 1) : "";
+                typewriterEl.innerHTML = mechanicalPart + `<span class="text-sapphire">${engineerPart}</span>`;
+                charIndex++;
                 setTimeout(typeWriter, speed);
             }
         }
 
-        // 2. Realistic Gear Rotation on Scroll
         window.addEventListener('scroll', () => {
             const scroll = window.pageYOffset;
-            // Large gear rotates slowly
-            document.getElementById('gear1').style.transform = `translate(850px, 200px) rotate(${scroll * 0.1}deg)`;
-            // Small gear rotates faster in reverse
-            document.getElementById('gear2').style.transform = `translate(100px, 600px) rotate(-${scroll * 0.2}deg)`;
+            document.getElementById('gear1').style.transform = `translate(850px, 200px) rotate(${scroll * 0.12}deg)`;
+            document.getElementById('gear2').style.transform = `translate(120px, 650px) rotate(-${scroll * 0.22}deg)`;
         });
 
-        // Initialize Typewriter on Load
         window.onload = typeWriter;
     </script>
 </body>
