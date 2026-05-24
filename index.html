@@ -13,6 +13,13 @@
         body { font-family: 'Inter', -apple-system, sans-serif; background-color: #f5f5f7; color: #1d1d1f; overflow-x: hidden; }
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         
+        /* Subtle Nav Gear Animation */
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-gear { animation: spin-slow 8s linear infinite; }
+
         .apple-bubble { 
             background: white; 
             border-radius: 3.5rem; 
@@ -42,7 +49,14 @@
     <!-- Navigation -->
     <nav class="glass fixed top-0 w-full z-50 border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
-            <a href="#" class="font-bold tracking-tight">Avery Wong</a>
+            <!-- Avery Wong Logo with Sapphire Gear (Reloads Page) -->
+            <a href="index.html" class="flex items-center gap-2 tracking-tight group cursor-pointer">
+                <svg class="w-5 h-5 text-sapphire animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                <span class="font-bold tracking-tight"><span class="text-sapphire">Avery</span> Wong</span>
+            </a>
             <div class="space-x-8">
                 <a href="#about" class="hover:text-sapphire transition">About</a>
                 <a href="#projects" class="hover:text-sapphire transition">Projects</a>
@@ -54,12 +68,10 @@
     <!-- Hero Section -->
     <section class="pt-64 pb-32 px-6">
         <div class="max-w-5xl mx-auto text-center">
-            <!-- Name (Typed in Reverse) -->
+            <!-- Simultaneous typing container -->
             <div class="mb-2 text-2xl md:text-4xl font-bold tracking-tight min-h-[3rem]">
                 <span id="name-typewriter"></span>
             </div>
-            
-            <!-- Title (Typed Normally) -->
             <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-4">
                 <span id="title-typewriter"></span>
             </h1>
@@ -93,31 +105,31 @@
         </div>
     </section>
 
-    <!-- Alternating Project Section (70% Width) -->
+    <!-- Alternating Project Section -->
     <section id="projects" class="max-w-6xl mx-auto px-6 pb-48 space-y-12">
         
-        <!-- Project 1: Left Aligned -->
+        <!-- Project 1 -->
         <div class="flex justify-start">
             <a href="project-1.html" class="w-full md:w-[70%] project-bubble bg-white">
                 <h3 class="text-4xl md:text-5xl font-bold tracking-tight px-10">Cinematography <br>Robotic Arm</h3>
             </a>
         </div>
 
-        <!-- Project 2: Right Aligned -->
+        <!-- Project 2 -->
         <div class="flex justify-end">
             <a href="project-2.html" class="w-full md:w-[70%] project-bubble bg-[#1d1d1f] text-white">
                 <h3 class="text-4xl md:text-5xl font-bold tracking-tight px-10">Smart Rehabilitation <br>Knee Sleeve</h3>
             </a>
         </div>
 
-        <!-- Project 3: Left Aligned -->
+        <!-- Project 3 -->
         <div class="flex justify-start">
             <a href="project-3.html" class="w-full md:w-[70%] project-bubble bg-white">
                 <h3 class="text-4xl md:text-5xl font-bold tracking-tight px-10">Integrated <br>Power Desk</h3>
             </a>
         </div>
 
-        <!-- Project 4: Right Aligned & Gray-200 -->
+        <!-- Project 4 -->
         <div class="flex justify-end">
             <a href="project-4.html" class="w-full md:w-[70%] project-bubble bg-gray-200">
                 <h3 class="text-4xl md:text-5xl font-bold tracking-tight px-10 text-gray-800">Mechanical <br>Dissections</h3>
@@ -143,7 +155,7 @@
     <script>
         const nameText = "Avery Wong";
         const titleText = "Mechanical Engineer.";
-        const duration = 1800; // Total time for both to finish (in ms)
+        const duration = 2000; // Total milliseconds for typing
         
         const nameEl = document.getElementById("name-typewriter");
         const titleEl = document.getElementById("title-typewriter");
@@ -155,12 +167,9 @@
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
 
-            // --- Name Logic (Reverse Build) ---
+            // Sync Stage 1: Reverse Name Build
             const nameCharsToShow = Math.floor(progress * nameText.length);
             const nameStartIdx = nameText.length - nameCharsToShow;
-            let currentName = nameText.substring(nameStartIdx);
-            
-            // Apply sapphire to "Avery" portion
             let averyPart = "";
             let wongPart = "";
             if (nameStartIdx <= 5) {
@@ -171,7 +180,7 @@
             }
             nameEl.innerHTML = `<span class="text-sapphire">${averyPart}</span>${(nameStartIdx <= 5 && nameCharsToShow > 4) ? " " : ""}${wongPart}`;
 
-            // --- Title Logic (Normal Build) ---
+            // Sync Stage 2: Normal Title Build
             const titleCharsToShow = Math.floor(progress * titleText.length);
             let mechanicalPart = titleText.substring(0, Math.min(titleCharsToShow, 11));
             let engineerPart = titleCharsToShow > 11 ? titleText.substring(11, titleCharsToShow) : "";
@@ -179,14 +188,11 @@
 
             if (progress < 1) {
                 requestAnimationFrame(animate);
-            } else {
-                // Ensure final state is perfect
-                nameEl.innerHTML = `<span class="text-sapphire">Avery</span> Wong`;
-                titleEl.innerHTML = `Mechanical <span class="text-sapphire">Engineer.</span>`;
             }
         }
 
         window.onload = () => {
+            // Start the synchronized animations on load
             requestAnimationFrame(animate);
         };
     </script>
