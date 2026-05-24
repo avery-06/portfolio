@@ -13,10 +13,11 @@
         body { font-family: 'Inter', -apple-system, sans-serif; background-color: #f5f5f7; color: #1d1d1f; overflow-x: hidden; }
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         
-        /* Realistic Gear Background */
-        #gear-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0.12; }
-        .gear-body { fill: none; stroke: #1d1d1f; stroke-width: 1.2; }
-        
+        /* High-Fidelity Engineering Gears */
+        #gear-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0.15; }
+        .gear-path { fill: none; stroke: #1d1d1f; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+        .gear-blueprint { stroke-dasharray: 2, 4; opacity: 0.5; }
+
         /* The "Bubble" Containers */
         .apple-bubble { 
             background: white; 
@@ -24,13 +25,11 @@
             border: 1px solid rgba(0,0,0,0.03);
             box-shadow: 0 4px 24px rgba(0,0,0,0.02);
             overflow: hidden;
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .bento-card { transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); background: white; border-radius: 2.5rem; overflow: hidden; border: 1px solid rgba(0,0,0,0.03); }
         .bento-card:hover { transform: scale(1.02); box-shadow: 0 30px 60px -12px rgba(0,0,0,0.1); }
         
-        /* Typewriter Styling */
         .text-sapphire { color: var(--sapphire); }
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
@@ -38,21 +37,29 @@
 </head>
 <body>
 
-    <!-- Background Gears -->
+    <!-- realistic Mechanical Gear Background -->
     <div id="gear-container">
         <svg width="100%" height="100%" viewBox="0 0 1000 1000">
-            <g id="gear1" transform="translate(850, 200)">
-                <circle cx="0" cy="0" r="18" class="gear-body"/>
-                <rect x="-5" y="-25" width="10" height="10" class="gear-body"/>
-                <circle cx="0" cy="0" r="120" class="gear-body" stroke-dasharray="1, 12" stroke-width="15"/>
-                <circle cx="0" cy="0" r="110" class="gear-body"/>
-                <line x1="-20" y1="0" x2="-100" y2="0" class="gear-body"/> 
-                <line x1="20" y1="0" x2="100" y2="0" class="gear-body"/>
+            <!-- Large Spur Gear (Top Right) -->
+            <g id="gear1" transform="translate(850, 220)">
+                <!-- Gear Teeth Profile -->
+                <path class="gear-path" d="M120 0 L115 15 L105 18 L90 10 L75 22 L78 38 L65 45 L50 35 L35 45 L38 60 L22 68 L10 55 L-10 55 L-22 68 L-38 60 L-35 45 L-50 35 L-65 45 L-78 38 L-75 22 L-90 10 L-105 18 L-115 15 L-120 0 L-115 -15 L-105 -18 L-90 -10 L-75 -22 L-78 -38 L-65 -45 L-50 -35 L-35 -45 L-38 -60 L-22 -68 L-10 -55 L10 -55 L22 -68 L38 -60 L35 -45 L50 -35 L65 -45 L78 -38 L75 -22 L90 -10 L105 -18 L115 -15 Z" transform="scale(1.2)"/>
+                <!-- Inner Details -->
+                <circle cx="0" cy="0" r="95" class="gear-path gear-blueprint"/>
+                <circle cx="0" cy="0" r="25" class="gear-path"/> <!-- Bore -->
+                <rect x="-6" y="-35" width="12" height="12" class="gear-path"/> <!-- Keyway -->
+                <!-- Webbing/Spokes -->
+                <circle cx="0" cy="60" r="15" class="gear-path"/>
+                <circle cx="0" cy="-60" r="15" class="gear-path"/>
+                <circle cx="60" cy="0" r="15" class="gear-path"/>
+                <circle cx="-60" cy="0" r="15" class="gear-path"/>
             </g>
-            <g id="gear2" transform="translate(120, 650)">
-                <circle cx="0" cy="0" r="12" class="gear-body"/>
-                <circle cx="0" cy="0" r="80" class="gear-body" stroke-dasharray="1, 10" stroke-width="12"/>
-                <path d="M-12 12 L-50 50 M12 -12 L50 -50" class="gear-body"/>
+
+            <!-- Medium Spur Gear (Bottom Left) -->
+            <g id="gear2" transform="translate(150, 750)">
+                <path class="gear-path" d="M80 0 L76 10 L70 12 L60 6 L50 14 L52 25 L43 30 L33 23 L23 30 L25 40 L14 45 L6 36 L-6 36 L-14 45 L-25 40 L-23 30 L-33 23 L-43 30 L-52 25 L-50 14 L-60 6 L-70 12 L-76 10 L-80 0 L-76 -10 L-70 -12 L-60 -6 L-50 -14 L-52 -25 L-43 -30 L-33 -23 L-23 -30 L-25 -40 L-14 -45 L-6 -36 L6 -36 L14 -45 L25 -40 L23 -30 L33 -23 L43 -30 L52 -25 L50 -14 L60 -6 L70 -12 L76 -10 Z" transform="scale(1.3)"/>
+                <circle cx="0" cy="0" r="18" class="gear-path"/>
+                <path d="M-40 0 L40 0 M0 -40 L0 40" class="gear-path gear-blueprint"/>
             </g>
         </svg>
     </div>
@@ -69,10 +76,10 @@
         </div>
     </nav>
 
-    <!-- Hero -->
+    <!-- Hero Section -->
     <section class="pt-64 pb-32 px-6">
         <div class="max-w-5xl mx-auto text-center">
-            <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-4">
+            <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-4 italic">
                 <span id="typewriter"></span><span class="cursor">&nbsp;</span>
             </h1>
         </div>
@@ -81,66 +88,69 @@
     <!-- About Me Bubble Section -->
     <section id="about" class="max-w-6xl mx-auto px-6 mb-24">
         <div class="apple-bubble p-8 md:p-16 flex flex-col md:flex-row items-center gap-12">
-            <!-- Text Content -->
             <div class="flex-1 space-y-6">
-                <span class="text-sapphire font-bold uppercase tracking-widest text-xs">The Background</span>
                 <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-black">Iterative design. <br>Technical precision.</h2>
                 <p class="text-gray-500 text-lg leading-relaxed max-w-xl">
                     I'm a mechanical engineering student at the University of Toronto with a focus on research & development. I specialize in taking a project from an initial concept through 3D CAD modeling, engineering analyses, and into high-fidelity physical prototyping.
                 </p>
-                <div class="flex gap-4 pt-4">
-                    <div class="bg-gray-100 px-4 py-2 rounded-xl text-xs font-bold text-gray-500 uppercase tracking-widest">SolidWorks</div>
-                    <div class="bg-gray-100 px-4 py-2 rounded-xl text-xs font-bold text-gray-500 uppercase tracking-widest">Ansys</div>
-                    <div class="bg-gray-100 px-4 py-2 rounded-xl text-xs font-bold text-gray-500 uppercase tracking-widest">R&D</div>
+                
+                <div class="flex flex-wrap gap-4 pt-6">
+                    <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="bg-[#f5f5f7] border border-gray-200 px-6 py-3 rounded-2xl flex items-center gap-3 hover:bg-white hover:border-sapphire transition group shadow-sm">
+                        <span class="text-sm font-bold tracking-tight group-hover:text-sapphire transition">LinkedIn ↗</span>
+                    </a>
+                    <a href="mailto:averywong3@gmail.com" class="bg-[#f5f5f7] border border-gray-200 px-6 py-3 rounded-2xl flex items-center gap-3 hover:bg-white hover:border-sapphire transition group shadow-sm">
+                        <span class="text-sm font-bold tracking-tight group-hover:text-sapphire transition">averywong3@gmail.com</span>
+                    </a>
                 </div>
             </div>
-            <!-- Headshot -->
+
+            <!-- BW Photo - No Color Hover -->
             <div class="w-full md:w-1/3 flex justify-center">
-                <div class="relative group">
-                    <div class="absolute -inset-1 bg-gradient-to-r from-gray-200 to-gray-100 rounded-[2.5rem] blur opacity-25"></div>
-                    <img src="headshot.jpg" alt="Avery Wong" class="relative w-64 h-64 md:w-80 md:h-80 object-cover rounded-[2.5rem] shadow-sm grayscale hover:grayscale-0 transition duration-700">
+                <div class="relative">
+                    <img src="headshot.jpg" alt="Avery Wong" class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-[2.5rem] shadow-lg grayscale brightness-110 contrast-110">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Project Grid Section -->
+    <!-- Project Grid -->
     <section id="projects" class="max-w-6xl mx-auto px-6 py-20 border-t border-gray-100">
         <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-12">Selected Engineering Work</h3>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-            
             <a href="project-1.html" class="md:col-span-8 bento-card p-12 flex flex-col justify-between min-h-[450px]">
                 <div>
                     <span class="text-sapphire font-bold uppercase tracking-widest text-xs">Featured</span>
-                    <h3 class="text-4xl font-bold mt-4 tracking-tight">Cinematography <br>Robotic Arm</h3>
+                    <h3 class="text-4xl font-bold mt-4 tracking-tight italic">Cinematography <br>Robotic Arm</h3>
                     <p class="text-gray-500 mt-6 text-lg max-w-md">6-DOF design utilizing timing belt transmission for high-accuracy camera positioning.</p>
                 </div>
-                <div class="text-sm font-bold text-sapphire flex items-center gap-2">View Project <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+                <div class="text-sm font-bold text-sapphire flex items-center gap-2">Explore Case Study <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
             </a>
 
             <a href="project-2.html" class="md:col-span-4 bento-card bg-[#1d1d1f] text-white p-12 flex flex-col justify-between">
-                <h3 class="text-2xl font-bold">Smart Knee Sleeve</h3>
+                <h3 class="text-2xl font-bold italic">Smart Knee Sleeve</h3>
                 <p class="text-gray-400 mt-2">Biomedical rehab tracking with sEMG sensors.</p>
                 <div class="text-xs font-bold tracking-widest text-sapphire uppercase">Competition</div>
             </a>
 
             <a href="project-3.html" class="md:col-span-6 bento-card p-12 flex flex-col justify-between min-h-[350px]">
-                <h3 class="text-2xl font-bold">Integrated Power Desk</h3>
-                <p class="text-gray-500">APS 112: Ergonomics and electrical safety.</p>
+                <h3 class="text-2xl font-bold italic">Integrated Power Desk</h3>
+                <p class="text-gray-500">Optimizing ergonomics and classroom safety.</p>
+                <div class="text-sm font-bold text-gray-400 uppercase tracking-tighter">APS 112</div>
             </a>
 
             <a href="project-4.html" class="md:col-span-6 bento-card p-12 flex flex-col justify-between min-h-[350px] bg-gray-100 border-none">
-                <h3 class="text-2xl font-bold">Mechanical Dissections</h3>
-                <p class="text-gray-500">MIE 243: Reverse-engineering assemblies.</p>
+                <h3 class="text-2xl font-bold italic">Mechanical Dissections</h3>
+                <p class="text-gray-500">Reverse-engineering high-precision assemblies.</p>
+                <div class="text-sm font-bold text-gray-400 uppercase tracking-tighter">MIE 243</div>
             </a>
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Footer -->
     <footer id="contact" class="py-24 px-6 border-t border-gray-200 mt-20">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
             <div>
-                <h2 class="text-2xl font-bold text-black mb-2 tracking-tight">Avery Wong</h2>
+                <h2 class="text-2xl font-bold text-black mb-2 tracking-tight italic">Avery Wong.</h2>
                 <p>© 2025 Mechanical Engineer</p>
             </div>
             <div class="flex gap-8 mt-6 md:mt-0">
@@ -169,8 +179,9 @@
 
         window.addEventListener('scroll', () => {
             const scroll = window.pageYOffset;
-            document.getElementById('gear1').style.transform = `translate(850px, 200px) rotate(${scroll * 0.12}deg)`;
-            document.getElementById('gear2').style.transform = `translate(120px, 650px) rotate(-${scroll * 0.22}deg)`;
+            // Precise mechanical rotation
+            document.getElementById('gear1').style.transform = `translate(850px, 220px) rotate(${scroll * 0.08}deg)`;
+            document.getElementById('gear2').style.transform = `translate(150px, 750px) rotate(-${scroll * 0.15}deg)`;
         });
 
         window.onload = typeWriter;
