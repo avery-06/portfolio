@@ -14,7 +14,7 @@
             background-color: #f5f5f7; 
             color: #1d1d1f; 
             margin: 0;
-            height: 400vh; /* Controlled scroll length */
+            height: 500vh; /* Controlled scroll length for smooth transition */
         }
 
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
@@ -45,6 +45,7 @@
             width: 100%;
             max-width: 1100px;
             z-index: 10;
+            transition: opacity 0.3s ease;
         }
 
         .apple-bubble { 
@@ -55,18 +56,38 @@
             padding: 3rem;
         }
 
-        /* STAGE 2: THE PUNCH (GEAR-HAND) */
-        #punch-container {
+        /* STAGE 2: THE LAYERED PUNCH */
+        #punch-stage {
             position: absolute;
+            width: 600px;
+            height: 600px;
             z-index: 50;
-            width: 500px;
-            height: 500px;
+            pointer-events: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            pointer-events: none;
             opacity: 0;
-            transform: scale(0.1);
+        }
+
+        /* Layer 1: The Gear (Stationary) */
+        .gear-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            /* Masking to show only the gear part of your image */
+            clip-path: polygon(0% 40%, 55% 40%, 55% 100%, 0% 100%); 
+            z-index: 40;
+        }
+
+        /* Layer 2: The Arm (Kinetic) */
+        .arm-piston {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            /* Masking to show only the arm and wrench */
+            clip-path: polygon(45% 0%, 100% 0%, 100% 80%, 45% 80%);
+            z-index: 60;
+            transform: scale(0.5) translate(-100px, 100px); /* Start "behind" the gear */
         }
 
         /* STAGE 3: PROJECTS */
@@ -106,13 +127,13 @@
             <a href="index.html" class="flex items-center gap-2 tracking-tight group cursor-pointer">
                 <svg class="w-5 h-5 text-sapphire animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1-1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                 </svg>
-                <span class="font-bold text-black">Avery Wong</span>
+                <span class="font-bold text-black text-black">Avery Wong</span>
             </a>
             <div class="space-x-8">
-                <a href="#about" class="cursor-default text-gray-400">About</a>
-                <a href="#projects" class="cursor-default text-gray-400">Projects</a>
+                <span class="cursor-default text-gray-400">About</span>
+                <span class="cursor-default text-gray-400">Projects</span>
                 <a href="mailto:averywong3@gmail.com" class="hover:text-sapphire transition">Contact</a>
             </div>
         </div>
@@ -151,8 +172,11 @@
         </div>
 
         <!-- STAGE 2: THE MECHANICAL PUNCH -->
-        <div id="punch-container">
-            <img src="gear-hand.png" alt="Transition" class="w-full h-full object-contain">
+        <div id="punch-stage">
+            <!-- Back Layer: The Gear -->
+            <img src="gear-hand.png" class="gear-back" alt="Gear">
+            <!-- Front Layer: The Arm -->
+            <img src="gear-hand.png" id="arm-layer" class="arm-piston" alt="Arm">
         </div>
 
         <!-- STAGE 3: PROJECTS -->
@@ -160,7 +184,7 @@
             <div class="max-w-6xl mx-auto space-y-12">
                 <div class="flex justify-start">
                     <a href="project-1.html" class="w-full md:w-[70%] project-bubble bg-white">
-                        <h3 class="text-4xl md:text-5xl font-bold px-10">Cinematography <br>Robotic Arm</h3>
+                        <h3 class="text-4xl md:text-5xl font-bold px-10 text-black">Cinematography <br>Robotic Arm</h3>
                     </a>
                 </div>
                 <div class="flex justify-end">
@@ -170,16 +194,13 @@
                 </div>
                 <div class="flex justify-start">
                     <a href="project-3.html" class="w-full md:w-[70%] project-bubble bg-white">
-                        <h3 class="text-4xl md:text-5xl font-bold px-10">Integrated <br>Power Desk</h3>
+                        <h3 class="text-4xl md:text-5xl font-bold px-10 text-black">Integrated <br>Power Desk</h3>
                     </a>
                 </div>
                 <div class="flex justify-end">
                     <a href="project-4.html" class="w-full md:w-[70%] project-bubble bg-gray-200">
                         <h3 class="text-4xl md:text-5xl font-bold px-10 text-gray-800">Mechanical <br>Dissections</h3>
                     </a>
-                </div>
-                <div class="py-20 text-center text-gray-400 text-sm">
-                    © 2025 Avery Wong · Mechanical Engineer
                 </div>
             </div>
         </div>
@@ -191,7 +212,8 @@
         const titleText = "Mechanical Engineer.";
         
         const intro = document.getElementById('stage-intro');
-        const punch = document.getElementById('punch-container');
+        const punchStage = document.getElementById('punch-stage');
+        const armLayer = document.getElementById('arm-layer');
         const projects = document.getElementById('stage-projects');
         const nameEl = document.getElementById("name-typewriter");
         const titleEl = document.getElementById("title-typewriter");
@@ -216,39 +238,39 @@
             if (progress < 1) requestAnimationFrame(animateTyping);
         }
 
-        // 2. Scroll-Based Punch Engine
+        // 2. Scroll Engine
         window.addEventListener('scroll', () => {
             const scrollPercent = window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight);
 
-            // Phase 1: Intro visible, Punch hidden (0 - 0.2)
-            if (scrollPercent < 0.2) {
-                intro.style.opacity = 1;
-                punch.style.opacity = 0;
+            // Phase 1: Intro (0 - 0.25)
+            if (scrollPercent < 0.25) {
+                intro.style.opacity = 1 - (scrollPercent * 4);
+                punchStage.style.opacity = 0;
                 projects.style.opacity = 0;
             } 
-            // Phase 2: THE PUNCH IN (0.2 - 0.45)
-            else if (scrollPercent < 0.45) {
+            // Phase 2: THE PUNCH (0.25 - 0.75)
+            else if (scrollPercent < 0.75) {
                 intro.style.opacity = 0;
-                const p = (scrollPercent - 0.2) / 0.25;
-                punch.style.opacity = 1;
-                // Mechanical "Punch In" effect (Scale up rapidly)
-                punch.style.transform = `scale(${0.1 + (p * 3.5)})`; 
+                punchStage.style.opacity = 1;
+                
+                // Calculate Piston progress (0 to 1 back to 0)
+                const pBase = (scrollPercent - 0.25) / 0.5;
+                const punchProgress = pBase < 0.5 ? pBase * 2 : (1 - pBase) * 2;
+                
+                // Arm Layer "Punches" through stationary gear
+                // Scale from 0.5 (behind) to 2.5 (foreground)
+                const scale = 0.5 + (punchProgress * 2.5);
+                const xOffset = -100 + (punchProgress * 150);
+                const yOffset = 100 - (punchProgress * 150);
+                
+                armLayer.style.transform = `scale(${scale}) translate(${xOffset}px, ${yOffset}px)`;
                 projects.style.opacity = 0;
             }
-            // Phase 3: THE PUNCH OUT (0.45 - 0.7)
-            else if (scrollPercent < 0.7) {
-                const p = (scrollPercent - 0.45) / 0.25;
-                punch.style.opacity = 1 - p;
-                // Retract punch
-                punch.style.transform = `scale(${3.6 - (p * 3.5)})`;
-                projects.style.opacity = 0;
-            }
-            // Phase 4: Show Projects (0.7 - 1.0)
+            // Phase 3: Projects (0.75 - 1.0)
             else {
-                punch.style.opacity = 0;
-                const p = (scrollPercent - 0.7) / 0.3;
-                projects.style.opacity = 1;
-                // Link external scroll to internal project div scroll
+                punchStage.style.opacity = 0;
+                const p = (scrollPercent - 0.75) / 0.25;
+                projects.style.opacity = p;
                 projects.scrollTop = p * (projects.scrollHeight - window.innerHeight);
             }
         });
