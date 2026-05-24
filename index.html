@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,35 +20,29 @@
 
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         
-        /* Nav Gear Animation */
+        /* Small Nav Gear Animation */
         @keyframes spin-slow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
         .animate-gear { animation: spin-slow 8s linear infinite; }
 
-        /* The Giant Background Gear */
-        #transition-gear-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120vh;
-            height: 120vh;
-            z-index: -1;
-            pointer-events: none;
+        /* 3D Transition Gear Styling */
+        .transition-stage {
+            perspective: 1200px;
+            height: 60vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
 
-        .big-gear-svg {
-            fill: none;
-            stroke: #e2e2e7; /* Subtle Gray */
-            stroke-width: 0.5;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.1s linear;
+        #y-axis-gear {
+            width: 300px;
+            height: 300px;
+            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
+            color: #d1d1d6; /* Gray gear */
         }
 
         .apple-bubble { 
@@ -57,8 +51,6 @@
             border: 1px solid rgba(0,0,0,0.03);
             box-shadow: 0 4px 24px rgba(0,0,0,0.02);
             overflow: hidden;
-            position: relative;
-            z-index: 10;
         }
 
         .project-bubble { 
@@ -71,8 +63,6 @@
             min-height: 280px;
             text-decoration: none;
             border: 1px solid rgba(0,0,0,0.03);
-            position: relative;
-            z-index: 10;
         }
         .project-bubble:hover { transform: scale(1.02); box-shadow: 0 30px 60px -12px rgba(0,0,0,0.1); }
         
@@ -80,14 +70,6 @@
     </style>
 </head>
 <body>
-
-    <!-- Giant Background Gear -->
-    <div id="transition-gear-container">
-        <svg id="giant-gear" class="big-gear-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-        </svg>
-    </div>
 
     <!-- Navigation -->
     <nav class="glass fixed top-0 w-full z-50 border-b border-gray-200">
@@ -107,8 +89,8 @@
         </div>
     </nav>
 
-    <!-- Top Section -->
-    <section id="about" class="pt-48 pb-20 px-6">
+    <!-- Top Section (Hero + About) -->
+    <section id="about" class="pt-48 pb-10 px-6">
         <div class="max-w-6xl mx-auto flex flex-col items-center">
             
             <div class="text-center mb-10">
@@ -120,9 +102,8 @@
                 </h1>
             </div>
 
-            <!-- About Bubble -->
             <div class="apple-bubble p-8 md:p-12 flex flex-col md:flex-row items-center gap-10 w-full">
-                <div class="flex-1 space-y-6">
+                <div class="flex-1 space-y-6 text-left">
                     <h2 class="text-5xl md:text-6xl font-extrabold tracking-tight text-black">About</h2>
                     <p class="text-gray-500 text-lg leading-relaxed max-w-xl">
                         I'm a mechanical engineering student at the University of Toronto with a focus on research & development. I specialize in taking projects from an initial concept through 3D CAD modeling, engineering analyses, and into high-fidelity physical prototyping.
@@ -132,7 +113,7 @@
                             <span class="text-sm font-bold tracking-tight group-hover:text-sapphire transition uppercase tracking-widest">LinkedIn ↗</span>
                         </a>
                         <a href="mailto:averywong3@gmail.com" class="bg-[#f5f5f7] border border-gray-200 px-6 py-3 rounded-2xl flex items-center gap-3 hover:bg-white hover:border-sapphire transition group shadow-sm">
-                            <span class="text-sm font-bold tracking-tight group-hover:text-sapphire transition uppercase">averywong3@gmail.com</span>
+                            <span class="text-sm font-bold tracking-tight group-hover:text-sapphire transition font-medium">averywong3@gmail.com</span>
                         </a>
                     </div>
                 </div>
@@ -143,27 +124,36 @@
         </div>
     </section>
 
-    <!-- Project Section -->
-    <section id="projects" class="py-32 px-6">
+    <!-- 3D Y-Axis Gear Transition -->
+    <div class="transition-stage">
+        <svg id="y-axis-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+    </div>
+
+    <!-- Projects Section -->
+    <section id="projects" class="pb-48 px-6">
         <div class="max-w-6xl mx-auto space-y-12">
+            <!-- Project 1: Left -->
             <div class="flex justify-start">
                 <a href="project-1.html" class="w-full md:w-[70%] project-bubble bg-white shadow-sm">
                     <h3 class="text-4xl md:text-5xl font-bold tracking-tight px-10 text-black">Cinematography <br>Robotic Arm</h3>
                 </a>
             </div>
-
+            <!-- Project 2: Right -->
             <div class="flex justify-end">
                 <a href="project-2.html" class="w-full md:w-[70%] project-bubble bg-[#1d1d1f] text-white">
                     <h3 class="text-4xl md:text-5xl font-bold tracking-tight px-10">Smart Rehabilitation <br>Knee Sleeve</h3>
                 </a>
             </div>
-
+            <!-- Project 3: Left -->
             <div class="flex justify-start">
                 <a href="project-3.html" class="w-full md:w-[70%] project-bubble bg-white shadow-sm">
                     <h3 class="text-4xl md:text-5xl font-bold tracking-tight px-10 text-black">Integrated <br>Power Desk</h3>
                 </a>
             </div>
-
+            <!-- Project 4: Right & Gray-200 -->
             <div class="flex justify-end">
                 <a href="project-4.html" class="w-full md:w-[70%] project-bubble bg-gray-200">
                     <h3 class="text-4xl md:text-5xl font-bold tracking-tight px-10 text-gray-800">Mechanical <br>Dissections</h3>
@@ -193,7 +183,7 @@
         
         const nameEl = document.getElementById("name-typewriter");
         const titleEl = document.getElementById("title-typewriter");
-        const bigGear = document.getElementById("giant-gear");
+        const transitionGear = document.getElementById("y-axis-gear");
 
         let startTime = null;
 
@@ -202,42 +192,40 @@
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
 
-            // Synchronized Stage 1: Reverse Name Build
+            // Sync Typing Logic
             const nameCharsToShow = Math.floor(progress * nameText.length);
             const nameStartIdx = nameText.length - nameCharsToShow;
-            let averyPart = "";
-            let wongPart = "";
-            if (nameStartIdx <= 5) {
-                averyPart = nameText.substring(nameStartIdx, 5);
-                wongPart = nameText.substring(Math.max(6, nameStartIdx));
-            } else {
-                wongPart = nameText.substring(nameStartIdx);
-            }
+            let averyPart = nameStartIdx <= 5 ? nameText.substring(nameStartIdx, 5) : "";
+            let wongPart = nameText.substring(Math.max(6, nameStartIdx));
             nameEl.innerHTML = `<span class="text-sapphire">${averyPart}</span>${(nameStartIdx <= 5 && nameCharsToShow > 4) ? " " : ""}${wongPart}`;
 
-            // Synchronized Stage 2: Normal Title Build
             const titleCharsToShow = Math.floor(progress * titleText.length);
             let mechanicalPart = titleText.substring(0, Math.min(titleCharsToShow, 11));
             let engineerPart = titleCharsToShow > 11 ? titleText.substring(11, titleCharsToShow) : "";
             titleEl.innerHTML = `${mechanicalPart}<span class="text-sapphire">${engineerPart}</span>`;
 
-            if (progress < 1) {
-                requestAnimationFrame(animate);
-            }
+            if (progress < 1) requestAnimationFrame(animate);
         }
 
-        // Scroll Engine for Giant Gear
+        // Scroll-Driven Y-Axis Rotation
         window.addEventListener('scroll', () => {
-            const scrollPercent = window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight);
-            const rotation = scrollPercent * 360; // 1 Full rotation over the entire page height
-            
-            // Apply rotation and subtle scaling based on scroll
-            bigGear.style.transform = `rotate(${rotation}deg)`;
+            const stage = document.querySelector('.transition-stage');
+            const rect = stage.getBoundingClientRect();
+            const viewHeight = window.innerHeight;
+
+            // Calculate rotation based on when the gear enters the screen
+            if (rect.top < viewHeight && rect.bottom > 0) {
+                const distanceScrolled = viewHeight - rect.top;
+                const totalDistance = viewHeight + rect.height;
+                const progress = distanceScrolled / totalDistance;
+                
+                // Rotate 180 degrees on Y axis as user scrolls past
+                const rotation = progress * 180;
+                transitionGear.style.transform = `rotateY(${rotation}deg)`;
+            }
         });
 
-        window.onload = () => {
-            requestAnimationFrame(animate);
-        };
+        window.onload = () => requestAnimationFrame(animate);
     </script>
 </body>
 </html>
