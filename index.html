@@ -44,7 +44,6 @@
             min-height: 280px;
             text-decoration: none;
             border: 1px solid rgba(0,0,0,0.03);
-            position: relative;
         }
         .project-bubble:hover { transform: translateY(-5px) scale(1.01); }
         
@@ -59,29 +58,57 @@
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* --- ENHANCED FLIP TRANSITION --- */
-        #scroll-track {
-            height: 300vh; /* Length of the scroll animation */
+        /* --- SCROLL SYSTEM --- */
+        #main-scroll-container {
+            height: 450vh; /* Long track for all phases */
             position: relative;
         }
 
-        .sticky-wrapper {
+        .sticky-viewport {
             position: sticky;
             top: 0;
             height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* Hero and Projects sit on top of each other; we crossfade them */
+        .content-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+        }
+
+        #projects-layer {
+            opacity: 0;
+            pointer-events: none;
+            overflow-y: auto;
+            justify-content: flex-start;
+            padding-top: 100px;
+        }
+
+        /* --- FLIP CARD --- */
+        .flip-card-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             perspective: 2000px;
-            z-index: 50;
+            z-index: 100;
+            pointer-events: none;
         }
 
         .flip-card {
-            position: relative;
             width: 320px; 
             height: 320px;
             transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
+            will-change: transform;
         }
 
         .flip-card-front, .flip-card-back {
@@ -96,147 +123,104 @@
             overflow: hidden;
         }
 
-        .flip-card-front {
-            background: white;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
+        .flip-card-front { background: white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .flip-card-back { background: var(--bg-color); transform: rotateY(180deg); }
 
-        .flip-card-back {
-            background-color: var(--bg-color);
-            transform: rotateY(180deg);
-        }
-
-        #scroll-gear {
-            width: 80%;
-            height: 80%;
-            color: #1d1d1f;
-        }
-
-        /* Hero Content needs to stay above the scroll track initially */
-        #hero-content {
-            position: relative;
-            z-index: 60;
-            pointer-events: none; /* Let clicks pass to links */
-        }
-        #hero-content a, #hero-content div { pointer-events: auto; }
+        #scroll-gear { width: 80%; height: 80%; color: #1d1d1f; }
     </style>
 </head>
 <body>
 
-    <!-- Navigation -->
-    <nav class="glass fixed top-0 w-full z-[100] border-b border-gray-200">
+    <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
-            <a href="#" class="flex items-center gap-2 tracking-tight group cursor-pointer">
+            <div class="flex items-center gap-2 tracking-tight group">
                 <svg class="w-5 h-5 text-sapphire animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3"></circle>
                     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                 </svg>
                 <span class="font-bold text-black">Avery Wong</span>
-            </a>
+            </div>
             <div class="space-x-8">
-                <a href="#about" class="text-gray-500 hover:text-black transition">About</a>
-                <a href="#projects" class="text-gray-500 hover:text-black transition">Projects</a>
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-gray-500 hover:text-black transition">About</button>
+                <button onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" class="text-gray-500 hover:text-black transition">Projects</button>
                 <a href="mailto:averywong3@gmail.com" class="hover:text-sapphire transition">Contact</a>
             </div>
         </div>
     </nav>
 
-    <!-- MAIN SCROLL TRACK -->
-    <div id="scroll-track">
-        <div class="sticky-wrapper">
-            <!-- FLIP CARD: Centered globally but visually aligned to About section initially -->
-            <div class="flip-card" id="main-card">
-                <div class="flip-card-front">
-                    <!-- IMAGE BACK IN ABOUT SECTION -->
-                    <img src="headshot.jpg" alt="Avery Wong" class="w-full h-full object-cover grayscale brightness-105 contrast-110">
+    <div id="main-scroll-container">
+        <div class="sticky-viewport">
+            
+            <!-- HERO LAYER -->
+            <div id="hero-layer" class="content-layer px-6">
+                <div class="text-center mb-12">
+                    <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
+                        <span id="name-typewriter"></span><span id="name-cursor" class="cursor">&nbsp;</span>
+                    </div>
+                    <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter leading-none h-24 md:h-32">
+                        <span id="title-typewriter"></span><span id="title-cursor" class="cursor hidden">&nbsp;</span>
+                    </h1>
                 </div>
-                <div class="flip-card-back">
-                    <svg id="scroll-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
+
+                <div id="about-bubble" class="apple-bubble max-w-5xl w-full p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
+                    <div class="flex-1 space-y-6">
+                        <h2 class="text-5xl font-extrabold tracking-tight">About</h2>
+                        <p class="text-gray-500 text-lg leading-relaxed">
+                            I'm a mechanical engineering student at the University of Toronto with a focus on research & development. I specialize in taking projects from concept to functional prototyping.
+                        </p>
+                        <div class="flex flex-wrap gap-4 pt-4">
+                            <a href="#" class="bg-[#f5f5f7] border border-gray-200 px-6 py-3 rounded-2xl text-sm font-bold group-hover:text-sapphire transition uppercase">LinkedIn ↗</a>
+                        </div>
+                    </div>
+                    <!-- TARGET SLOT FOR IMAGE -->
+                    <div id="image-slot" class="w-full md:w-[320px] h-[320px] flex-shrink-0"></div>
                 </div>
             </div>
-        </div>
 
-        <!-- HERO CONTENT (Absolute positioned to sit on track) -->
-        <div id="hero-content" class="absolute top-0 left-0 w-full min-h-screen flex flex-col items-center justify-center px-6 pt-20">
-            <div class="text-center mb-12">
-                <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
-                    <span id="name-typewriter"></span><span id="name-cursor" class="cursor">&nbsp;</span>
-                </div>
-                <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter leading-none h-24 md:h-32">
-                    <span id="title-typewriter"></span><span id="title-cursor" class="cursor hidden">&nbsp;</span>
-                </h1>
-            </div>
-
-            <div id="about" class="apple-bubble max-w-5xl w-full p-8 md:p-12 flex flex-col md:flex-row items-center gap-12 mt-4">
-                <div class="flex-1 space-y-6">
-                    <h2 class="text-5xl font-extrabold tracking-tight">About</h2>
-                    <p class="text-gray-500 text-lg leading-relaxed">
-                        I'm a mechanical engineering student at the University of Toronto with a focus on research & development. I specialize in taking projects from concept to functional prototyping, blending elegant design with mechanical precision.
-                    </p>
-                    <div class="flex flex-wrap gap-4 pt-4">
-                        <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="bg-[#f5f5f7] border border-gray-200 px-6 py-3 rounded-2xl flex items-center gap-3 hover:bg-white hover:border-sapphire transition group shadow-sm">
-                            <span class="text-sm font-bold group-hover:text-sapphire transition uppercase">LinkedIn ↗</span>
-                        </a>
-                        <div class="bg-[#f5f5f7] border border-gray-200 px-6 py-3 rounded-2xl text-sm font-bold text-gray-500">averywong3@gmail.com</div>
+            <!-- PROJECTS LAYER (Fades in) -->
+            <div id="projects-layer" class="content-layer px-6">
+                <div class="max-w-6xl mx-auto w-full space-y-12 pb-24">
+                    <div class="flex justify-start">
+                        <div class="w-full md:w-[70%] project-bubble bg-white">
+                            <div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Cinematography Robotic Arm</h3></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <div class="w-full md:w-[70%] project-bubble bg-[#1d1d1f] text-white">
+                            <div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Smart Knee Sleeve</h3></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-start">
+                        <div class="w-full md:w-[70%] project-bubble bg-white">
+                            <div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Integrated Power Desk</h3></div>
+                        </div>
                     </div>
                 </div>
-                <!-- IMAGE PLACEHOLDER: The Flip Card will sit exactly here -->
-                <div id="image-slot" class="w-full md:w-[320px] h-[320px] flex-shrink-0"></div>
             </div>
+
+            <!-- INDEPENDENT FLIP CARD -->
+            <div class="flip-card-container">
+                <div class="flip-card" id="main-card">
+                    <div class="flip-card-front">
+                        <img src="headshot.jpg" alt="Avery" class="w-full h-full object-cover grayscale brightness-105 contrast-110">
+                    </div>
+                    <div class="flip-card-back">
+                        <svg id="scroll-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- PROJECTS SECTION -->
-    <section id="projects" class="pb-24 px-6 min-h-screen relative z-[70] bg-[#f5f5f7]">
-        <div class="max-w-6xl mx-auto pt-20">
-            <div class="space-y-12">
-                <div class="flex justify-start">
-                    <a href="project-1.html" class="w-full md:w-[70%] project-bubble bg-white">
-                        <div class="px-10 py-16 text-center">
-                            <h3 class="text-4xl md:text-5xl font-bold text-black">Cinematography <br>Robotic Arm</h3>
-                        </div>
-                    </a>
-                </div>
-                <div class="flex justify-end">
-                    <a href="project-2.html" class="w-full md:w-[70%] project-bubble bg-[#1d1d1f] text-white">
-                        <div class="px-10 py-16 text-center">
-                            <h3 class="text-4xl md:text-5xl font-bold">Smart Rehabilitation <br>Knee Sleeve</h3>
-                        </div>
-                    </a>
-                </div>
-                <div class="flex justify-start">
-                    <a href="project-3.html" class="w-full md:w-[70%] project-bubble bg-white">
-                        <div class="px-10 py-16 text-center">
-                            <h3 class="text-4xl md:text-5xl font-bold text-black">Integrated <br>Power Desk</h3>
-                        </div>
-                    </a>
-                </div>
-                <div class="flex justify-end">
-                    <a href="project-4.html" class="w-full md:w-[70%] project-bubble bg-gray-200">
-                        <div class="px-10 py-16 text-center">
-                            <h3 class="text-4xl md:text-5xl font-bold text-gray-800">Mechanical <br>Dissections</h3>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="py-12 text-center text-gray-400 text-sm bg-white border-t border-gray-100">
-        &copy; 2025 Avery Wong. Built with precision.
-    </footer>
-
     <script>
-        // --- TYPEWRITER LOGIC ---
-        const nameText = "Avery Wong";
-        const titleText = "Mechanical Engineer.";
-        const nameEl = document.getElementById("name-typewriter");
-        const titleEl = document.getElementById("title-typewriter");
-        const nameCursor = document.getElementById("name-cursor");
-        const titleCursor = document.getElementById("title-cursor");
+        // --- TYPEWRITER ---
+        const nameText = "Avery Wong", titleText = "Mechanical Engineer.";
+        const nameEl = document.getElementById("name-typewriter"), titleEl = document.getElementById("title-typewriter");
+        const nameCursor = document.getElementById("name-cursor"), titleCursor = document.getElementById("title-cursor");
 
         function typeEffect(element, text, speed, callback) {
             let i = 0;
@@ -249,100 +233,76 @@
                         element.innerHTML = displayedText.length > 11 ? `Mechanical <span class="text-sapphire">${text.substring(11, i + 1)}</span>` : displayedText;
                     }
                     i++;
-                } else {
-                    clearInterval(timer);
-                    if (callback) callback();
-                }
+                } else { clearInterval(timer); if (callback) callback(); }
             }, speed);
         }
 
-        // --- SCROLL ANIMATION LOGIC ---
-        const scrollTrack = document.getElementById('scroll-track');
+        // --- SCROLL ANIMATION ---
+        const scrollContainer = document.getElementById('main-scroll-container');
         const mainCard = document.getElementById('main-card');
         const scrollGear = document.getElementById('scroll-gear');
         const imageSlot = document.getElementById('image-slot');
-        const heroContent = document.getElementById('hero-content');
+        const heroLayer = document.getElementById('hero-layer');
+        const projectsLayer = document.getElementById('projects-layer');
 
         function handleScroll() {
-            const trackRect = scrollTrack.getBoundingClientRect();
+            const rect = scrollContainer.getBoundingClientRect();
             const slotRect = imageSlot.getBoundingClientRect();
-            const viewHeight = window.innerHeight;
-            
-            // Progress 0 to 1
-            let progress = -trackRect.top / (trackRect.height - viewHeight);
+            const viewportHeight = window.innerHeight;
+            const totalScrollable = rect.height - viewportHeight;
+            let progress = -rect.top / totalScrollable;
             progress = Math.max(0, Math.min(1, progress));
 
-            // 1. Position the card over the About Section image slot initially
-            // 2. As progress increases, center it, flip it, and finally move it to the header
-            
-            let xOffset = 0;
-            let yOffset = 0;
-            let scale = 1;
-            let rotation = 0;
-            let gearRotation = 0;
+            // TIMELINE:
+            // 0.0 - 0.15: Dead zone (Scroll for a bit)
+            // 0.15 - 0.75: Flip, Zoom, and Center
+            // 0.75 - 1.0: Fade Hero out, Fade Projects in, Gear moves to top
 
-            if (progress < 0.2) {
-                // PHASE 1: Card is sitting in the About section bubble
-                const slotCenterX = slotRect.left + slotRect.width / 2;
-                const slotCenterY = slotRect.top + slotRect.height / 2;
-                xOffset = slotCenterX - (window.innerWidth / 2);
-                yOffset = slotCenterY - (window.innerHeight / 2);
-                rotation = 0;
-                scale = 1;
+            let x = 0, y = 0, scale = 1, rotY = 0, rotZ = 0, heroOp = 1, projOp = 0;
+
+            // 1. Initial position (locked to the About bubble)
+            const startX = (slotRect.left + slotRect.width/2) - (window.innerWidth/2);
+            const startY = (slotRect.top + slotRect.height/2) - (window.innerHeight/2);
+
+            if (progress <= 0.15) {
+                // PHASE: Locked in About Section
+                x = startX; y = startY;
             } 
-            else if (progress < 0.8) {
-                // PHASE 2: Card detaches, flips, and enlarges
-                const p = (progress - 0.2) / 0.6; // Local progress for this phase
-                
-                // Transition from slot position to center (0,0)
-                const slotCenterX = slotRect.left + slotRect.width / 2;
-                const slotCenterY = slotRect.top + slotRect.height / 2;
-                const startX = slotCenterX - (window.innerWidth / 2);
-                const startY = slotCenterY - (window.innerHeight / 2);
-                
-                xOffset = startX * (1 - p);
-                yOffset = startY * (1 - p);
-                
-                // Flip & Scale
-                rotation = p * 180;
+            else if (progress <= 0.75) {
+                // PHASE: The Transition (Detaching and Centering)
+                const p = (progress - 0.15) / 0.6;
+                x = startX * (1 - p);
+                y = startY * (1 - p);
+                rotY = p * 180;
+                rotZ = p * 720;
                 const maxScale = Math.min(window.innerWidth, window.innerHeight) * 0.8 / 320;
                 scale = 1 + (p * (maxScale - 1));
-                gearRotation = p * 720;
-
-                // Fade out hero text
-                heroContent.style.opacity = 1 - (p * 2);
             } 
             else {
-                // PHASE 3: Gear shrinks and stays at the top as a header
-                const p = (progress - 0.8) / 0.2;
-                rotation = 180;
+                // PHASE: Final State (Fade to Projects)
+                const p = (progress - 0.75) / 0.25;
+                rotY = 180;
+                rotZ = 720 + (p * 360);
                 
                 const maxScale = Math.min(window.innerWidth, window.innerHeight) * 0.8 / 320;
-                const finalScale = 0.4; // Small gear header
-                scale = maxScale - (p * (maxScale - finalScale));
+                scale = maxScale - (p * (maxScale - 0.3)); // Shrink gear
+                y = -(viewportHeight * 0.42) * p; // Move gear to top
                 
-                // Move to top of screen
-                yOffset = -(viewHeight * 0.4) * p;
-                
-                gearRotation = 720 + (p * 360);
-                heroContent.style.opacity = 0;
+                heroOp = 1 - (p * 1.5);
+                projOp = p;
             }
 
-            // Apply transforms
-            mainCard.style.transform = `translate(${xOffset}px, ${yOffset}px) rotateY(${rotation}deg) scale(${scale})`;
-            scrollGear.style.transform = `rotate(${gearRotation}deg)`;
-
-            // Ensure card back is the only thing visible at the end
-            mainCard.style.opacity = 1;
+            // Apply Styles
+            mainCard.style.transform = `translate(${x}px, ${y}px) rotateY(${rotY}deg) scale(${scale})`;
+            scrollGear.style.transform = `rotate(${rotZ}deg)`;
+            heroLayer.style.opacity = Math.max(0, heroOp);
+            projectsLayer.style.opacity = projOp;
+            projectsLayer.style.pointerEvents = projOp > 0.5 ? 'auto' : 'none';
         }
 
         window.addEventListener('scroll', handleScroll);
-        window.addEventListener('resize', handleScroll);
-
         window.onload = () => {
-            // Initialize card position
             handleScroll();
-            
             typeEffect(nameEl, nameText, 100, () => {
                 nameCursor.style.display = "none";
                 titleCursor.classList.remove("hidden");
