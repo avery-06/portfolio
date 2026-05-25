@@ -25,8 +25,8 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            min-height: 350px; 
-            border: 1px solid rgba(0,0,0,0.08); 
+            min-height: 280px; 
+            border: 1px solid rgba(0,0,0,0.05); 
             transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); 
             padding: 2rem;
             text-align: center;
@@ -37,7 +37,7 @@
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         /* SCROLL ENGINE */
-        #transition-track { height: 500vh; position: relative; }
+        #transition-track { height: 600vh; position: relative; }
         
         .sticky-viewport { 
             position: sticky; 
@@ -45,7 +45,6 @@
             height: 100vh; 
             width: 100%; 
             overflow: hidden; 
-            z-index: 100;
         }
 
         .layer { 
@@ -57,16 +56,22 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            justify-content: center;
         }
 
-        /* REAL PROJECTS SECTION - Outside the sticky viewport so it persists */
-        #projects-section {
-            background: var(--bg-color);
-            padding: 120px 1.5rem;
-            min-height: 100vh;
-            position: relative;
-            z-index: 50;
+        /* Hero is centered */
+        #hero-layer { justify-content: center; z-index: 20; }
+
+        /* Projects are hidden behind the gear initially */
+        #projects-layer {
+            opacity: 0;
+            z-index: 10;
+            padding: 100px 2rem;
+            overflow-y: auto;
+            background: var(--bg-color); /* Perfectly matches gear background */
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .card-container { 
@@ -93,6 +98,7 @@
         }
         
         .card-front { background: #eee; overflow: hidden; z-index: 2; }
+        /* MATCHES SITE BG EXACTLY */
         .card-back { background: var(--bg-color); transform: rotateY(180deg); z-index: 1; }
 
         #main-gear-svg { 
@@ -120,8 +126,30 @@
 </nav>
 
 <div id="transition-track">
-    <div class="sticky-viewport" id="sticky-intro">
-        <!-- HERO CONTENT -->
+    <div class="sticky-viewport">
+        
+        <!-- SELECTED WORKS (Revealed via Gear Portal) -->
+        <div id="projects-layer" class="layer">
+            <div class="max-w-5xl mx-auto w-full pt-10">
+                <h2 class="text-5xl md:text-7xl font-black mb-12 tracking-tighter text-center">Selected Works</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-20">
+                    <div class="project-bubble">
+                        <h3 class="text-2xl font-bold">Robotic Cinematography Arm</h3>
+                    </div>
+                    <div class="project-bubble bg-[#1d1d1f] text-white border-none">
+                        <h3 class="text-2xl font-bold">Smart Knee Sleeve</h3>
+                    </div>
+                    <div class="project-bubble">
+                        <h3 class="text-2xl font-bold">Integrated Desk Outlets</h3>
+                    </div>
+                    <div class="project-bubble bg-zinc-200 border-none">
+                        <h3 class="text-2xl font-bold text-zinc-800">Mechanical Dissections</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HERO -->
         <div id="hero-layer" class="layer px-6">
             <div class="text-center mb-12">
                 <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
@@ -145,7 +173,7 @@
             </div>
         </div>
 
-        <!-- TRANSITION GEAR CARD -->
+        <!-- THE GEAR PORTAL -->
         <div class="card-container">
             <div class="flip-card" id="main-card">
                 <div class="card-face card-front" id="front-face">
@@ -162,32 +190,11 @@
     </div>
 </div>
 
-<!-- SELECTED WORKS SECTION -->
-<section id="projects-section">
-    <div class="max-w-6xl mx-auto w-full">
-        <h2 class="text-6xl md:text-7xl font-black mb-16 tracking-tighter text-center">Selected Works</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="project-bubble">
-                <h3 class="text-3xl font-bold">Robotic Cinematography Arm</h3>
-            </div>
-            <div class="project-bubble bg-[#1d1d1f] text-white border-none">
-                <h3 class="text-3xl font-bold">Smart Knee Sleeve</h3>
-            </div>
-            <div class="project-bubble">
-                <h3 class="text-3xl font-bold">Integrated Desk Outlets</h3>
-            </div>
-            <div class="project-bubble bg-zinc-200 border-none">
-                <h3 class="text-3xl font-bold text-zinc-800">Mechanical Dissections</h3>
-            </div>
-        </div>
-    </div>
-</section>
-
 <script>
     /**
-     * Logic: 
-     * - "Avery" and "Engineer" stay Blue while typing.
-     * - "Wong" and "Mechanical" stay Black while typing.
+     * Typing Logic:
+     * - "Avery" and "Engineer" type in blue.
+     * - "Wong" and "Mechanical" type in black.
      */
     function type(elId, fullText, speed, callback) {
         let i = 0;
@@ -201,7 +208,7 @@
             let html = "";
             words.forEach(word => {
                 const cleanWord = word.trim();
-                // Check if the current segment being typed is part of a blue word
+                // Check if current word (or what we've typed so far of it) matches blue targets
                 if (blueWords.some(bw => cleanWord === bw || (bw.startsWith(cleanWord) && cleanWord.length > 0))) {
                     html += `<span class="text-sapphire">${word}</span>`;
                 } else {
@@ -234,7 +241,7 @@
     const gearSvg = document.getElementById('main-gear-svg');
     const slot = document.getElementById('image-slot');
     const hero = document.getElementById('hero-layer');
-    const projectsSection = document.getElementById('projects-section');
+    const projectsLayer = document.getElementById('projects-layer');
 
     function handleScroll() {
         const rect = track.getBoundingClientRect();
@@ -247,7 +254,7 @@
 
         let x=0, y=0, scale=0.4, rotY=0, rotZ=0, hOp=1, pOp=0;
 
-        // 1. Hero Content fades out
+        // 1. Hero Content Fades out early
         hOp = Math.max(0, 1 - (progress * 10));
 
         const startX = (slotRect.left + slotRect.width/2) - (vw/2);
@@ -257,7 +264,7 @@
             x = startX; y = startY;
         } 
         else if (progress <= 0.3) {
-            // Flip & Center
+            // Flip & Move to Center
             const p = (progress - 0.05) / 0.25;
             x = startX * (1 - p);
             y = startY * (1 - p);
@@ -265,21 +272,23 @@
             rotZ = p * 90;
             scale = 0.4;
         } 
-        else if (progress <= 0.98) {
-            // Portal Zoom
-            const p = (progress - 0.3) / 0.68;
+        else if (progress <= 0.95) {
+            // Portal Zoom (Selected works appear AS it zooms)
+            const p = (progress - 0.3) / 0.65;
             rotY = 180;
-            rotZ = 90 + (p * 420);
+            rotZ = 90 + (p * 450);
             
-            const targetScale = (Math.max(vw, vh) / 800) * 35; 
+            // Massive scale to reveal projects beneath
+            const targetScale = (Math.max(vw, vh) / 800) * 30; 
             scale = 0.4 + (Math.pow(p, 4) * (targetScale - 0.4));
             
-            // Fade in the background projects section
-            pOp = Math.max(0, (p - 0.5) * 2);
+            // Projects fade in simultaneously with zoom
+            pOp = Math.max(0, (p - 0.3) * 1.8);
         } else {
             rotY = 180;
-            scale = (Math.max(vw, vh) / 800) * 35;
+            scale = (Math.max(vw, vh) / 800) * 30;
             pOp = 1;
+            rotZ = 540;
         }
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
@@ -288,7 +297,8 @@
         gearSvg.style.transform = `rotate(${rotZ}deg)`;
         
         hero.style.opacity = hOp;
-        projectsSection.style.opacity = pOp;
+        projectsLayer.style.opacity = pOp;
+        projectsLayer.style.pointerEvents = pOp > 0.5 ? 'auto' : 'none';
     }
 
     window.addEventListener('scroll', handleScroll);
