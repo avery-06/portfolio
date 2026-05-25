@@ -25,10 +25,9 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            min-height: 300px; 
-            border: 1px solid rgba(0,0,0,0.05); 
+            min-height: 350px; 
+            border: 1px solid rgba(0,0,0,0.08); 
             transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); 
-            width: 100%; 
             padding: 2rem;
             text-align: center;
         }
@@ -38,7 +37,7 @@
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         /* SCROLL ENGINE */
-        #transition-track { height: 600vh; position: relative; }
+        #transition-track { height: 500vh; position: relative; }
         
         .sticky-viewport { 
             position: sticky; 
@@ -46,7 +45,7 @@
             height: 100vh; 
             width: 100%; 
             overflow: hidden; 
-            background: white;
+            z-index: 100;
         }
 
         .layer { 
@@ -58,18 +57,17 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
+            justify-content: center;
         }
 
-        #projects-layer {
-            opacity: 0;
-            z-index: 10;
-            padding: 120px 2rem;
-            overflow-y: auto;
-            background: var(--bg-color); /* Matches gear background */
-            pointer-events: none;
+        /* REAL PROJECTS SECTION - Outside the sticky viewport so it persists */
+        #projects-section {
+            background: var(--bg-color);
+            padding: 120px 1.5rem;
+            min-height: 100vh;
+            position: relative;
+            z-index: 50;
         }
-
-        #hero-layer { justify-content: center; z-index: 20; }
 
         .card-container { 
             position: absolute; 
@@ -95,7 +93,6 @@
         }
         
         .card-front { background: #eee; overflow: hidden; z-index: 2; }
-        /* Gear Card background matches page background */
         .card-back { background: var(--bg-color); transform: rotateY(180deg); z-index: 1; }
 
         #main-gear-svg { 
@@ -123,29 +120,7 @@
 </nav>
 
 <div id="transition-track">
-    <div class="sticky-viewport">
-        
-        <!-- PROJECTS SECTION (Revealed by Gear Zoom) -->
-        <div id="projects-layer" class="layer">
-            <div class="max-w-6xl mx-auto w-full">
-                <h2 class="text-6xl font-black mb-16 tracking-tighter text-center">Selected Works</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
-                    <div class="project-bubble">
-                        <h3 class="text-3xl font-bold">Robotic Cinematography Arm</h3>
-                    </div>
-                    <div class="project-bubble bg-[#1d1d1f] text-white border-none">
-                        <h3 class="text-3xl font-bold">Smart Knee Sleeve</h3>
-                    </div>
-                    <div class="project-bubble">
-                        <h3 class="text-3xl font-bold">Integrated Desk Outlets</h3>
-                    </div>
-                    <div class="project-bubble bg-zinc-200 border-none">
-                        <h3 class="text-3xl font-bold text-zinc-800">Mechanical Dissections</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    <div class="sticky-viewport" id="sticky-intro">
         <!-- HERO CONTENT -->
         <div id="hero-layer" class="layer px-6">
             <div class="text-center mb-12">
@@ -187,6 +162,27 @@
     </div>
 </div>
 
+<!-- SELECTED WORKS SECTION -->
+<section id="projects-section">
+    <div class="max-w-6xl mx-auto w-full">
+        <h2 class="text-6xl md:text-7xl font-black mb-16 tracking-tighter text-center">Selected Works</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="project-bubble">
+                <h3 class="text-3xl font-bold">Robotic Cinematography Arm</h3>
+            </div>
+            <div class="project-bubble bg-[#1d1d1f] text-white border-none">
+                <h3 class="text-3xl font-bold">Smart Knee Sleeve</h3>
+            </div>
+            <div class="project-bubble">
+                <h3 class="text-3xl font-bold">Integrated Desk Outlets</h3>
+            </div>
+            <div class="project-bubble bg-zinc-200 border-none">
+                <h3 class="text-3xl font-bold text-zinc-800">Mechanical Dissections</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
 <script>
     /**
      * Logic: 
@@ -200,13 +196,13 @@
         
         const timer = setInterval(() => {
             let currentStr = fullText.substring(0, i + 1);
-            let words = currentStr.split(/(\s+)/); // Split keep spaces
+            let words = currentStr.split(/(\s+)/);
             
             let html = "";
             words.forEach(word => {
                 const cleanWord = word.trim();
-                // If the word we are typing starts with or is one of the blue words
-                if (blueWords.some(bw => cleanWord.startsWith(bw) || bw.startsWith(cleanWord)) && cleanWord !== "") {
+                // Check if the current segment being typed is part of a blue word
+                if (blueWords.some(bw => cleanWord === bw || (bw.startsWith(cleanWord) && cleanWord.length > 0))) {
                     html += `<span class="text-sapphire">${word}</span>`;
                 } else {
                     html += `<span>${word}</span>`;
@@ -238,7 +234,7 @@
     const gearSvg = document.getElementById('main-gear-svg');
     const slot = document.getElementById('image-slot');
     const hero = document.getElementById('hero-layer');
-    const projects = document.getElementById('projects-layer');
+    const projectsSection = document.getElementById('projects-section');
 
     function handleScroll() {
         const rect = track.getBoundingClientRect();
@@ -251,7 +247,7 @@
 
         let x=0, y=0, scale=0.4, rotY=0, rotZ=0, hOp=1, pOp=0;
 
-        // 1. Hero Content fades out early
+        // 1. Hero Content fades out
         hOp = Math.max(0, 1 - (progress * 10));
 
         const startX = (slotRect.left + slotRect.width/2) - (vw/2);
@@ -261,7 +257,7 @@
             x = startX; y = startY;
         } 
         else if (progress <= 0.3) {
-            // Flip card and move to center
+            // Flip & Center
             const p = (progress - 0.05) / 0.25;
             x = startX * (1 - p);
             y = startY * (1 - p);
@@ -269,21 +265,20 @@
             rotZ = p * 90;
             scale = 0.4;
         } 
-        else if (progress <= 0.95) {
-            // Zoom gear portal
-            const p = (progress - 0.3) / 0.65;
+        else if (progress <= 0.98) {
+            // Portal Zoom
+            const p = (progress - 0.3) / 0.68;
             rotY = 180;
             rotZ = 90 + (p * 420);
             
-            // Extreme scale to zoom through the hole
-            const targetScale = (Math.max(vw, vh) / 800) * 20; 
+            const targetScale = (Math.max(vw, vh) / 800) * 35; 
             scale = 0.4 + (Math.pow(p, 4) * (targetScale - 0.4));
             
-            // Fade projects in only after gear is quite large
-            pOp = Math.max(0, (p - 0.4) * 1.8);
+            // Fade in the background projects section
+            pOp = Math.max(0, (p - 0.5) * 2);
         } else {
             rotY = 180;
-            scale = (Math.max(vw, vh) / 800) * 20;
+            scale = (Math.max(vw, vh) / 800) * 35;
             pOp = 1;
         }
 
@@ -293,8 +288,7 @@
         gearSvg.style.transform = `rotate(${rotZ}deg)`;
         
         hero.style.opacity = hOp;
-        projects.style.opacity = pOp;
-        projects.style.pointerEvents = pOp > 0.6 ? 'auto' : 'none';
+        projectsSection.style.opacity = pOp;
     }
 
     window.addEventListener('scroll', handleScroll);
