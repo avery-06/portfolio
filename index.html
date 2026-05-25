@@ -7,8 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --sapphire: #0F52BA; --bg-color: #f5f5f7; }
-        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1d1d1f; margin: 0; overflow-x: hidden; }
+        :root { --sapphire: #0F52BA; --bg-color: #ffffff; --project-bg: #f5f5f7; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: #1d1d1f; margin: 0; overflow-x: hidden; }
 
         .text-sapphire { color: var(--sapphire); }
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
@@ -16,27 +16,25 @@
         @keyframes spin-nav { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .animate-gear-nav { animation: spin-nav 8s linear infinite; }
 
-        .apple-bubble { background: var(--bg-color); border-radius: 3.5rem; border: 1px solid rgba(0,0,0,0.03); }
+        .apple-bubble { background: #f5f5f7; border-radius: 3.5rem; border: 1px solid rgba(0,0,0,0.03); }
         
-        /* PROJECTS STYLING */
         .project-bubble { 
             background: white; 
-            border-radius: 3.5rem; 
+            border-radius: 3rem; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            min-height: 280px; 
+            min-height: 250px; 
             border: 1px solid rgba(0,0,0,0.05); 
-            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            transition: transform 0.4s ease; 
             padding: 2rem;
             text-align: center;
         }
-        .project-bubble:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.04); }
+        .project-bubble:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* SCROLL ENGINE */
         #transition-track { height: 600vh; position: relative; }
         
         .sticky-viewport { 
@@ -58,29 +56,30 @@
             align-items: center; 
         }
 
-        /* Hero is centered */
-        #hero-layer { justify-content: center; z-index: 20; }
-
-        /* Projects are hidden behind the gear initially */
+        /* LAYER 1: PROJECTS (BOTTOM) */
         #projects-layer {
-            opacity: 0;
             z-index: 10;
-            padding: 100px 2rem;
+            opacity: 0;
+            background: var(--project-bg);
+            padding: 80px 2rem;
             overflow-y: auto;
-            background: var(--bg-color); /* Perfectly matches gear background */
             pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
+        /* LAYER 3: HERO (TOP) */
+        #hero-layer { 
+            z-index: 30; 
+            justify-content: center;
+        }
+
+        /* LAYER 2: GEAR (MIDDLE) */
         .card-container { 
             position: absolute; 
             top: 50%; 
             left: 50%; 
             transform: translate(-50%, -50%); 
             perspective: 2000px; 
-            z-index: 100; 
+            z-index: 20; 
             pointer-events: none; 
         }
         
@@ -97,9 +96,9 @@
             border-radius: 80px;
         }
         
-        .card-front { background: #eee; overflow: hidden; z-index: 2; }
+        .card-front { background: #eee; overflow: hidden; }
         /* MATCHES SITE BG EXACTLY */
-        .card-back { background: var(--bg-color); transform: rotateY(180deg); z-index: 1; }
+        .card-back { background: var(--bg-color); transform: rotateY(180deg); }
 
         #main-gear-svg { 
             width: 60%; 
@@ -128,28 +127,28 @@
 <div id="transition-track">
     <div class="sticky-viewport">
         
-        <!-- SELECTED WORKS (Revealed via Gear Portal) -->
+        <!-- SELECTED WORKS LAYER (Revealed by Gear Portal) -->
         <div id="projects-layer" class="layer">
-            <div class="max-w-5xl mx-auto w-full pt-10">
+            <div class="max-w-5xl mx-auto w-full">
                 <h2 class="text-5xl md:text-7xl font-black mb-12 tracking-tighter text-center">Selected Works</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-20">
                     <div class="project-bubble">
                         <h3 class="text-2xl font-bold">Robotic Cinematography Arm</h3>
                     </div>
-                    <div class="project-bubble bg-[#1d1d1f] text-white border-none">
+                    <div class="project-bubble bg-[#1d1d1f] text-white">
                         <h3 class="text-2xl font-bold">Smart Knee Sleeve</h3>
                     </div>
                     <div class="project-bubble">
                         <h3 class="text-2xl font-bold">Integrated Desk Outlets</h3>
                     </div>
-                    <div class="project-bubble bg-zinc-200 border-none">
+                    <div class="project-bubble bg-zinc-200">
                         <h3 class="text-2xl font-bold text-zinc-800">Mechanical Dissections</h3>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- HERO -->
+        <!-- HERO LAYER -->
         <div id="hero-layer" class="layer px-6">
             <div class="text-center mb-12">
                 <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
@@ -177,7 +176,7 @@
         <div class="card-container">
             <div class="flip-card" id="main-card">
                 <div class="card-face card-front" id="front-face">
-                    <img src="headshot.jpg" alt="Avery" class="w-full h-full object-cover grayscale brightness-105">
+                    <img src="headshot.jpg" alt="Avery" class="w-full h-full object-cover grayscale">
                 </div>
                 <div class="card-face card-back" id="back-face">
                     <svg id="main-gear-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -191,11 +190,6 @@
 </div>
 
 <script>
-    /**
-     * Typing Logic:
-     * - "Avery" and "Engineer" type in blue.
-     * - "Wong" and "Mechanical" type in black.
-     */
     function type(elId, fullText, speed, callback) {
         let i = 0;
         const el = document.getElementById(elId);
@@ -207,8 +201,8 @@
             
             let html = "";
             words.forEach(word => {
-                const cleanWord = word.trim();
-                // Check if current word (or what we've typed so far of it) matches blue targets
+                const cleanWord = word.trim().replace(/[^\w]/g, '');
+                // Check if the actual typed word is intended to be blue
                 if (blueWords.some(bw => cleanWord === bw || (bw.startsWith(cleanWord) && cleanWord.length > 0))) {
                     html += `<span class="text-sapphire">${word}</span>`;
                 } else {
@@ -241,7 +235,7 @@
     const gearSvg = document.getElementById('main-gear-svg');
     const slot = document.getElementById('image-slot');
     const hero = document.getElementById('hero-layer');
-    const projectsLayer = document.getElementById('projects-layer');
+    const projects = document.getElementById('projects-layer');
 
     function handleScroll() {
         const rect = track.getBoundingClientRect();
@@ -254,17 +248,17 @@
 
         let x=0, y=0, scale=0.4, rotY=0, rotZ=0, hOp=1, pOp=0;
 
-        // 1. Hero Content Fades out early
+        // Fade out Hero content
         hOp = Math.max(0, 1 - (progress * 10));
 
         const startX = (slotRect.left + slotRect.width/2) - (vw/2);
         const startY = (slotRect.top + slotRect.height/2) - (vh/2);
 
         if (progress <= 0.05) {
-            x = startX; y = startY;
+            x = startX; y = startY; scale = 0.4;
         } 
         else if (progress <= 0.3) {
-            // Flip & Move to Center
+            // Flip and center gear
             const p = (progress - 0.05) / 0.25;
             x = startX * (1 - p);
             y = startY * (1 - p);
@@ -273,17 +267,15 @@
             scale = 0.4;
         } 
         else if (progress <= 0.95) {
-            // Portal Zoom (Selected works appear AS it zooms)
+            // Zoom gear to portal reveal
             const p = (progress - 0.3) / 0.65;
             rotY = 180;
             rotZ = 90 + (p * 450);
-            
-            // Massive scale to reveal projects beneath
             const targetScale = (Math.max(vw, vh) / 800) * 30; 
             scale = 0.4 + (Math.pow(p, 4) * (targetScale - 0.4));
             
-            // Projects fade in simultaneously with zoom
-            pOp = Math.max(0, (p - 0.3) * 1.8);
+            // Fade in projects behind gear
+            pOp = Math.max(0, (p - 0.3) * 1.5);
         } else {
             rotY = 180;
             scale = (Math.max(vw, vh) / 800) * 30;
@@ -297,8 +289,8 @@
         gearSvg.style.transform = `rotate(${rotZ}deg)`;
         
         hero.style.opacity = hOp;
-        projectsLayer.style.opacity = pOp;
-        projectsLayer.style.pointerEvents = pOp > 0.5 ? 'auto' : 'none';
+        projects.style.opacity = pOp;
+        projects.style.pointerEvents = pOp > 0.8 ? 'auto' : 'none';
     }
 
     window.addEventListener('scroll', handleScroll);
