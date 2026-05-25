@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --sapphire: #0F52BA; --bg-color: #ffffff; --project-bg: #f5f5f7; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: #1d1d1f; margin: 0; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: #1d1d1f; margin: 0; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
         .text-sapphire { color: var(--sapphire); }
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
@@ -19,100 +19,40 @@
         .apple-bubble { background: #f5f5f7; border-radius: 3.5rem; border: 1px solid rgba(0,0,0,0.03); }
         
         .project-bubble { 
-            background: white; 
-            border-radius: 3.5rem; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            min-height: 280px; 
-            border: 1px solid rgba(0,0,0,0.05); 
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); 
-            padding: 2rem;
-            text-align: center;
+            background: white; border-radius: 3.5rem; display: flex; align-items: center; justify-content: center; 
+            min-height: 280px; border: 1px solid rgba(0,0,0,0.05); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            padding: 2rem; text-align: center;
         }
         .project-bubble:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.04); }
 
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* DELIBERATE SCROLL HEIGHT */
-        #transition-track { height: 700vh; position: relative; }
-        
-        .sticky-viewport { 
-            position: sticky; 
-            top: 0; 
-            height: 100vh; 
-            width: 100%; 
-            overflow: hidden; 
-        }
+        #transition-track { height: 800vh; position: relative; }
+        .sticky-viewport { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; }
 
-        .layer { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-        }
+        .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
 
-        #projects-layer {
-            z-index: 10;
-            opacity: 0;
-            background: var(--project-bg);
-            padding: 60px 2rem;
-            overflow-y: auto;
-            pointer-events: none;
-            justify-content: center;
-        }
-
-        #hero-layer { 
-            z-index: 30; 
-            justify-content: center;
-        }
+        #projects-layer { z-index: 10; opacity: 0; background: var(--project-bg); padding: 80px 2rem; overflow-y: auto; pointer-events: none; justify-content: center; }
+        #hero-layer { z-index: 30; justify-content: center; will-change: opacity; }
 
         .card-container { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            perspective: 2000px; 
-            z-index: 20; 
-            pointer-events: none; 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            perspective: 2000px; z-index: 20; pointer-events: none; will-change: transform;
         }
         
-        .flip-card { width: 800px; height: 800px; transform-style: preserve-3d; }
-        
+        .flip-card { width: 800px; height: 800px; transform-style: preserve-3d; will-change: transform; }
         .card-face { 
-            position: absolute; 
-            width: 100%; 
-            height: 100%; 
-            backface-visibility: hidden; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            border-radius: 80px;
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; 
+            -webkit-backface-visibility: hidden; display: flex; align-items: center; justify-content: center; border-radius: 80px;
         }
         
         .card-front { background: var(--bg-color); overflow: hidden; border: 1px solid #eee; }
         .card-back { background: var(--bg-color); transform: rotateY(180deg); }
 
-        #main-gear-svg { 
-            width: 60%; 
-            height: 60%; 
-            stroke: var(--sapphire);
-            fill: none;
-            stroke-width: 1.2;
-        }
+        #main-gear-svg { width: 60%; height: 60%; stroke: var(--sapphire); fill: none; stroke-width: 1.2; }
 
-        #image-slot img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 2.5rem;
-            filter: grayscale(100%);
-        }
+        #image-slot img { width: 100%; height: 100%; object-fit: cover; border-radius: 2.5rem; filter: grayscale(100%); }
     </style>
 </head>
 <body>
@@ -132,28 +72,19 @@
 
 <div id="transition-track">
     <div class="sticky-viewport">
-        
-        <!-- PROJECT GRID (Beneath Gear) -->
+        <!-- PROJECTS -->
         <div id="projects-layer" class="layer">
             <div class="max-w-6xl mx-auto w-full px-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10">
-                    <div class="project-bubble">
-                        <h3 class="text-3xl font-bold">Robotic Cinematography Arm</h3>
-                    </div>
-                    <div class="project-bubble bg-[#1d1d1f] text-white">
-                        <h3 class="text-3xl font-bold">Smart Knee Sleeve</h3>
-                    </div>
-                    <div class="project-bubble">
-                        <h3 class="text-3xl font-bold">Integrated Desk Outlets</h3>
-                    </div>
-                    <div class="project-bubble bg-zinc-200">
-                        <h3 class="text-3xl font-bold text-zinc-800">Mechanical Dissections</h3>
-                    </div>
+                    <div class="project-bubble"><h3 class="text-3xl font-bold">Robotic Cinematography Arm</h3></div>
+                    <div class="project-bubble bg-[#1d1d1f] text-white"><h3 class="text-3xl font-bold">Smart Knee Sleeve</h3></div>
+                    <div class="project-bubble"><h3 class="text-3xl font-bold">Integrated Desk Outlets</h3></div>
+                    <div class="project-bubble bg-zinc-200"><h3 class="text-3xl font-bold text-zinc-800">Mechanical Dissections</h3></div>
                 </div>
             </div>
         </div>
 
-        <!-- HERO CONTENT -->
+        <!-- HERO -->
         <div id="hero-layer" class="layer px-6">
             <div class="text-center mb-12">
                 <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
@@ -163,33 +94,25 @@
                     <span id="title-type"></span><span id="title-cursor" class="cursor hidden"></span>
                 </h1>
             </div>
-
             <div id="about-bubble" class="apple-bubble max-w-5xl w-full p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
                 <div class="flex-1 space-y-6">
                     <h2 class="text-5xl font-extrabold tracking-tight">About</h2>
                     <p class="text-gray-500 text-lg leading-relaxed">Mechanical engineering student at the University of Toronto. Specializing in functional prototyping and elegant R&D solutions.</p>
                     <div class="flex flex-wrap gap-4">
-                        <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="inline-block bg-white border border-gray-200 px-8 py-4 rounded-3xl text-sm font-bold hover:border-sapphire transition shadow-sm uppercase tracking-wider">LinkedIn ↗</a>
-                        <div class="inline-block bg-white border border-gray-200 px-8 py-4 rounded-3xl text-sm font-bold text-sapphire shadow-sm">averywong3@gmail.com</div>
+                        <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold hover:border-sapphire transition shadow-sm uppercase">LinkedIn ↗</a>
+                        <div class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold text-sapphire shadow-sm">averywong3@gmail.com</div>
                     </div>
                 </div>
-                <div id="image-slot" class="w-full md:w-[320px] h-[320px] flex-shrink-0">
-                    <img src="headshot.jpg" alt="Avery Wong">
-                </div>
+                <div id="image-slot" class="w-full md:w-[320px] h-[320px] flex-shrink-0"><img src="headshot.jpg" alt="Avery Wong"></div>
             </div>
         </div>
 
-        <!-- GEAR PORTAL -->
-        <div class="card-container">
+        <!-- PORTAL -->
+        <div class="card-container" id="portal-container">
             <div class="flip-card" id="main-card">
-                <div class="card-face card-front" id="front-face">
-                    <img src="headshot.jpg" alt="Transition" class="w-full h-full object-cover grayscale">
-                </div>
+                <div class="card-face card-front" id="front-face"><img src="headshot.jpg" alt="Transition" class="w-full h-full object-cover grayscale"></div>
                 <div class="card-face card-back" id="back-face">
-                    <svg id="main-gear-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                    </svg>
+                    <svg id="main-gear-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 </div>
             </div>
         </div>
@@ -198,30 +121,18 @@
 
 <script>
     function type(elId, fullText, speed, callback) {
-        let i = 0;
-        const el = document.getElementById(elId);
-        const blueWords = ["Avery", "Engineer"];
-        
+        let i = 0; const el = document.getElementById(elId); const blueWords = ["Avery", "Engineer"];
         const timer = setInterval(() => {
-            let currentStr = fullText.substring(0, i + 1);
-            let words = currentStr.split(/(\s+)/);
-            
+            let currentStr = fullText.substring(0, i + 1); let words = currentStr.split(/(\s+)/);
             let html = "";
             words.forEach(word => {
                 const cleanWord = word.trim().replace(/[^\w]/g, '');
                 if (blueWords.includes(cleanWord) || blueWords.some(bw => bw.startsWith(cleanWord) && cleanWord.length > 0)) {
                     html += `<span class="text-sapphire">${word}</span>`;
-                } else {
-                    html += `<span>${word}</span>`;
-                }
+                } else { html += `<span>${word}</span>`; }
             });
-
-            el.innerHTML = html;
-            i++;
-            if (i === fullText.length) {
-                clearInterval(timer);
-                if (callback) callback();
-            }
+            el.innerHTML = html; i++;
+            if (i === fullText.length) { clearInterval(timer); if (callback) callback(); }
         }, speed);
     }
 
@@ -246,66 +157,51 @@
     function handleScroll() {
         const rect = track.getBoundingClientRect();
         const slotRect = slot.getBoundingClientRect();
-        const vh = window.innerHeight;
-        const vw = window.innerWidth;
-        
+        const vh = window.innerHeight; const vw = window.innerWidth;
         let progress = -rect.top / (rect.height - vh);
         progress = Math.max(0, Math.min(1, progress));
 
         let x=0, y=0, scale=0.4, rotY=0, rotZ=0, hOp=1, pOp=0;
 
-        // HERO FADES
-        hOp = Math.max(0, 1 - (progress * 10));
+        // Hero Fades Early
+        hOp = Math.max(0, 1 - (progress * 12));
 
         const startX = (slotRect.left + slotRect.width/2) - (vw/2);
         const startY = (slotRect.top + slotRect.height/2) - (vh/2);
 
-        // STAGE 1: POSITION & FLIP (0 to 0.2)
-        if (progress <= 0.05) {
-            x = startX; y = startY; scale = 0.4;
+        // STAGE 1: POSITION & FLIP (0 to 0.15)
+        if (progress <= 0.05) { x = startX; y = startY; scale = 0.4; } 
+        else if (progress <= 0.15) {
+            const p = (progress - 0.05) / 0.1;
+            x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.4;
         } 
-        else if (progress <= 0.2) {
-            const p = (progress - 0.05) / 0.15;
-            x = startX * (1 - p);
-            y = startY * (1 - p);
-            rotY = p * 180;
-            rotZ = p * 90;
-            scale = 0.4;
+        // STAGE 2: ZOOM (0.15 to 0.4) - Limit to 20x
+        else if (progress <= 0.4) {
+            const p = (progress - 0.15) / 0.25;
+            rotY = 180; rotZ = 90 + (p * 450);
+            const targetScale = 20; // 20x Scale Limit
+            scale = 0.4 + (Math.pow(p, 3) * (targetScale - 0.4));
+            pOp = 0;
         } 
-        // STAGE 2: ZOOM (0.2 to 0.7) - Hole fills screen at 0.7
-        else if (progress <= 0.7) {
-            const p = (progress - 0.2) / 0.5;
-            rotY = 180;
-            rotZ = 90 + (p * 450);
-            const targetScale = (Math.max(vw, vh) / 800) * 55; 
-            scale = 0.4 + (Math.pow(p, 4) * (targetScale - 0.4));
-            pOp = 0; // Strictly hidden while zooming
-        } 
-        // STAGE 3: REVEAL (Starts immediately at 0.7)
+        // STAGE 3: SLOW REVEAL (0.4 to 1.0)
         else {
-            rotY = 180;
-            rotZ = 540 + ((progress - 0.7) * 100);
-            scale = (Math.max(vw, vh) / 800) * 55;
-            
-            // Map 0.7 -> 1.0 to 0.0 -> 1.0 opacity
-            pOp = (progress - 0.7) / 0.3;
+            rotY = 180; rotZ = 540 + ((progress - 0.4) * 60);
+            scale = 20; // Hold at 20x
+            // Very slow fade: map 0.4 -> 1.0 progress to 0.0 -> 1.0 opacity
+            pOp = (progress - 0.4) / 0.6;
         }
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
         backFace.style.opacity = (rotY > 90) ? '1' : '0';
-        card.style.transform = `translate(${x}px, ${y}px) rotateY(${rotY}deg) scale(${scale})`;
+        // Use translate3d for hardware acceleration (rendering fix)
+        card.style.transform = `translate3d(${x}px, ${y}px, 0) rotateY(${rotY}deg) scale(${scale})`;
         gearSvg.style.transform = `rotate(${rotZ}deg)`;
         
         hero.style.opacity = hOp;
         projects.style.opacity = pOp;
 
-        if (pOp > 0.8) {
-            projects.style.pointerEvents = 'auto';
-            projects.style.zIndex = '50';
-        } else {
-            projects.style.pointerEvents = 'none';
-            projects.style.zIndex = '10';
-        }
+        if (pOp > 0.6) { projects.style.pointerEvents = 'auto'; projects.style.zIndex = '50'; } 
+        else { projects.style.pointerEvents = 'none'; projects.style.zIndex = '10'; }
     }
 
     window.addEventListener('scroll', handleScroll);
