@@ -28,17 +28,29 @@
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        #transition-track { height: 700vh; position: relative; }
+        #transition-track { height: 750vh; position: relative; }
         .sticky-viewport { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; }
 
         .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
 
-        #projects-layer { z-index: 10; opacity: 0; background: var(--project-bg); padding: 80px 2rem; overflow-y: auto; pointer-events: none; justify-content: center; }
-        #hero-layer { z-index: 30; justify-content: center; }
+        /* PROJECT LAYER STYLING FOR ZOOM */
+        #projects-layer { 
+            z-index: 10; 
+            opacity: 0; 
+            background: var(--project-bg); 
+            padding: 80px 2rem; 
+            overflow-y: auto; 
+            pointer-events: none; 
+            justify-content: center;
+            transform: scale(0.1); /* Start very small */
+            will-change: transform, opacity;
+        }
+
+        #hero-layer { z-index: 30; justify-content: center; will-change: opacity; }
 
         .card-container { 
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            perspective: 2000px; z-index: 20; pointer-events: none; will-change: transform;
+            perspective: 2000px; z-index: 20; pointer-events: none; 
         }
         
         .flip-card { width: 800px; height: 800px; transform-style: preserve-3d; will-change: transform; }
@@ -99,7 +111,7 @@
                     <h2 class="text-5xl font-extrabold tracking-tight">About</h2>
                     <p class="text-gray-500 text-lg leading-relaxed">Mechanical engineering student at the University of Toronto. Specializing in functional prototyping and elegant R&D solutions.</p>
                     <div class="flex flex-wrap gap-4">
-                        <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold hover:border-sapphire transition shadow-sm uppercase">LinkedIn ↗</a>
+                        <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold hover:border-sapphire transition shadow-sm uppercase tracking-wider">LinkedIn ↗</a>
                         <div class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold text-sapphire shadow-sm">averywong3@gmail.com</div>
                     </div>
                 </div>
@@ -163,9 +175,10 @@
         let progress = -rect.top / (rect.height - vh);
         progress = Math.max(0, Math.min(1, progress));
 
-        let x=0, y=0, scale=0.4, rotY=0, rotZ=0, hOp=1, pOp=0;
+        let x=0, y=0, scale=0.4, rotY=0, rotZ=0, hOp=1, pOp=0, pScale=0.1;
 
-        hOp = Math.max(0, 1 - (progress * 12));
+        // STAGE: HERO FADE
+        hOp = Math.max(0, 1 - (progress * 10));
 
         const startX = (slotRect.left + slotRect.width/2) - (vw/2);
         const startY = (slotRect.top + slotRect.height/2) - (vh/2);
@@ -176,30 +189,38 @@
             const p = (progress - 0.05) / 0.1;
             x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.4;
         } 
-        // STAGE 2: ZOOM (0.15 to 0.4) - Scales up to 12x
+        // STAGE 2: GEAR ZOOM (0.15 to 0.4)
         else if (progress <= 0.4) {
             const p = (progress - 0.15) / 0.25;
             rotY = 180; rotZ = 90 + (p * 450);
             const targetScale = 12; 
             scale = 0.4 + (Math.pow(p, 3) * (targetScale - 0.4));
-            pOp = 0;
+            pOp = 0; pScale = 0.1;
         } 
-        // STAGE 3: IMMEDIATE REVEAL (0.4 to 1.0)
+        // STAGE 3: PROJECT ZOOM REVEAL (0.4 to 0.8)
         else {
             rotY = 180; rotZ = 540 + ((progress - 0.4) * 60);
-            scale = 12; // Locked at 12x
-            // Fade starts exactly at 0.4
-            pOp = (progress - 0.4) / 0.4; // Fade completes by 0.8 progress for comfort
-            if (pOp > 1) pOp = 1;
+            scale = 12; // Locked Gear Scale
+            
+            // Map 0.4 -> 0.8 to 0.0 -> 1.0 reveal
+            const revealProg = Math.min(1, (progress - 0.4) / 0.4);
+            pOp = revealProg;
+            pScale = 0.1 + (revealProg * 0.9); // Zoom from 10% to 100%
         }
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
         backFace.style.opacity = (rotY > 90) ? '1' : '0';
+        
+        // Portal Card Transform
         card.style.transform = `translate3d(${x}px, ${y}px, 0) rotateY(${rotY}deg) scale(${scale})`;
         gearSvg.style.transform = `rotate(${rotZ}deg)`;
         
+        // Hero Transform
         hero.style.opacity = hOp;
+        
+        // Project Transform (Zooming in)
         projects.style.opacity = pOp;
+        projects.style.transform = `scale(${pScale})`;
 
         if (pOp > 0.6) { projects.style.pointerEvents = 'auto'; projects.style.zIndex = '50'; } 
         else { projects.style.pointerEvents = 'none'; projects.style.zIndex = '10'; }
