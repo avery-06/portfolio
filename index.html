@@ -57,7 +57,7 @@
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         /* --- SCROLL SYSTEM --- */
-        #main-scroll-container { height: 550vh; position: relative; }
+        #main-scroll-container { height: 600vh; position: relative; }
 
         .sticky-viewport {
             position: sticky;
@@ -103,7 +103,7 @@
             width: 1000px; 
             height: 1000px;
             transform-style: preserve-3d;
-            will-change: transform, opacity;
+            will-change: transform;
         }
 
         .flip-card-front, .flip-card-back {
@@ -111,6 +111,7 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -121,19 +122,34 @@
             border-radius: 80px; 
             overflow: hidden;
             box-shadow: 0 50px 100px rgba(0,0,0,0.1);
+            z-index: 2;
         }
         
         .flip-card-back { 
             background: var(--bg-color); 
             transform: rotateY(180deg);
+            z-index: 1;
+        }
+
+        /* The Gear is now an independent element inside the 3D space */
+        .gear-wrapper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotateY(180deg); /* Start on the back side */
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            z-index: 10;
         }
 
         #scroll-gear { 
-            width: 15%; /* Significantly smaller gear as requested */
-            height: 15%; 
-            color: #1d1d1f;
+            width: 12%; /* Small focal point gear */
+            height: 12%; 
+            color: var(--sapphire); /* Distinct color */
             shape-rendering: geometricPrecision;
-            z-index: 101;
         }
     </style>
 </head>
@@ -142,15 +158,15 @@
     <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
             <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-[#0F52BA] animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg class="w-5 h-5 text-sapphire animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                 </svg>
                 <span class="font-bold text-black">Avery Wong</span>
             </div>
             <div class="space-x-8">
                 <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-gray-500 hover:text-black transition">About</button>
-                <a href="mailto:averywong3@gmail.com" class="hover:text-[#0F52BA] transition">Contact</a>
+                <a href="mailto:averywong3@gmail.com" class="hover:text-sapphire transition">Contact</a>
             </div>
         </div>
     </nav>
@@ -176,10 +192,9 @@
                             I'm a mechanical engineering student at the University of Toronto with a focus on research & development. I specialize in taking projects from concept to functional prototyping.
                         </p>
                         <div class="flex flex-wrap gap-4 pt-4">
-                            <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="bg-white border border-gray-200 px-6 py-3 rounded-2xl text-sm font-bold hover:border-[#0F52BA] transition uppercase">LinkedIn ↗</a>
+                            <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="bg-white border border-gray-200 px-6 py-3 rounded-2xl text-sm font-bold hover:border-sapphire transition uppercase">LinkedIn ↗</a>
                         </div>
                     </div>
-                    <!-- TARGET SLOT FOR IMAGE -->
                     <div id="image-slot" class="w-full md:w-[320px] h-[320px] flex-shrink-0"></div>
                 </div>
             </div>
@@ -196,23 +211,25 @@
                     <div class="flex justify-start">
                         <div class="w-full md:w-[70%] project-bubble"><div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Integrated Power Desk</h3></div></div>
                     </div>
-                    <div class="flex justify-end">
-                        <div class="w-full md:w-[70%] project-bubble bg-gray-200 border-none"><div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Mechanical Dissections</h3></div></div>
-                    </div>
                 </div>
             </div>
 
             <!-- FLIP CARD -->
             <div class="flip-card-container">
                 <div class="flip-card" id="main-card">
+                    <!-- FRONT: Headshot -->
                     <div class="flip-card-front">
                         <img src="headshot.jpg" alt="Avery" class="w-full h-full object-cover grayscale brightness-105 contrast-110">
                     </div>
-                    <div class="flip-card-back" id="card-back">
-                        <!-- GEAR SVG HERE -->
-                        <svg id="scroll-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                    
+                    <!-- BACK: Background Plate -->
+                    <div class="flip-card-back" id="card-back"></div>
+
+                    <!-- GEAR: Independent layer sitting on the back -->
+                    <div class="gear-wrapper" id="gear-container">
+                        <svg id="scroll-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="3"></circle>
-                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                         </svg>
                     </div>
                 </div>
@@ -233,9 +250,9 @@
                 if (i < text.length) {
                     let displayedText = text.substring(0, i + 1);
                     if (element.id === "name-typewriter") {
-                        element.innerHTML = displayedText.length > 6 ? `Avery <span class="text-[#0F52BA]">${text.substring(6, i + 1)}</span>` : displayedText;
+                        element.innerHTML = displayedText.length > 6 ? `Avery <span class="text-sapphire">${text.substring(6, i + 1)}</span>` : displayedText;
                     } else if (element.id === "title-typewriter") {
-                        element.innerHTML = displayedText.length > 11 ? `Mechanical <span class="text-[#0F52BA]">${text.substring(11, i + 1)}</span>` : displayedText;
+                        element.innerHTML = displayedText.length > 11 ? `Mechanical <span class="text-sapphire">${text.substring(11, i + 1)}</span>` : displayedText;
                     }
                     i++;
                 } else { clearInterval(timer); if (callback) callback(); }
@@ -260,7 +277,6 @@
             let progress = -rect.top / totalScrollable;
             progress = Math.max(0, Math.min(1, progress));
 
-            // Using 1000px base size for sharpness
             const baseScale = 0.32; 
             let x = 0, y = 0, scale = baseScale, rotY = 0, rotZ = 0, heroOp = 1, projOp = 0, radius = 80, cardOp = 1;
 
@@ -268,11 +284,9 @@
             const startY = (slotRect.top + slotRect.height/2) - (vh/2);
 
             if (progress <= 0.10) {
-                // PHASE 1: Reading About
                 x = startX; y = startY;
             } 
             else if (progress <= 0.65) {
-                // PHASE 2: Transition into Fullscreen (Flipping to Gear)
                 const p = (progress - 0.10) / 0.55;
                 x = startX * (1 - p);
                 y = startY * (1 - p);
@@ -286,17 +300,16 @@
                 heroOp = 1 - (p * 2);
             } 
             else {
-                // PHASE 3: Gear recedes, spins faster, and fades away
                 const p = (progress - 0.65) / 0.35;
                 rotY = 180;
-                rotZ = 360 + (p * 1080); // Triple spin as it leaves
+                rotZ = 360 + (p * 1080); // Fast recede spin
                 
                 const fullScale = (Math.max(vw, vh) / 1000) * 1.5;
-                scale = fullScale - (p * (fullScale * 0.4)); // Recede effect
+                scale = fullScale - (p * (fullScale * 0.4));
                 
-                cardOp = 1 - p; // Card and Gear fade out
+                cardOp = 1 - p; 
                 heroOp = 0;
-                projOp = p; // Projects fade in
+                projOp = p;
             }
 
             // Apply Styles
