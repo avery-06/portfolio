@@ -9,12 +9,12 @@
     <style>
         :root { 
             --sapphire: #0F52BA; 
-            --bg-color: #f5f5f7;
+            --bg-color: #f5f5f7; /* Apple Gray */
         }
         
         body { 
             font-family: 'Inter', -apple-system, sans-serif; 
-            background-color: var(--bg-color); 
+            background-color: #ffffff; 
             color: #1d1d1f; 
             margin: 0;
             overflow-x: hidden;
@@ -29,10 +29,9 @@
         .animate-gear { animation: spin-slow 8s linear infinite; }
 
         .apple-bubble { 
-            background: white; 
+            background: #f5f5f7; 
             border-radius: 3.5rem; 
             border: 1px solid rgba(0,0,0,0.03);
-            box-shadow: 0 4px 24px rgba(0,0,0,0.02);
         }
 
         .project-bubble { 
@@ -43,7 +42,8 @@
             justify-content: center;
             min-height: 280px;
             text-decoration: none;
-            border: 1px solid rgba(0,0,0,0.03);
+            background: white;
+            border: 1px solid rgba(0,0,0,0.05);
         }
         .project-bubble:hover { transform: translateY(-5px) scale(1.01); }
         
@@ -60,7 +60,7 @@
 
         /* --- SCROLL SYSTEM --- */
         #main-scroll-container {
-            height: 450vh; /* Long track for all phases */
+            height: 500vh; 
             position: relative;
         }
 
@@ -72,7 +72,6 @@
             overflow: hidden;
         }
 
-        /* Hero and Projects sit on top of each other; we crossfade them */
         .content-layer {
             position: absolute;
             top: 0;
@@ -90,7 +89,8 @@
             pointer-events: none;
             overflow-y: auto;
             justify-content: flex-start;
-            padding-top: 100px;
+            padding-top: 140px;
+            background: var(--bg-color); /* The final background color */
         }
 
         /* --- FLIP CARD --- */
@@ -116,15 +116,23 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 3rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
         }
 
-        .flip-card-front { background: white; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        .flip-card-back { background: var(--bg-color); transform: rotateY(180deg); }
+        .flip-card-front { 
+            background: white; 
+            border-radius: 3rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+            overflow: hidden;
+        }
+        
+        .flip-card-back { 
+            background: var(--bg-color); 
+            transform: rotateY(180deg);
+            /* Border radius will be animated via JS */
+        }
 
         #scroll-gear { width: 80%; height: 80%; color: #1d1d1f; }
     </style>
@@ -133,7 +141,7 @@
 
     <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
-            <div class="flex items-center gap-2 tracking-tight group">
+            <div class="flex items-center gap-2">
                 <svg class="w-5 h-5 text-sapphire animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3"></circle>
                     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -169,7 +177,7 @@
                             I'm a mechanical engineering student at the University of Toronto with a focus on research & development. I specialize in taking projects from concept to functional prototyping.
                         </p>
                         <div class="flex flex-wrap gap-4 pt-4">
-                            <a href="#" class="bg-[#f5f5f7] border border-gray-200 px-6 py-3 rounded-2xl text-sm font-bold group-hover:text-sapphire transition uppercase">LinkedIn ↗</a>
+                            <a href="#" class="bg-white border border-gray-200 px-6 py-3 rounded-2xl text-sm font-bold hover:border-sapphire transition uppercase">LinkedIn ↗</a>
                         </div>
                     </div>
                     <!-- TARGET SLOT FOR IMAGE -->
@@ -177,34 +185,28 @@
                 </div>
             </div>
 
-            <!-- PROJECTS LAYER (Fades in) -->
+            <!-- PROJECTS LAYER -->
             <div id="projects-layer" class="content-layer px-6">
                 <div class="max-w-6xl mx-auto w-full space-y-12 pb-24">
                     <div class="flex justify-start">
-                        <div class="w-full md:w-[70%] project-bubble bg-white">
-                            <div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Cinematography Robotic Arm</h3></div>
-                        </div>
+                        <div class="w-full md:w-[70%] project-bubble"><div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Cinematography Robotic Arm</h3></div></div>
                     </div>
                     <div class="flex justify-end">
-                        <div class="w-full md:w-[70%] project-bubble bg-[#1d1d1f] text-white">
-                            <div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Smart Knee Sleeve</h3></div>
-                        </div>
+                        <div class="w-full md:w-[70%] project-bubble bg-[#1d1d1f] text-white border-none"><div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Smart Knee Sleeve</h3></div></div>
                     </div>
                     <div class="flex justify-start">
-                        <div class="w-full md:w-[70%] project-bubble bg-white">
-                            <div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Integrated Power Desk</h3></div>
-                        </div>
+                        <div class="w-full md:w-[70%] project-bubble"><div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Integrated Power Desk</h3></div></div>
                     </div>
                 </div>
             </div>
 
-            <!-- INDEPENDENT FLIP CARD -->
+            <!-- FLIP CARD -->
             <div class="flip-card-container">
                 <div class="flip-card" id="main-card">
                     <div class="flip-card-front">
                         <img src="headshot.jpg" alt="Avery" class="w-full h-full object-cover grayscale brightness-105 contrast-110">
                     </div>
-                    <div class="flip-card-back">
+                    <div class="flip-card-back" id="card-back">
                         <svg id="scroll-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
                             <circle cx="12" cy="12" r="3"></circle>
                             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -240,6 +242,7 @@
         // --- SCROLL ANIMATION ---
         const scrollContainer = document.getElementById('main-scroll-container');
         const mainCard = document.getElementById('main-card');
+        const cardBack = document.getElementById('card-back');
         const scrollGear = document.getElementById('scroll-gear');
         const imageSlot = document.getElementById('image-slot');
         const heroLayer = document.getElementById('hero-layer');
@@ -248,59 +251,83 @@
         function handleScroll() {
             const rect = scrollContainer.getBoundingClientRect();
             const slotRect = imageSlot.getBoundingClientRect();
-            const viewportHeight = window.innerHeight;
-            const totalScrollable = rect.height - viewportHeight;
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            const totalScrollable = rect.height - vh;
             let progress = -rect.top / totalScrollable;
             progress = Math.max(0, Math.min(1, progress));
 
             // TIMELINE:
-            // 0.0 - 0.15: Dead zone (Scroll for a bit)
-            // 0.15 - 0.75: Flip, Zoom, and Center
-            // 0.75 - 1.0: Fade Hero out, Fade Projects in, Gear moves to top
+            // 0.00 - 0.10: Scroll Delay (Reading)
+            // 0.10 - 0.60: The "Takeover" (Flip and Scale to Fullscreen)
+            // 0.60 - 1.00: Fade projects and shrink gear to header
 
-            let x = 0, y = 0, scale = 1, rotY = 0, rotZ = 0, heroOp = 1, projOp = 0;
+            let x = 0, y = 0, scale = 1, rotY = 0, rotZ = 0, heroOp = 1, projOp = 0, radius = 3;
 
-            // 1. Initial position (locked to the About bubble)
-            const startX = (slotRect.left + slotRect.width/2) - (window.innerWidth/2);
-            const startY = (slotRect.top + slotRect.height/2) - (window.innerHeight/2);
+            // Start coordinates (relative to center)
+            const startX = (slotRect.left + slotRect.width/2) - (vw/2);
+            const startY = (slotRect.top + slotRect.height/2) - (vh/2);
 
-            if (progress <= 0.15) {
-                // PHASE: Locked in About Section
+            if (progress <= 0.10) {
                 x = startX; y = startY;
             } 
-            else if (progress <= 0.75) {
-                // PHASE: The Transition (Detaching and Centering)
-                const p = (progress - 0.15) / 0.6;
+            else if (progress <= 0.60) {
+                const p = (progress - 0.10) / 0.5;
+                
+                // Glide to center
                 x = startX * (1 - p);
                 y = startY * (1 - p);
+                
+                // Flip
                 rotY = p * 180;
-                rotZ = p * 720;
-                const maxScale = Math.min(window.innerWidth, window.innerHeight) * 0.8 / 320;
-                scale = 1 + (p * (maxScale - 1));
+                rotZ = p * 360;
+
+                // FULLSCREEN SCALE
+                // We scale enough so the 320px card covers the largest screen dimension
+                const targetScale = (Math.max(vw, vh) / 320) * 1.5;
+                scale = 1 + (p * (targetScale - 1));
+                
+                // Flatten corners as it hits fullscreen
+                radius = 3 * (1 - p);
+                heroOp = 1 - (p * 2);
             } 
             else {
-                // PHASE: Final State (Fade to Projects)
-                const p = (progress - 0.75) / 0.25;
+                const p = (progress - 0.60) / 0.4;
                 rotY = 180;
-                rotZ = 720 + (p * 360);
+                rotZ = 360 + (p * 360);
                 
-                const maxScale = Math.min(window.innerWidth, window.innerHeight) * 0.8 / 320;
-                scale = maxScale - (p * (maxScale - 0.3)); // Shrink gear
-                y = -(viewportHeight * 0.42) * p; // Move gear to top
+                // Shrink from fullscreen down to a small header icon (e.g., 80px)
+                const fullScale = (Math.max(vw, vh) / 320) * 1.5;
+                const headerScale = 0.25; 
+                scale = fullScale - (p * (fullScale - headerScale));
                 
-                heroOp = 1 - (p * 1.5);
+                // Move gear to the top
+                y = -(vh * 0.44) * p;
+                
+                radius = p * 2; // Return some roundness to header icon
+                heroOp = 0;
                 projOp = p;
             }
 
             // Apply Styles
             mainCard.style.transform = `translate(${x}px, ${y}px) rotateY(${rotY}deg) scale(${scale})`;
+            cardBack.style.borderRadius = `${radius}rem`;
             scrollGear.style.transform = `rotate(${rotZ}deg)`;
+            
+            // Sync Gear size so it doesn't look massive when card is fullscreen
+            // If card is scaled by 5, gear inside should be scaled by 1/5 to stay "normal"
+            const gearInvScale = 1 / scale; 
+            // However, we want it to look like a nice logo, so we'll cap the inverse
+            scrollGear.style.scale = Math.max(0.2, gearInvScale * 1.2);
+
             heroLayer.style.opacity = Math.max(0, heroOp);
             projectsLayer.style.opacity = projOp;
-            projectsLayer.style.pointerEvents = projOp > 0.5 ? 'auto' : 'none';
+            projectsLayer.style.pointerEvents = projOp > 0.8 ? 'auto' : 'none';
         }
 
         window.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', handleScroll);
+
         window.onload = () => {
             handleScroll();
             typeEffect(nameEl, nameText, 100, () => {
