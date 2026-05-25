@@ -33,6 +33,7 @@
 
         .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
 
+        /* HIDE SCROLLBARS FOR PROJECTS PAGE */
         #projects-layer { 
             z-index: 10; 
             opacity: 0; 
@@ -43,7 +44,10 @@
             justify-content: center;
             transform: scale(0.1);
             will-change: transform, opacity;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
         }
+        #projects-layer::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
 
         #hero-layer { z-index: 30; justify-content: center; will-change: opacity; }
 
@@ -181,21 +185,24 @@
         const startX = (slotRect.left + slotRect.width/2) - (vw/2);
         const startY = (slotRect.top + slotRect.height/2) - (vh/2);
 
+        // STAGE 1: POSITION & FLIP (0 to 0.15)
         if (progress <= 0.05) { x = startX; y = startY; scale = 0.4; } 
         else if (progress <= 0.15) {
             const p = (progress - 0.05) / 0.1;
             x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.4;
         } 
+        // STAGE 2: GEAR ZOOM (0.15 to 0.4) - Scales up to 11x
         else if (progress <= 0.4) {
             const p = (progress - 0.15) / 0.25;
             rotY = 180; rotZ = 90 + (p * 450);
-            const targetScale = 11; // Updated to 11x zoom
+            const targetScale = 11; 
             scale = 0.4 + (Math.pow(p, 3) * (targetScale - 0.4));
             pOp = 0; pScale = 0.1;
         } 
+        // STAGE 3: IMMEDIATE REVEAL (Starts right after 0.4)
         else {
             rotY = 180; rotZ = 540 + ((progress - 0.4) * 60);
-            scale = 11; // Hold at 11x zoom
+            scale = 11; 
             const revealProg = Math.min(1, (progress - 0.4) / 0.4);
             pOp = revealProg;
             pScale = 0.1 + (revealProg * 0.9);
@@ -203,13 +210,17 @@
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
         backFace.style.opacity = (rotY > 90) ? '1' : '0';
+        
+        // Portal Card Transform - Use translate3d for rendering stability
         card.style.transform = `translate3d(${x}px, ${y}px, 0) rotateY(${rotY}deg) scale(${scale})`;
         gearSvg.style.transform = `rotate(${rotZ}deg)`;
         
+        // Layers
         hero.style.opacity = hOp;
         projects.style.opacity = pOp;
         projects.style.transform = `scale(${pScale})`;
 
+        // Interactivity
         if (pOp > 0.6) { projects.style.pointerEvents = 'auto'; projects.style.zIndex = '50'; } 
         else { projects.style.pointerEvents = 'none'; projects.style.zIndex = '10'; }
     }
