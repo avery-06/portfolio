@@ -24,7 +24,7 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            min-height: 300px; 
+            min-height: 280px; 
             border: 1px solid rgba(0,0,0,0.05); 
             transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); 
             padding: 2rem;
@@ -35,7 +35,8 @@
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        #transition-track { height: 600vh; position: relative; }
+        /* INCREASED HEIGHT FOR MORE DELIBERATE SCROLLING */
+        #transition-track { height: 800vh; position: relative; }
         
         .sticky-viewport { 
             position: sticky; 
@@ -56,7 +57,6 @@
             align-items: center; 
         }
 
-        /* PROJECT GRID - No Title, Slow Fade */
         #projects-layer {
             z-index: 10;
             opacity: 0;
@@ -120,7 +120,7 @@
 <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
         <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             <span class="font-bold">Avery Wong</span>
         </div>
         <div class="space-x-8">
@@ -133,10 +133,10 @@
 <div id="transition-track">
     <div class="sticky-viewport">
         
-        <!-- PROJECTS GRID -->
+        <!-- PROJECT GRID (Beneath portal) -->
         <div id="projects-layer" class="layer">
             <div class="max-w-6xl mx-auto w-full px-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10">
                     <div class="project-bubble">
                         <h3 class="text-3xl font-bold">Robotic Cinematography Arm</h3>
                     </div>
@@ -153,7 +153,7 @@
             </div>
         </div>
 
-        <!-- HERO -->
+        <!-- HERO CONTENT -->
         <div id="hero-layer" class="layer px-6">
             <div class="text-center mb-12">
                 <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
@@ -179,7 +179,7 @@
             </div>
         </div>
 
-        <!-- PORTAL -->
+        <!-- PORTAL COMPONENT -->
         <div class="card-container">
             <div class="flip-card" id="main-card">
                 <div class="card-face card-front" id="front-face">
@@ -254,8 +254,8 @@
 
         let x=0, y=0, scale=0.4, rotY=0, rotZ=0, hOp=1, pOp=0;
 
-        // Fades hero early
-        hOp = Math.max(0, 1 - (progress * 10));
+        // Fade out hero early (0 to 15% progress)
+        hOp = Math.max(0, 1 - (progress * 7));
 
         const startX = (slotRect.left + slotRect.width/2) - (vw/2);
         const startY = (slotRect.top + slotRect.height/2) - (vh/2);
@@ -264,6 +264,7 @@
             x = startX; y = startY; scale = 0.4;
         } 
         else if (progress <= 0.3) {
+            // Initial move and flip
             const p = (progress - 0.05) / 0.25;
             x = startX * (1 - p);
             y = startY * (1 - p);
@@ -271,18 +272,22 @@
             rotZ = p * 90;
             scale = 0.4;
         } 
-        else if (progress <= 0.95) {
-            const p = (progress - 0.3) / 0.65;
+        else if (progress <= 0.98) {
+            // Long gear zoom portal
+            const p = (progress - 0.3) / 0.68;
             rotY = 180;
-            rotZ = 90 + (p * 450);
-            const targetScale = (Math.max(vw, vh) / 800) * 45; 
-            scale = 0.4 + (Math.pow(p, 4) * (targetScale - 0.4));
+            rotZ = 90 + (p * 520);
+            const targetScale = (Math.max(vw, vh) / 800) * 50; 
+            scale = 0.4 + (Math.pow(p, 5) * (targetScale - 0.4));
             
-            // Smoother, slower fade for the projects grid
-            pOp = Math.max(0, (p - 0.2) * 1.25);
+            // FADE IN PROJECTS ONLY AFTER 80% OF ZOOM
+            // ZOOM PHASE IS p (0 to 1). p > 0.8 is the final 20%
+            if (p > 0.8) {
+                pOp = (p - 0.8) * 5; // Rapidly fade from 0 to 1
+            }
         } else {
-            rotY = 180; scale = (Math.max(vw, vh) / 800) * 45;
-            pOp = 1; rotZ = 540;
+            rotY = 180; scale = (Math.max(vw, vh) / 800) * 50;
+            pOp = 1; rotZ = 610;
         }
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
@@ -293,7 +298,8 @@
         hero.style.opacity = hOp;
         projects.style.opacity = pOp;
 
-        if (pOp > 0.8) {
+        // Interaction logic
+        if (pOp > 0.7) {
             projects.style.pointerEvents = 'auto';
             projects.style.zIndex = '50';
         } else {
