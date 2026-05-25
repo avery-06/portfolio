@@ -7,150 +7,85 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --sapphire: #0F52BA; 
-            --bg-color: #f5f5f7; 
-        }
+        :root { --sapphire: #0F52BA; --bg-color: #f5f5f7; }
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1d1d1f; margin: 0; }
         
-        body { 
-            font-family: 'Inter', -apple-system, sans-serif; 
-            background-color: #ffffff; 
-            color: #1d1d1f; 
-            margin: 0;
-            overflow-x: hidden;
-        }
-
+        .text-sapphire { color: var(--sapphire); }
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         
-        @keyframes spin-slow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .animate-gear { animation: spin-slow 8s linear infinite; }
+        @keyframes spin-nav { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .animate-gear-nav { animation: spin-nav 8s linear infinite; }
 
-        .apple-bubble { 
-            background: #f5f5f7; 
-            border-radius: 3.5rem; 
-            border: 1px solid rgba(0,0,0,0.03);
-        }
-
-        .project-bubble { 
-            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); 
-            border-radius: 3.5rem; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 280px;
-            text-decoration: none;
-            background: white;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
+        .apple-bubble { background: var(--bg-color); border-radius: 3.5rem; border: 1px solid rgba(0,0,0,0.03); }
+        .project-bubble { background: white; border-radius: 3.5rem; display: flex; align-items: center; justify-content: center; min-height: 400px; border: 1px solid rgba(0,0,0,0.05); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); margin-bottom: 2rem; }
         .project-bubble:hover { transform: translateY(-5px) scale(1.01); }
-        
-        .cursor {
-            display: inline-block;
-            width: 3px;
-            background-color: var(--sapphire);
-            margin-left: 4px;
-            animation: blink 1s infinite;
-        }
+
+        .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* --- SCROLL SYSTEM --- */
-        #main-scroll-container { height: 600vh; position: relative; }
-
-        .sticky-viewport {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .content-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #projects-layer {
-            opacity: 0;
-            pointer-events: none;
-            overflow-y: auto;
-            justify-content: flex-start;
-            padding-top: 100px;
-            background: var(--bg-color); 
-        }
-
-        /* --- HIGH-RES FLIP CARD --- */
-        .flip-card-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            perspective: 3000px;
-            z-index: 100;
-            pointer-events: none;
-        }
-
-        .flip-card {
-            width: 1000px; 
-            height: 1000px;
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
-
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .flip-card-front { 
-            background: white; 
-            border-radius: 80px; 
-            overflow: hidden;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.1);
-            z-index: 2;
-        }
+        /* SCROLL ENGINE */
+        #scroll-wrapper { position: relative; }
         
-        .flip-card-back { 
-            background: var(--bg-color); 
-            transform: rotateY(180deg);
-            z-index: 1;
-        }
-
-        /* The Gear is now an independent element inside the 3D space */
-        .gear-wrapper {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform: rotateY(180deg); /* Start on the back side */
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
+        #transition-track { height: 400vh; position: relative; }
+        
+        .sticky-viewport { 
+            position: sticky; 
+            top: 0; 
+            height: 100vh; 
+            width: 100%; 
+            overflow: hidden; 
             z-index: 10;
         }
 
-        #scroll-gear { 
-            width: 12%; /* Small focal point gear */
-            height: 12%; 
-            color: var(--sapphire); /* Distinct color */
-            shape-rendering: geometricPrecision;
+        .layer { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
         }
+
+        /* Project Section - Fades in and then scrolls naturally */
+        #projects-section { 
+            position: relative; 
+            z-index: 20; 
+            background: var(--bg-color); 
+            opacity: 0; 
+            padding: 100px 1.5rem;
+            min-height: 100vh;
+        }
+
+        .card-container { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            perspective: 2000px; 
+            z-index: 100; 
+            pointer-events: none; 
+        }
+        
+        .flip-card { width: 1000px; height: 1000px; transform-style: preserve-3d; will-change: transform; }
+        
+        .card-face { 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            backface-visibility: hidden; 
+            -webkit-backface-visibility: hidden; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        
+        .card-front { background: white; border-radius: 80px; overflow: hidden; z-index: 2; }
+        .card-back { background: var(--bg-color); transform: rotateY(180deg); z-index: 1; }
+
+        #main-gear-svg { width: 15%; height: 15%; color: var(--sapphire); stroke-width: 1.5; }
     </style>
 </head>
 <body>
@@ -158,182 +93,190 @@
     <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
             <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-sapphire animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                </svg>
-                <span class="font-bold text-black">Avery Wong</span>
+                <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span class="font-bold">Avery Wong</span>
             </div>
             <div class="space-x-8">
                 <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-gray-500 hover:text-black transition">About</button>
+                <button onclick="document.getElementById('projects-section').scrollIntoView({behavior: 'smooth'})" class="text-gray-500 hover:text-black transition">Projects</button>
                 <a href="mailto:averywong3@gmail.com" class="hover:text-sapphire transition">Contact</a>
             </div>
         </div>
     </nav>
 
-    <div id="main-scroll-container">
-        <div class="sticky-viewport">
-            
-            <!-- HERO LAYER -->
-            <div id="hero-layer" class="content-layer px-6">
-                <div class="text-center mb-12">
-                    <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
-                        <span id="name-typewriter"></span><span id="name-cursor" class="cursor">&nbsp;</span>
+    <div id="scroll-wrapper">
+        <!-- Sticky Transition Area -->
+        <div id="transition-track">
+            <div class="sticky-viewport">
+                <!-- HERO -->
+                <div id="hero-layer" class="layer px-6">
+                    <div class="text-center mb-12">
+                        <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
+                            <span id="name-type"></span><span id="name-cursor" class="cursor"></span>
+                        </div>
+                        <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter leading-none h-24 md:h-32">
+                            <span id="title-type"></span><span id="title-cursor" class="cursor hidden"></span>
+                        </h1>
                     </div>
-                    <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter leading-none h-24 md:h-32">
-                        <span id="title-typewriter"></span><span id="title-cursor" class="cursor hidden">&nbsp;</span>
-                    </h1>
+
+                    <div id="about-bubble" class="apple-bubble max-w-5xl w-full p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
+                        <div class="flex-1 space-y-6">
+                            <h2 class="text-5xl font-extrabold tracking-tight">About</h2>
+                            <p class="text-gray-500 text-lg leading-relaxed">Mechanical engineering student at the University of Toronto. Specializing in functional prototyping and elegant R&D solutions.</p>
+                            <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="inline-block bg-white border border-gray-200 px-6 py-3 rounded-2xl text-sm font-bold hover:border-sapphire transition uppercase">LinkedIn ↗</a>
+                        </div>
+                        <div id="image-slot" class="w-full md:w-[320px] h-[320px] flex-shrink-0"></div>
+                    </div>
                 </div>
 
-                <div id="about-bubble" class="apple-bubble max-w-5xl w-full p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
-                    <div class="flex-1 space-y-6">
-                        <h2 class="text-5xl font-extrabold tracking-tight">About</h2>
-                        <p class="text-gray-500 text-lg leading-relaxed">
-                            I'm a mechanical engineering student at the University of Toronto with a focus on research & development. I specialize in taking projects from concept to functional prototyping.
-                        </p>
-                        <div class="flex flex-wrap gap-4 pt-4">
-                            <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="bg-white border border-gray-200 px-6 py-3 rounded-2xl text-sm font-bold hover:border-sapphire transition uppercase">LinkedIn ↗</a>
+                <!-- TRANSITION CARD -->
+                <div class="card-container">
+                    <div class="flip-card" id="main-card">
+                        <div class="card-face card-front" id="front-face">
+                            <img src="headshot.jpg" alt="Avery" class="w-full h-full object-cover grayscale brightness-105 contrast-110">
+                        </div>
+                        <div class="card-face card-back">
+                            <svg id="main-gear-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
                         </div>
                     </div>
-                    <div id="image-slot" class="w-full md:w-[320px] h-[320px] flex-shrink-0"></div>
                 </div>
             </div>
-
-            <!-- PROJECTS LAYER -->
-            <div id="projects-layer" class="content-layer px-6">
-                <div class="max-w-6xl mx-auto w-full space-y-12 pb-24">
-                    <div class="flex justify-start">
-                        <div class="w-full md:w-[70%] project-bubble"><div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Cinematography Robotic Arm</h3></div></div>
-                    </div>
-                    <div class="flex justify-end">
-                        <div class="w-full md:w-[70%] project-bubble bg-[#1d1d1f] text-white border-none"><div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Smart Knee Sleeve</h3></div></div>
-                    </div>
-                    <div class="flex justify-start">
-                        <div class="w-full md:w-[70%] project-bubble"><div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Integrated Power Desk</h3></div></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FLIP CARD -->
-            <div class="flip-card-container">
-                <div class="flip-card" id="main-card">
-                    <!-- FRONT: Headshot -->
-                    <div class="flip-card-front">
-                        <img src="headshot.jpg" alt="Avery" class="w-full h-full object-cover grayscale brightness-105 contrast-110">
-                    </div>
-                    
-                    <!-- BACK: Background Plate -->
-                    <div class="flip-card-back" id="card-back"></div>
-
-                    <!-- GEAR: Independent layer sitting on the back -->
-                    <div class="gear-wrapper" id="gear-container">
-                        <svg id="scroll-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="3"></circle>
-                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
         </div>
+
+        <!-- REAL PROJECTS SECTION -->
+        <section id="projects-section">
+            <div class="max-w-6xl mx-auto w-full">
+                <div class="flex justify-start">
+                    <div class="w-full md:w-[70%] project-bubble">
+                        <h3 class="text-5xl font-bold">Cinematography Robotic Arm</h3>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <div class="w-full md:w-[70%] project-bubble bg-[#1d1d1f] text-white">
+                        <h3 class="text-5xl font-bold">Smart Rehabilitation Knee Sleeve</h3>
+                    </div>
+                </div>
+                <div class="flex justify-start">
+                    <div class="w-full md:w-[70%] project-bubble">
+                        <h3 class="text-5xl font-bold">Integrated Power Desk</h3>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <div class="w-full md:w-[70%] project-bubble bg-gray-200">
+                        <h3 class="text-5xl font-bold text-gray-800">Mechanical Dissections</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script>
         // --- TYPEWRITER ---
-        const nameText = "Avery Wong", titleText = "Mechanical Engineer.";
-        const nameEl = document.getElementById("name-typewriter"), titleEl = document.getElementById("title-typewriter");
-        const nameCursor = document.getElementById("name-cursor"), titleCursor = document.getElementById("title-cursor");
-
-        function typeEffect(element, text, speed, callback) {
+        function type(elId, text, speed, highlightWords, callback) {
             let i = 0;
+            const el = document.getElementById(elId);
             const timer = setInterval(() => {
-                if (i < text.length) {
-                    let displayedText = text.substring(0, i + 1);
-                    if (element.id === "name-typewriter") {
-                        element.innerHTML = displayedText.length > 6 ? `Avery <span class="text-sapphire">${text.substring(6, i + 1)}</span>` : displayedText;
-                    } else if (element.id === "title-typewriter") {
-                        element.innerHTML = displayedText.length > 11 ? `Mechanical <span class="text-sapphire">${text.substring(11, i + 1)}</span>` : displayedText;
-                    }
-                    i++;
-                } else { clearInterval(timer); if (callback) callback(); }
+                let current = text.substring(0, i + 1);
+                highlightWords.forEach(word => {
+                    const regex = new RegExp(`(${word})`, 'g');
+                    current = current.replace(regex, `<span class="text-sapphire">$1</span>`);
+                });
+                el.innerHTML = current;
+                i++;
+                if (i === text.length) { clearInterval(timer); if (callback) callback(); }
             }, speed);
         }
 
+        window.onload = () => {
+            type("name-type", "Avery Wong", 100, ["Avery"], () => {
+                document.getElementById("name-cursor").style.display = "none";
+                document.getElementById("title-cursor").classList.remove("hidden");
+                type("title-type", "Mechanical Engineer.", 80, ["Engineer"], null);
+            });
+            handleScroll();
+        };
+
         // --- SCROLL ANIMATION ---
-        const scrollContainer = document.getElementById('main-scroll-container');
-        const mainCard = document.getElementById('main-card');
-        const cardBack = document.getElementById('card-back');
-        const scrollGear = document.getElementById('scroll-gear');
-        const imageSlot = document.getElementById('image-slot');
-        const heroLayer = document.getElementById('hero-layer');
-        const projectsLayer = document.getElementById('projects-layer');
+        const track = document.getElementById('transition-track');
+        const card = document.getElementById('main-card');
+        const frontFace = document.getElementById('front-face');
+        const gearSvg = document.getElementById('main-gear-svg');
+        const slot = document.getElementById('image-slot');
+        const hero = document.getElementById('hero-layer');
+        const projects = document.getElementById('projects-section');
 
         function handleScroll() {
-            const rect = scrollContainer.getBoundingClientRect();
-            const slotRect = imageSlot.getBoundingClientRect();
-            const vw = window.innerWidth;
+            const rect = track.getBoundingClientRect();
+            const slotRect = slot.getBoundingClientRect();
             const vh = window.innerHeight;
-            const totalScrollable = rect.height - vh;
-            let progress = -rect.top / totalScrollable;
+            const vw = window.innerWidth;
+            
+            // Progress through the sticky track
+            let progress = -rect.top / (rect.height - vh);
             progress = Math.max(0, Math.min(1, progress));
 
-            const baseScale = 0.32; 
-            let x = 0, y = 0, scale = baseScale, rotY = 0, rotZ = 0, heroOp = 1, projOp = 0, radius = 80, cardOp = 1;
+            let x=0, y=0, scale=0.32, rotY=0, rotZ=0, hOp=1, pOp=0, radius=80, cardOp=1;
 
             const startX = (slotRect.left + slotRect.width/2) - (vw/2);
             const startY = (slotRect.top + slotRect.height/2) - (vh/2);
 
-            if (progress <= 0.10) {
+            if (progress <= 0.1) {
+                // Phase: Static in slot
                 x = startX; y = startY;
             } 
-            else if (progress <= 0.65) {
-                const p = (progress - 0.10) / 0.55;
+            else if (progress <= 0.4) {
+                // Phase: FLIP FIRST (Keep scale small)
+                const p = (progress - 0.1) / 0.3;
                 x = startX * (1 - p);
                 y = startY * (1 - p);
                 rotY = p * 180;
-                rotZ = p * 360;
-
+                rotZ = p * 180;
+                scale = 0.32;
+            } 
+            else if (progress <= 0.8) {
+                // Phase: ENLARGE (Only when gear is visible)
+                const p = (progress - 0.4) / 0.4;
+                rotY = 180;
+                rotZ = 180 + (p * 360);
                 const targetScale = (Math.max(vw, vh) / 1000) * 1.5;
-                scale = baseScale + (p * (targetScale - baseScale));
-                
-                radius = 80 * (1 - p); 
-                heroOp = 1 - (p * 2);
+                scale = 0.32 + (p * (targetScale - 0.32));
+                radius = 80 * (1 - p);
+                hOp = 1 - (p * 2);
             } 
             else {
-                const p = (progress - 0.65) / 0.35;
+                // Phase: Gear Fades, Projects Fade In
+                const p = (progress - 0.8) / 0.2;
                 rotY = 180;
-                rotZ = 360 + (p * 1080); // Fast recede spin
-                
-                const fullScale = (Math.max(vw, vh) / 1000) * 1.5;
-                scale = fullScale - (p * (fullScale * 0.4));
-                
-                cardOp = 1 - p; 
-                heroOp = 0;
-                projOp = p;
+                rotZ = 540 + (p * 360);
+                const targetScale = (Math.max(vw, vh) / 1000) * 1.5;
+                scale = targetScale;
+                cardOp = 1 - p;
+                hOp = 0;
+                pOp = p;
+                radius = 0;
             }
 
-            // Apply Styles
-            mainCard.style.transform = `translate(${x}px, ${y}px) rotateY(${rotY}deg) scale(${scale})`;
-            mainCard.style.opacity = cardOp;
-            cardBack.style.borderRadius = `${radius}px`;
-            scrollGear.style.transform = `rotate(${rotZ}deg)`;
+            // Strictly prevent image ghosting
+            frontFace.style.display = (rotY > 90) ? 'none' : 'flex';
 
-            heroLayer.style.opacity = Math.max(0, heroOp);
-            projectsLayer.style.opacity = projOp;
-            projectsLayer.style.pointerEvents = projOp > 0.8 ? 'auto' : 'none';
+            // Apply transforms
+            card.style.transform = `translate(${x}px, ${y}px) rotateY(${rotY}deg) scale(${scale})`;
+            card.style.opacity = cardOp;
+            document.querySelector('.card-back').style.borderRadius = `${radius}px`;
+            gearSvg.style.transform = `rotate(${rotZ}deg)`;
+            
+            hero.style.opacity = Math.max(0, hOp);
+            projects.style.opacity = pOp;
+            
+            // Allow clicking projects once they start appearing
+            projects.style.pointerEvents = pOp > 0.1 ? 'auto' : 'none';
         }
 
         window.addEventListener('scroll', handleScroll);
         window.addEventListener('resize', handleScroll);
-
-        window.onload = () => {
-            handleScroll();
-            typeEffect(nameEl, nameText, 100, () => {
-                nameCursor.style.display = "none";
-                titleCursor.classList.remove("hidden");
-                setTimeout(() => typeEffect(titleEl, titleText, 80), 400);
-            });
-        };
     </script>
 </body>
 </html>
