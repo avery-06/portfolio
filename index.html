@@ -33,7 +33,7 @@
 
         .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
 
-        /* HIDE SCROLLBARS FOR PROJECTS PAGE */
+        /* NO SCROLLBAR FOR PROJECTS */
         #projects-layer { 
             z-index: 10; 
             opacity: 0; 
@@ -191,19 +191,21 @@
             const p = (progress - 0.05) / 0.1;
             x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.4;
         } 
-        // STAGE 2: GEAR ZOOM (0.15 to 0.4) - Scales up to 11x
+        // STAGE 2: GEAR ZOOM (0.15 to 0.4) - 10.5x magnification
         else if (progress <= 0.4) {
             const p = (progress - 0.15) / 0.25;
             rotY = 180; rotZ = 90 + (p * 450);
-            const targetScale = 11; 
+            const targetScale = 10.5; 
             scale = 0.4 + (Math.pow(p, 3) * (targetScale - 0.4));
             pOp = 0; pScale = 0.1;
         } 
-        // STAGE 3: IMMEDIATE REVEAL (Starts right after 0.4)
+        // STAGE 3: FAST PROJECT ZOOM REVEAL (0.4 to 0.55)
         else {
             rotY = 180; rotZ = 540 + ((progress - 0.4) * 60);
-            scale = 11; 
-            const revealProg = Math.min(1, (progress - 0.4) / 0.4);
+            scale = 10.5; // Locked Gear Scale
+            
+            // Accelerated reveal: map 0.4 -> 0.55 to 0.0 -> 1.0
+            const revealProg = Math.min(1, (progress - 0.4) / 0.15);
             pOp = revealProg;
             pScale = 0.1 + (revealProg * 0.9);
         }
@@ -211,16 +213,13 @@
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
         backFace.style.opacity = (rotY > 90) ? '1' : '0';
         
-        // Portal Card Transform - Use translate3d for rendering stability
         card.style.transform = `translate3d(${x}px, ${y}px, 0) rotateY(${rotY}deg) scale(${scale})`;
         gearSvg.style.transform = `rotate(${rotZ}deg)`;
         
-        // Layers
         hero.style.opacity = hOp;
         projects.style.opacity = pOp;
         projects.style.transform = `scale(${pScale})`;
 
-        // Interactivity
         if (pOp > 0.6) { projects.style.pointerEvents = 'auto'; projects.style.zIndex = '50'; } 
         else { projects.style.pointerEvents = 'none'; projects.style.zIndex = '10'; }
     }
