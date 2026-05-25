@@ -30,7 +30,7 @@
             padding: 2rem;
             text-align: center;
         }
-        .project-bubble:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .project-bubble:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
 
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
@@ -56,23 +56,23 @@
             align-items: center; 
         }
 
-        /* LAYER 1: PROJECTS (BOTTOM) */
+        /* LAYER 1: PROJECTS (Revealed last) */
         #projects-layer {
             z-index: 10;
             opacity: 0;
             background: var(--project-bg);
             padding: 80px 2rem;
             overflow-y: auto;
-            pointer-events: none;
+            pointer-events: none; /* Only interactable when visible */
         }
 
-        /* LAYER 3: HERO (TOP) */
+        /* LAYER 3: HERO (Starts on top) */
         #hero-layer { 
             z-index: 30; 
             justify-content: center;
         }
 
-        /* LAYER 2: GEAR (MIDDLE) */
+        /* LAYER 2: GEAR (Middle portal) */
         .card-container { 
             position: absolute; 
             top: 50%; 
@@ -96,8 +96,7 @@
             border-radius: 80px;
         }
         
-        .card-front { background: #eee; overflow: hidden; }
-        /* MATCHES SITE BG EXACTLY */
+        .card-front { background: var(--bg-color); overflow: hidden; border: 1px solid #eee; }
         .card-back { background: var(--bg-color); transform: rotateY(180deg); }
 
         #main-gear-svg { 
@@ -107,6 +106,14 @@
             fill: none;
             stroke-width: 1.2;
         }
+
+        #image-slot img {
+            width: 100%;
+            height: 100%;
+            object-cover: cover;
+            border-radius: 2.5rem;
+            filter: grayscale(100%);
+        }
     </style>
 </head>
 <body>
@@ -114,7 +121,7 @@
 <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
         <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             <span class="font-bold">Avery Wong</span>
         </div>
         <div class="space-x-8">
@@ -127,7 +134,7 @@
 <div id="transition-track">
     <div class="sticky-viewport">
         
-        <!-- SELECTED WORKS LAYER (Revealed by Gear Portal) -->
+        <!-- SELECTED WORKS LAYER -->
         <div id="projects-layer" class="layer">
             <div class="max-w-5xl mx-auto w-full">
                 <h2 class="text-5xl md:text-7xl font-black mb-12 tracking-tighter text-center">Selected Works</h2>
@@ -168,7 +175,10 @@
                         <div class="inline-block bg-white border border-gray-200 px-8 py-4 rounded-3xl text-sm font-bold text-sapphire shadow-sm">averywong3@gmail.com</div>
                     </div>
                 </div>
-                <div id="image-slot" class="w-full md:w-[320px] h-[320px] flex-shrink-0"></div>
+                <!-- PHOTO IS HERE -->
+                <div id="image-slot" class="w-full md:w-[320px] h-[320px] flex-shrink-0">
+                    <img src="headshot.jpg" alt="Avery Wong">
+                </div>
             </div>
         </div>
 
@@ -176,7 +186,8 @@
         <div class="card-container">
             <div class="flip-card" id="main-card">
                 <div class="card-face card-front" id="front-face">
-                    <img src="headshot.jpg" alt="Avery" class="w-full h-full object-cover grayscale">
+                    <!-- This image is only used for the flip effect -->
+                    <img src="headshot.jpg" alt="Transition" class="w-full h-full object-cover grayscale">
                 </div>
                 <div class="card-face card-back" id="back-face">
                     <svg id="main-gear-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -202,8 +213,7 @@
             let html = "";
             words.forEach(word => {
                 const cleanWord = word.trim().replace(/[^\w]/g, '');
-                // Check if the actual typed word is intended to be blue
-                if (blueWords.some(bw => cleanWord === bw || (bw.startsWith(cleanWord) && cleanWord.length > 0))) {
+                if (blueWords.includes(cleanWord) || blueWords.some(bw => bw.startsWith(cleanWord) && cleanWord.length > 0)) {
                     html += `<span class="text-sapphire">${word}</span>`;
                 } else {
                     html += `<span>${word}</span>`;
@@ -248,7 +258,7 @@
 
         let x=0, y=0, scale=0.4, rotY=0, rotZ=0, hOp=1, pOp=0;
 
-        // Fade out Hero content
+        // Fade out Hero
         hOp = Math.max(0, 1 - (progress * 10));
 
         const startX = (slotRect.left + slotRect.width/2) - (vw/2);
@@ -258,7 +268,7 @@
             x = startX; y = startY; scale = 0.4;
         } 
         else if (progress <= 0.3) {
-            // Flip and center gear
+            // Move from headshot to center and flip
             const p = (progress - 0.05) / 0.25;
             x = startX * (1 - p);
             y = startY * (1 - p);
@@ -267,20 +277,18 @@
             scale = 0.4;
         } 
         else if (progress <= 0.95) {
-            // Zoom gear to portal reveal
+            // Zoom portal
             const p = (progress - 0.3) / 0.65;
             rotY = 180;
             rotZ = 90 + (p * 450);
-            const targetScale = (Math.max(vw, vh) / 800) * 30; 
+            const targetScale = (Math.max(vw, vh) / 800) * 40; 
             scale = 0.4 + (Math.pow(p, 4) * (targetScale - 0.4));
             
-            // Fade in projects behind gear
-            pOp = Math.max(0, (p - 0.3) * 1.5);
+            // Fade projects in
+            pOp = Math.max(0, (p - 0.4) * 2);
         } else {
-            rotY = 180;
-            scale = (Math.max(vw, vh) / 800) * 30;
-            pOp = 1;
-            rotZ = 540;
+            rotY = 180; scale = (Math.max(vw, vh) / 800) * 40;
+            pOp = 1; rotZ = 540;
         }
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
@@ -290,7 +298,17 @@
         
         hero.style.opacity = hOp;
         projects.style.opacity = pOp;
-        projects.style.pointerEvents = pOp > 0.8 ? 'auto' : 'none';
+
+        // Interaction logic: Only allow projects to be clicked once they are visible
+        if (pOp > 0.8) {
+            projects.style.pointerEvents = 'auto';
+            hero.style.pointerEvents = 'none';
+            projects.style.zIndex = '50';
+        } else {
+            projects.style.pointerEvents = 'none';
+            hero.style.pointerEvents = 'auto';
+            projects.style.zIndex = '10';
+        }
     }
 
     window.addEventListener('scroll', handleScroll);
