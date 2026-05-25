@@ -84,8 +84,8 @@
             pointer-events: none;
             overflow-y: auto;
             justify-content: flex-start;
-            padding-top: 140px;
-            background: var(--bg-color);
+            padding-top: 100px;
+            background: var(--bg-color); /* Matches the back of the card */
         }
 
         /* --- HIGH-RES FLIP CARD --- */
@@ -100,11 +100,10 @@
         }
 
         .flip-card {
-            /* We start with a massive base size to ensure high resolution */
             width: 1000px; 
             height: 1000px;
             transform-style: preserve-3d;
-            will-change: transform;
+            will-change: transform, opacity;
         }
 
         .flip-card-front, .flip-card-back {
@@ -119,7 +118,7 @@
 
         .flip-card-front { 
             background: white; 
-            border-radius: 80px; /* Adjusted for 1000px scale */
+            border-radius: 80px; 
             overflow: hidden;
             box-shadow: 0 50px 100px rgba(0,0,0,0.1);
         }
@@ -129,12 +128,10 @@
             transform: rotateY(180deg);
         }
 
-        /* The SVG now renders at a high resolution natively */
         #scroll-gear { 
-            width: 70%; 
-            height: 70%; 
+            width: 45%; /* Smaller Gear as requested */
+            height: 45%; 
             color: #1d1d1f;
-            /* Force vector rendering */
             shape-rendering: geometricPrecision;
         }
     </style>
@@ -146,7 +143,7 @@
             <div class="flex items-center gap-2">
                 <svg class="w-5 h-5 text-[#0F52BA] animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1-1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                 </svg>
                 <span class="font-bold text-black">Avery Wong</span>
             </div>
@@ -196,6 +193,9 @@
                     </div>
                     <div class="flex justify-start">
                         <div class="w-full md:w-[70%] project-bubble"><div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Integrated Power Desk</h3></div></div>
+                    </div>
+                    <div class="flex justify-end">
+                        <div class="w-full md:w-[70%] project-bubble bg-gray-200 border-none"><div class="px-10 py-16 text-center"><h3 class="text-4xl font-bold">Mechanical Dissections</h3></div></div>
                     </div>
                 </div>
             </div>
@@ -257,12 +257,8 @@
             let progress = -rect.top / totalScrollable;
             progress = Math.max(0, Math.min(1, progress));
 
-            // TIMELINE MATH
-            // Because our base card is 1000px, 
-            // a scale of 0.32 makes it look exactly 320px wide.
             const baseScale = 0.32; 
-
-            let x = 0, y = 0, scale = baseScale, rotY = 0, rotZ = 0, heroOp = 1, projOp = 0, radius = 80;
+            let x = 0, y = 0, scale = baseScale, rotY = 0, rotZ = 0, heroOp = 1, projOp = 0, radius = 80, cardOp = 1;
 
             const startX = (slotRect.left + slotRect.width/2) - (vw/2);
             const startY = (slotRect.top + slotRect.height/2) - (vh/2);
@@ -271,43 +267,41 @@
                 x = startX; y = startY;
             } 
             else if (progress <= 0.60) {
+                // PHASE: Fullscreen Takeover
                 const p = (progress - 0.10) / 0.5;
                 x = startX * (1 - p);
                 y = startY * (1 - p);
                 rotY = p * 180;
                 rotZ = p * 360;
-
-                // FULLSCREEN SCALE: 
-                // We calculate what scale a 1000px box needs to cover the screen.
                 const targetScale = (Math.max(vw, vh) / 1000) * 1.2;
                 scale = baseScale + (p * (targetScale - baseScale));
-                
-                radius = 80 * (1 - p); // Fade corner roundness
+                radius = 80 * (1 - p); 
                 heroOp = 1 - (p * 2);
             } 
             else {
+                // PHASE: Fade Away & Recede
                 const p = (progress - 0.60) / 0.4;
                 rotY = 180;
-                rotZ = 360 + (p * 360);
+                rotZ = 360 + (p * 720); // Faster spin as it recedes
                 
                 const fullScale = (Math.max(vw, vh) / 1000) * 1.2;
-                const headerScale = 0.08; // 80px result
-                scale = fullScale - (p * (fullScale - headerScale));
+                // It shrinks slightly while fading out to give a "moving away" effect
+                scale = fullScale - (p * (fullScale * 0.2)); 
                 
-                y = -(vh * 0.44) * p;
-                radius = p * 100; 
+                cardOp = 1 - p; // Gear and its fullscreen background fade away
                 heroOp = 0;
-                projOp = p;
+                projOp = p; // Projects fade in underneath
             }
 
-            // CSS Transformations
+            // Apply Styles
             mainCard.style.transform = `translate(${x}px, ${y}px) rotateY(${rotY}deg) scale(${scale})`;
+            mainCard.style.opacity = cardOp;
             cardBack.style.borderRadius = `${radius}px`;
             scrollGear.style.transform = `rotate(${rotZ}deg)`;
 
             heroLayer.style.opacity = Math.max(0, heroOp);
             projectsLayer.style.opacity = projOp;
-            projectsLayer.style.pointerEvents = projOp > 0.8 ? 'auto' : 'none';
+            projectsLayer.style.pointerEvents = projOp > 0.7 ? 'auto' : 'none';
         }
 
         window.addEventListener('scroll', handleScroll);
