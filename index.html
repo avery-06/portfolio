@@ -14,7 +14,7 @@
             background-color: #f5f5f7; 
             color: #1d1d1f; 
             margin: 0;
-            height: 500vh; /* Smooth scroll track */
+            height: 500vh; /* Length of the scroll experience */
         }
 
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
@@ -65,24 +65,26 @@
             opacity: 0;
         }
 
-        /* The Gear - Always stationary */
+        /* The Gear - Stationary Bottom-Left */
         .layer-gear {
             position: absolute;
             inset: 0;
-            /* captures only the gear part */
-            clip-path: polygon(0% 40%, 65% 40%, 65% 100%, 0% 100%);
+            /* Isolates the blue gear section */
+            clip-path: polygon(0% 42%, 64% 42%, 64% 100%, 0% 100%);
             z-index: 40;
         }
 
-        /* The Arm - Punches from 0 to 1 */
+        /* The Arm - Punches from the center of the gear */
         .layer-arm {
             position: absolute;
             inset: 0;
-            /* captures only the arm/wrench part */
-            clip-path: polygon(45% 0%, 100% 0%, 100% 85%, 45% 85%);
+            /* Isolates wrench head and hand, carving out the gear area */
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 64% 100%, 64% 42%, 0% 42%);
             z-index: 60;
             transform: scale(0);
-            transform-origin: 55% 55%; /* Centered on the gear hole */
+            /* Pivot point set to the center of the gear hole */
+            transform-origin: 36% 68%; 
+            transition: transform 0.1s ease-out;
         }
 
         /* STAGE 3: PROJECTS */
@@ -118,7 +120,7 @@
     <!-- Navigation -->
     <nav class="glass fixed top-0 w-full z-[100] border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
-            <a href="index.html" class="flex items-center gap-2 tracking-tight group cursor-pointer">
+            <a href="#" class="flex items-center gap-2 tracking-tight group cursor-pointer">
                 <svg class="w-5 h-5 text-sapphire animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3"></circle>
                     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -167,9 +169,9 @@
 
         <!-- STAGE 2: THE RECONSTRUCTION PUNCH -->
         <div id="punch-stage">
-            <!-- Stationary Bottom Layer -->
+            <!-- Stationary Gear Layer -->
             <img src="gear-hand.png" class="layer-gear" alt="Gear">
-            <!-- Kinetic Top Layer -->
+            <!-- Punched Arm/Wrench Layer -->
             <img src="gear-hand.png" id="arm-piston" class="layer-arm" alt="Arm">
         </div>
 
@@ -177,22 +179,22 @@
         <div id="stage-projects" class="px-6">
             <div class="max-w-6xl mx-auto space-y-12">
                 <div class="flex justify-start">
-                    <a href="project-1.html" class="md:w-[70%] project-bubble bg-white">
+                    <a href="#" class="md:w-[70%] project-bubble bg-white">
                         <h3 class="text-4xl md:text-5xl font-bold px-10 text-black">Cinematography <br>Robotic Arm</h3>
                     </a>
                 </div>
                 <div class="flex justify-end">
-                    <a href="project-2.html" class="md:w-[70%] project-bubble bg-[#1d1d1f] text-white">
+                    <a href="#" class="md:w-[70%] project-bubble bg-[#1d1d1f] text-white">
                         <h3 class="text-4xl md:text-5xl font-bold px-10">Smart Rehabilitation <br>Knee Sleeve</h3>
                     </a>
                 </div>
                 <div class="flex justify-start">
-                    <a href="project-3.html" class="md:w-[70%] project-bubble bg-white">
+                    <a href="#" class="md:w-[70%] project-bubble bg-white">
                         <h3 class="text-4xl md:text-5xl font-bold px-10 text-black">Integrated <br>Power Desk</h3>
                     </a>
                 </div>
                 <div class="flex justify-end">
-                    <a href="project-4.html" class="md:w-[70%] project-bubble bg-gray-200">
+                    <a href="#" class="md:w-[70%] project-bubble bg-gray-200">
                         <h3 class="text-4xl md:text-5xl font-bold px-10 text-gray-800">Mechanical <br>Dissections</h3>
                     </a>
                 </div>
@@ -217,16 +219,15 @@
         function animateTyping(t) {
             if (!startTime) startTime = t;
             const progress = Math.min((t - startTime) / 1800, 1);
+            
             const nChars = Math.floor(progress * nameText.length);
-            const nStart = nameText.length - nChars;
-            let aPart = (nStart <= 5) ? nameText.substring(nStart, 5) : "";
-            let wPart = nameText.substring(Math.max(6, nStart));
-            nameEl.innerHTML = `<span class="text-sapphire">${aPart}</span>${(nStart <= 5 && nChars > 4) ? " " : ""}${wPart}`;
+            nameEl.innerHTML = `<span class="text-sapphire">${nameText.substring(0, Math.min(nChars, 5))}</span> ${nameText.substring(Math.max(5, nChars - (nameText.length - nChars)))}`;
 
             const tChars = Math.floor(progress * titleText.length);
             let mPart = titleText.substring(0, Math.min(tChars, 11));
             let ePart = tChars > 11 ? titleText.substring(11, tChars) : "";
             titleEl.innerHTML = `${mPart}<span class="text-sapphire">${ePart}</span>`;
+            
             if (progress < 1) requestAnimationFrame(animateTyping);
         }
 
@@ -234,25 +235,25 @@
         window.addEventListener('scroll', () => {
             const scrollPercent = window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight);
 
-            // Phase 1: Intro (0 - 0.2)
-            if (scrollPercent < 0.2) {
-                intro.style.opacity = 1 - (scrollPercent * 5);
+            // Phase 1: Intro (0 - 0.25)
+            if (scrollPercent < 0.25) {
+                intro.style.opacity = 1 - (scrollPercent * 4);
                 punchStage.style.opacity = 0;
                 projects.style.opacity = 0;
+                armPiston.style.transform = `scale(0)`;
             } 
-            // Phase 2: THE PUNCH (0.2 - 0.75)
+            // Phase 2: THE PUNCH (0.25 - 0.75)
             else if (scrollPercent < 0.75) {
                 intro.style.opacity = 0;
                 punchStage.style.opacity = 1;
                 
-                // Progress within the punch phase (0 to 1)
-                const p = (scrollPercent - 0.2) / 0.55;
+                // Progress within the punch phase
+                const p = (scrollPercent - 0.25) / 0.50;
                 
-                // Scaling: from 0 (nothing) to 1 (full reconstruction)
-                // The arm scales up to 1.1 to "overshoot" slightly then settles
-                const currentScale = p < 0.8 ? (p / 0.8) : 1; 
+                // Scaling with a slight overshoot for "impact"
+                const punchScale = Math.pow(p, 1.2) * 1.1; 
                 
-                armPiston.style.transform = `scale(${currentScale})`;
+                armPiston.style.transform = `scale(${punchScale})`;
                 projects.style.opacity = 0;
             }
             // Phase 3: Projects (0.75 - 1.0)
@@ -260,6 +261,8 @@
                 punchStage.style.opacity = 0;
                 const p = (scrollPercent - 0.75) / 0.25;
                 projects.style.opacity = p;
+                
+                // Keep projects div scroll-synced
                 projects.scrollTop = p * (projects.scrollHeight - window.innerHeight);
             }
         });
