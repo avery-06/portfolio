@@ -66,10 +66,11 @@
     <!-- Navigation -->
     <nav class="glass fixed top-0 w-full z-[100] border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
-            <a href="#" class="flex items-center gap-2 tracking-tight group cursor-pointer">
+            <!-- Clicking this reloads the page -->
+            <a href="index.html" class="flex items-center gap-2 tracking-tight group cursor-pointer">
                 <svg class="w-5 h-5 text-sapphire animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                 </svg>
                 <span class="font-bold text-black">Avery Wong</span>
             </a>
@@ -115,15 +116,12 @@
     <!-- PROJECTS SECTION -->
     <section id="projects" class="py-24 px-6">
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-4xl font-extrabold mb-12 px-4">Selected Projects</h2>
-            
             <div class="space-y-12">
                 <!-- Project 1 -->
                 <div class="flex justify-start">
                     <a href="project-1.html" class="w-full md:w-[70%] project-bubble bg-white">
-                        <div class="px-10 py-16">
+                        <div class="px-10 py-16 text-center">
                             <h3 class="text-4xl md:text-5xl font-bold text-black">Cinematography <br>Robotic Arm</h3>
-                            <p class="text-gray-400 mt-4 font-medium uppercase tracking-widest text-xs">Robotics & Automation</p>
                         </div>
                     </a>
                 </div>
@@ -131,9 +129,8 @@
                 <!-- Project 2 -->
                 <div class="flex justify-end">
                     <a href="project-2.html" class="w-full md:w-[70%] project-bubble bg-[#1d1d1f] text-white">
-                        <div class="px-10 py-16">
+                        <div class="px-10 py-16 text-center">
                             <h3 class="text-4xl md:text-5xl font-bold">Smart Rehabilitation <br>Knee Sleeve</h3>
-                            <p class="text-gray-500 mt-4 font-medium uppercase tracking-widest text-xs">Wearable Tech</p>
                         </div>
                     </a>
                 </div>
@@ -141,9 +138,8 @@
                 <!-- Project 3 -->
                 <div class="flex justify-start">
                     <a href="project-3.html" class="w-full md:w-[70%] project-bubble bg-white">
-                        <div class="px-10 py-16">
+                        <div class="px-10 py-16 text-center">
                             <h3 class="text-4xl md:text-5xl font-bold text-black">Integrated <br>Power Desk</h3>
-                            <p class="text-gray-400 mt-4 font-medium uppercase tracking-widest text-xs">Product Design</p>
                         </div>
                     </a>
                 </div>
@@ -151,9 +147,8 @@
                 <!-- Project 4 -->
                 <div class="flex justify-end">
                     <a href="project-4.html" class="w-full md:w-[70%] project-bubble bg-gray-200">
-                        <div class="px-10 py-16">
+                        <div class="px-10 py-16 text-center">
                             <h3 class="text-4xl md:text-5xl font-bold text-gray-800">Mechanical <br>Dissections</h3>
-                            <p class="text-gray-500 mt-4 font-medium uppercase tracking-widest text-xs">Analysis & Reverse Engineering</p>
                         </div>
                     </a>
                 </div>
@@ -162,7 +157,7 @@
     </section>
 
     <footer class="py-12 text-center text-gray-400 text-sm">
-        &copy; 2024 Avery Wong. Built with precision.
+        &copy; 2025 Avery Wong. Built with precision.
     </footer>
 
     <script>
@@ -178,30 +173,22 @@
             let i = 0;
             const timer = setInterval(() => {
                 if (i < text.length) {
-                    // Check if we want to color specific parts
                     let displayedText = text.substring(0, i + 1);
                     
-                    // Highlight 'Wong' in sapphire
                     if (element.id === "name-typewriter") {
-                        if (displayedText.startsWith("Avery ")) {
-                            let firstPart = "Avery ";
-                            let secondPart = displayedText.substring(6);
-                            element.innerHTML = `${firstPart}<span class="text-sapphire">${secondPart}</span>`;
+                        if (displayedText.length > 6) { // Starts after "Avery "
+                            element.innerHTML = `Avery <span class="text-sapphire">${text.substring(6, i + 1)}</span>`;
                         } else {
                             element.innerHTML = displayedText;
                         }
                     } 
-                    // Highlight 'Engineer.' in sapphire
                     else if (element.id === "title-typewriter") {
-                        if (displayedText.startsWith("Mechanical ")) {
-                            let firstPart = "Mechanical ";
-                            let secondPart = displayedText.substring(11);
-                            element.innerHTML = `${firstPart}<span class="text-sapphire">${secondPart}</span>`;
+                        if (displayedText.length > 11) { // Starts after "Mechanical "
+                            element.innerHTML = `Mechanical <span class="text-sapphire">${text.substring(11, i + 1)}</span>`;
                         } else {
                             element.innerHTML = displayedText;
                         }
                     }
-
                     i++;
                 } else {
                     clearInterval(timer);
@@ -210,18 +197,13 @@
             }, speed);
         }
 
-        // Start typing sequence
         window.onload = () => {
-            // Type Name
             typeEffect(nameEl, nameText, 100, () => {
-                // Hide name cursor, show title cursor
                 nameCursor.style.display = "none";
                 titleCursor.classList.remove("hidden");
-                
-                // Type Title after a short pause
                 setTimeout(() => {
                     typeEffect(titleEl, titleText, 80);
-                }, 500);
+                }, 400);
             });
         };
     </script>
