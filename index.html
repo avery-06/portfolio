@@ -28,12 +28,12 @@
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        #transition-track { height: 450vh; position: relative; }
+        #transition-track { height: 400vh; position: relative; }
         .sticky-viewport { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; }
 
         .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
 
-        /* HIDE SCROLLBARS ON PROJECTS */
+        /* NO SCROLLBAR PROJECTS PAGE */
         #projects-layer { 
             z-index: 10; 
             opacity: 0; 
@@ -49,7 +49,7 @@
         }
         #projects-layer::-webkit-scrollbar { display: none; }
 
-        #hero-layer { z-index: 30; justify-content: center; }
+        #hero-layer { z-index: 30; justify-content: center; will-change: opacity; }
 
         .card-container { 
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
@@ -74,7 +74,7 @@
 <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
         <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             <span class="font-bold">Avery Wong</span>
         </div>
         <div class="space-x-8">
@@ -113,7 +113,7 @@
                     <h2 class="text-5xl font-extrabold tracking-tight">About</h2>
                     <p class="text-gray-500 text-lg leading-relaxed">Mechanical engineering student at the University of Toronto. Specializing in functional prototyping and elegant R&D solutions.</p>
                     <div class="flex flex-wrap gap-4">
-                        <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold hover:border-sapphire transition shadow-sm uppercase tracking-wider">LinkedIn ↗</a>
+                        <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold hover:border-sapphire transition shadow-sm uppercase">LinkedIn ↗</a>
                         <div class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold text-sapphire shadow-sm">averywong3@gmail.com</div>
                     </div>
                 </div>
@@ -178,62 +178,45 @@
 
         let x=0, y=0, scale=0.4, rotY=0, rotZ=0, hOp=1, pOp=0, pScale=0.1;
 
-        // Hero Opacity
         hOp = Math.max(0, 1 - (progress * 12));
 
         const startX = (slotRect.left + slotRect.width/2) - (vw/2);
         const startY = (slotRect.top + slotRect.height/2) - (vh/2);
 
-        // Stage 1: Flip & Position (0 to 0.2)
-        if (progress <= 0.05) { 
-            x = startX; y = startY; scale = 0.4; rotZ = 0;
-        } 
+        // STAGE 1: POSITION & FLIP (0 to 0.2)
+        if (progress <= 0.05) { x = startX; y = startY; scale = 0.4; } 
         else if (progress <= 0.2) {
             const p = (progress - 0.05) / 0.15;
             x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.4;
         } 
-        // Stage 2: Zoom to 10.2x (0.2 to 0.5)
+        // STAGE 2: GEAR ZOOM TO 10.2x (0.2 to 0.5)
         else if (progress <= 0.5) {
             const p = (progress - 0.2) / 0.3;
-            rotY = 180; 
-            rotZ = 90 + (p * 450); // Ends at 540deg
+            rotY = 180; rotZ = 90 + (p * 450);
             scale = 0.4 + (Math.pow(p, 3) * (10.2 - 0.4));
             pOp = 0; pScale = 0.1;
         } 
-        // Stage 3: Project Reveal (0.5 to 0.9) - GEAR STOPS ROTATING HERE
-        else if (progress <= 0.9) {
-            rotY = 180; 
-            rotZ = 540; // LOCKED ROTATION
-            scale = 10.2; // LOCKED SCALE
+        // STAGE 3: IMMEDIATE TRANSITION (Starts at 0.5)
+        else {
+            rotY = 180; rotZ = 540; // Lock rotation for clean transition
+            scale = 10.2; 
             
-            const revealProg = (progress - 0.5) / 0.4;
+            // Map 0.5 -> 0.7 to 0.0 -> 1.0 (Snappy 20% window)
+            const revealProg = Math.min(1, (progress - 0.5) / 0.2);
             pOp = revealProg;
             pScale = 0.1 + (revealProg * 0.9);
         }
-        // Stage 4: Static End (0.9 to 1.0)
-        else {
-            rotY = 180; rotZ = 540; scale = 10.2; pOp = 1; pScale = 1;
-        }
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
-        
-        // Portal Card Transform
         card.style.transform = `translate3d(${x}px, ${y}px, 0) rotateY(${rotY}deg) scale(${scale})`;
         gearSvg.style.transform = `rotate(${rotZ}deg)`;
-        
-        // Layering/Opacity
         hero.style.opacity = hOp;
+        
         projects.style.opacity = pOp;
         projects.style.transform = `scale(${pScale})`;
 
-        // Interactivity handling
-        if (pOp > 0.6) { 
-            projects.style.pointerEvents = 'auto'; 
-            projects.style.zIndex = '50'; 
-        } else { 
-            projects.style.pointerEvents = 'none'; 
-            projects.style.zIndex = '10'; 
-        }
+        if (pOp > 0.6) { projects.style.pointerEvents = 'auto'; projects.style.zIndex = '50'; } 
+        else { projects.style.pointerEvents = 'none'; projects.style.zIndex = '10'; }
     }
 
     window.addEventListener('scroll', handleScroll);
