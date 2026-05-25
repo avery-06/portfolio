@@ -56,46 +56,6 @@
             animation: blink 1s infinite;
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-        /* RACK AND PINION STYLING */
-        #transition-container {
-            height: 150vh; /* Control how long the "roll" lasts */
-            position: relative;
-            background: #f0f0f2;
-        }
-
-        .sticky-wrapper {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .rack {
-            position: absolute;
-            left: 0;
-            right: 0;
-            height: 20px;
-            background: #d1d1d6;
-            border-top: 4px solid #aeaeb2;
-            /* Create notches/teeth using a repeating linear gradient */
-            background-image: repeating-linear-gradient(90deg, transparent, transparent 15px, #8e8e93 15px, #8e8e93 20px);
-            z-index: 10;
-        }
-
-        .pinion {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            bottom: calc(50% + 2px); /* Sit right on top of the rack */
-            left: -120px; /* Start off-screen left */
-            z-index: 20;
-            color: var(--sapphire);
-            filter: drop-shadow(0 10px 15px rgba(15, 82, 186, 0.3));
-            will-change: transform;
-        }
     </style>
 </head>
 <body>
@@ -147,18 +107,6 @@
             </div>
         </div>
     </section>
-
-    <!-- RACK AND PINION TRANSITION -->
-    <div id="transition-container">
-        <div class="sticky-wrapper">
-            <div class="rack"></div>
-            <!-- Pinion Gear SVG -->
-            <svg id="rolling-pinion" class="pinion" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-        </div>
-    </div>
 
     <!-- PROJECTS SECTION -->
     <section id="projects" class="py-24 px-6 min-h-screen">
@@ -227,30 +175,6 @@
                 }
             }, speed);
         }
-
-        // --- RACK & PINION SCROLL LOGIC ---
-        const transitionContainer = document.getElementById('transition-container');
-        const rollingPinion = document.getElementById('rolling-pinion');
-
-        window.addEventListener('scroll', () => {
-            const containerRect = transitionContainer.getBoundingClientRect();
-            const viewHeight = window.innerHeight;
-
-            // Check if the sticky section is active in the viewport
-            if (containerRect.top <= 0 && containerRect.bottom >= viewHeight) {
-                // Calculate progress within the transition section (0 to 1)
-                const scrollRange = transitionContainer.offsetHeight - viewHeight;
-                const progress = Math.abs(containerRect.top) / scrollRange;
-
-                // Move linear (translateX) - from -120px (left) to viewWidth + 120px (right)
-                const translateX = progress * (window.innerWidth + 240) - 120;
-                
-                // Rotate based on progress (3 full rotations = 1080 degrees)
-                const rotation = progress * 1080;
-
-                rollingPinion.style.transform = `translateX(${translateX}px) rotate(${rotation}deg)`;
-            }
-        });
 
         window.onload = () => {
             typeEffect(nameEl, nameText, 100, () => {
