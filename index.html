@@ -28,13 +28,13 @@
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        #transition-track { height: 800vh; position: relative; }
+        #transition-track { height: 750vh; position: relative; }
         .sticky-viewport { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; }
 
         .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
 
         #projects-layer { z-index: 10; opacity: 0; background: var(--project-bg); padding: 80px 2rem; overflow-y: auto; pointer-events: none; justify-content: center; }
-        #hero-layer { z-index: 30; justify-content: center; will-change: opacity; }
+        #hero-layer { z-index: 30; justify-content: center; }
 
         .card-container { 
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
@@ -72,7 +72,7 @@
 
 <div id="transition-track">
     <div class="sticky-viewport">
-        <!-- PROJECTS -->
+        <!-- PROJECTS LAYER -->
         <div id="projects-layer" class="layer">
             <div class="max-w-6xl mx-auto w-full px-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10">
@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <!-- HERO -->
+        <!-- HERO LAYER -->
         <div id="hero-layer" class="layer px-6">
             <div class="text-center mb-12">
                 <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
@@ -108,11 +108,14 @@
         </div>
 
         <!-- PORTAL -->
-        <div class="card-container" id="portal-container">
+        <div class="card-container">
             <div class="flip-card" id="main-card">
                 <div class="card-face card-front" id="front-face"><img src="headshot.jpg" alt="Transition" class="w-full h-full object-cover grayscale"></div>
                 <div class="card-face card-back" id="back-face">
-                    <svg id="main-gear-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <svg id="main-gear-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
                 </div>
             </div>
         </div>
@@ -163,7 +166,6 @@
 
         let x=0, y=0, scale=0.4, rotY=0, rotZ=0, hOp=1, pOp=0;
 
-        // Hero Fades Early
         hOp = Math.max(0, 1 - (progress * 12));
 
         const startX = (slotRect.left + slotRect.width/2) - (vw/2);
@@ -175,25 +177,29 @@
             const p = (progress - 0.05) / 0.1;
             x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.4;
         } 
-        // STAGE 2: ZOOM (0.15 to 0.4) - Limit to 20x
+        // STAGE 2: ZOOM (0.15 to 0.4) - Lock at 10x
         else if (progress <= 0.4) {
             const p = (progress - 0.15) / 0.25;
             rotY = 180; rotZ = 90 + (p * 450);
-            const targetScale = 20; // 20x Scale Limit
+            const targetScale = 10; 
             scale = 0.4 + (Math.pow(p, 3) * (targetScale - 0.4));
             pOp = 0;
         } 
-        // STAGE 3: SLOW REVEAL (0.4 to 1.0)
+        // STAGE 3: FASTER REVEAL (0.4 to 0.8)
+        else if (progress <= 0.8) {
+            rotY = 180; rotZ = 540 + ((progress - 0.4) * 80);
+            scale = 10; 
+            pOp = (progress - 0.4) / 0.4; // Fade in over 40% of scroll
+        }
+        // STAGE 4: HOLD (0.8 to 1.0)
         else {
-            rotY = 180; rotZ = 540 + ((progress - 0.4) * 60);
-            scale = 20; // Hold at 20x
-            // Very slow fade: map 0.4 -> 1.0 progress to 0.0 -> 1.0 opacity
-            pOp = (progress - 0.4) / 0.6;
+            rotY = 180; rotZ = 572 + ((progress - 0.8) * 20);
+            scale = 10;
+            pOp = 1;
         }
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
         backFace.style.opacity = (rotY > 90) ? '1' : '0';
-        // Use translate3d for hardware acceleration (rendering fix)
         card.style.transform = `translate3d(${x}px, ${y}px, 0) rotateY(${rotY}deg) scale(${scale})`;
         gearSvg.style.transform = `rotate(${rotZ}deg)`;
         
