@@ -57,7 +57,7 @@
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         /* --- SCROLL SYSTEM --- */
-        #main-scroll-container { height: 500vh; position: relative; }
+        #main-scroll-container { height: 550vh; position: relative; }
 
         .sticky-viewport {
             position: sticky;
@@ -85,7 +85,7 @@
             overflow-y: auto;
             justify-content: flex-start;
             padding-top: 100px;
-            background: var(--bg-color); /* Matches the back of the card */
+            background: var(--bg-color); 
         }
 
         /* --- HIGH-RES FLIP CARD --- */
@@ -129,10 +129,11 @@
         }
 
         #scroll-gear { 
-            width: 45%; /* Smaller Gear as requested */
-            height: 45%; 
+            width: 15%; /* Significantly smaller gear as requested */
+            height: 15%; 
             color: #1d1d1f;
             shape-rendering: geometricPrecision;
+            z-index: 101;
         }
     </style>
 </head>
@@ -143,7 +144,7 @@
             <div class="flex items-center gap-2">
                 <svg class="w-5 h-5 text-[#0F52BA] animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1-1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                 </svg>
                 <span class="font-bold text-black">Avery Wong</span>
             </div>
@@ -178,6 +179,7 @@
                             <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="bg-white border border-gray-200 px-6 py-3 rounded-2xl text-sm font-bold hover:border-[#0F52BA] transition uppercase">LinkedIn ↗</a>
                         </div>
                     </div>
+                    <!-- TARGET SLOT FOR IMAGE -->
                     <div id="image-slot" class="w-full md:w-[320px] h-[320px] flex-shrink-0"></div>
                 </div>
             </div>
@@ -207,6 +209,7 @@
                         <img src="headshot.jpg" alt="Avery" class="w-full h-full object-cover grayscale brightness-105 contrast-110">
                     </div>
                     <div class="flip-card-back" id="card-back">
+                        <!-- GEAR SVG HERE -->
                         <svg id="scroll-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
                             <circle cx="12" cy="12" r="3"></circle>
                             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -257,6 +260,7 @@
             let progress = -rect.top / totalScrollable;
             progress = Math.max(0, Math.min(1, progress));
 
+            // Using 1000px base size for sharpness
             const baseScale = 0.32; 
             let x = 0, y = 0, scale = baseScale, rotY = 0, rotZ = 0, heroOp = 1, projOp = 0, radius = 80, cardOp = 1;
 
@@ -264,33 +268,35 @@
             const startY = (slotRect.top + slotRect.height/2) - (vh/2);
 
             if (progress <= 0.10) {
+                // PHASE 1: Reading About
                 x = startX; y = startY;
             } 
-            else if (progress <= 0.60) {
-                // PHASE: Fullscreen Takeover
-                const p = (progress - 0.10) / 0.5;
+            else if (progress <= 0.65) {
+                // PHASE 2: Transition into Fullscreen (Flipping to Gear)
+                const p = (progress - 0.10) / 0.55;
                 x = startX * (1 - p);
                 y = startY * (1 - p);
                 rotY = p * 180;
                 rotZ = p * 360;
-                const targetScale = (Math.max(vw, vh) / 1000) * 1.2;
+
+                const targetScale = (Math.max(vw, vh) / 1000) * 1.5;
                 scale = baseScale + (p * (targetScale - baseScale));
+                
                 radius = 80 * (1 - p); 
                 heroOp = 1 - (p * 2);
             } 
             else {
-                // PHASE: Fade Away & Recede
-                const p = (progress - 0.60) / 0.4;
+                // PHASE 3: Gear recedes, spins faster, and fades away
+                const p = (progress - 0.65) / 0.35;
                 rotY = 180;
-                rotZ = 360 + (p * 720); // Faster spin as it recedes
+                rotZ = 360 + (p * 1080); // Triple spin as it leaves
                 
-                const fullScale = (Math.max(vw, vh) / 1000) * 1.2;
-                // It shrinks slightly while fading out to give a "moving away" effect
-                scale = fullScale - (p * (fullScale * 0.2)); 
+                const fullScale = (Math.max(vw, vh) / 1000) * 1.5;
+                scale = fullScale - (p * (fullScale * 0.4)); // Recede effect
                 
-                cardOp = 1 - p; // Gear and its fullscreen background fade away
+                cardOp = 1 - p; // Card and Gear fade out
                 heroOp = 0;
-                projOp = p; // Projects fade in underneath
+                projOp = p; // Projects fade in
             }
 
             // Apply Styles
@@ -301,7 +307,7 @@
 
             heroLayer.style.opacity = Math.max(0, heroOp);
             projectsLayer.style.opacity = projOp;
-            projectsLayer.style.pointerEvents = projOp > 0.7 ? 'auto' : 'none';
+            projectsLayer.style.pointerEvents = projOp > 0.8 ? 'auto' : 'none';
         }
 
         window.addEventListener('scroll', handleScroll);
