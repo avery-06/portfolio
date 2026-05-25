@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --sapphire: #0F52BA; }
+        :root { --sapphire: #0F52BA; --steel: #4a4a4f; }
         
         body { 
             font-family: 'Inter', -apple-system, sans-serif; 
@@ -19,7 +19,6 @@
 
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         
-        /* Nav Gear Animation */
         @keyframes spin-slow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
@@ -33,6 +32,65 @@
             box-shadow: 0 4px 24px rgba(0,0,0,0.02);
         }
 
+        /* MECHANICAL INTERLUDE */
+        #mechanical-transition {
+            height: 250vh; /* Long scroll for realistic movement */
+            position: relative;
+            background: #e5e5ea;
+        }
+
+        .sticky-engine {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* THE RACK (The Track) */
+        .rack-assembly {
+            position: absolute;
+            bottom: 15%;
+            width: 200%; /* Extra wide to cover the gear's travel */
+            left: -50%;
+            height: 60px;
+            background: #8e8e93;
+            border-top: 6px solid #4a4a4f;
+            z-index: 10;
+            display: flex;
+        }
+
+        .rack-teeth {
+            width: 100%;
+            height: 30px;
+            position: absolute;
+            top: -36px;
+            /* Precise mechanical teeth pattern */
+            background-image: repeating-linear-gradient(90deg, 
+                #4a4a4f 0px, #4a4a4f 20px, 
+                transparent 20px, transparent 40px);
+        }
+
+        /* THE PINION (The Massive Gear) */
+        .pinion-container {
+            position: absolute;
+            width: 500px; /* Large realistic size */
+            height: 500px;
+            bottom: calc(15% + 24px); /* Sits on teeth */
+            left: -600px; /* Start off-screen */
+            z-index: 20;
+            will-change: transform;
+        }
+
+        .gear-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.2));
+            color: var(--sapphire);
+        }
+
         .project-bubble { 
             transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); 
             border-radius: 3.5rem; 
@@ -41,13 +99,9 @@
             justify-content: center;
             min-height: 280px;
             text-decoration: none;
-            border: 1px solid rgba(0,0,0,0.03);
         }
         .project-bubble:hover { transform: translateY(-5px) scale(1.01); }
-        
-        .text-sapphire { color: var(--sapphire); }
 
-        /* Cursor blinking */
         .cursor {
             display: inline-block;
             width: 3px;
@@ -56,46 +110,6 @@
             animation: blink 1s infinite;
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-        /* RACK AND PINION STYLING */
-        #transition-container {
-            height: 150vh; /* Control how long the "roll" lasts */
-            position: relative;
-            background: #f0f0f2;
-        }
-
-        .sticky-wrapper {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .rack {
-            position: absolute;
-            left: 0;
-            right: 0;
-            height: 20px;
-            background: #d1d1d6;
-            border-top: 4px solid #aeaeb2;
-            /* Create notches/teeth using a repeating linear gradient */
-            background-image: repeating-linear-gradient(90deg, transparent, transparent 15px, #8e8e93 15px, #8e8e93 20px);
-            z-index: 10;
-        }
-
-        .pinion {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            bottom: calc(50% + 2px); /* Sit right on top of the rack */
-            left: -120px; /* Start off-screen left */
-            z-index: 20;
-            color: var(--sapphire);
-            filter: drop-shadow(0 10px 15px rgba(15, 82, 186, 0.3));
-            will-change: transform;
-        }
     </style>
 </head>
 <body>
@@ -106,7 +120,7 @@
             <a href="index.html" class="flex items-center gap-2 tracking-tight group cursor-pointer">
                 <svg class="w-5 h-5 text-sapphire animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                 </svg>
                 <span class="font-bold text-black">Avery Wong</span>
             </a>
@@ -119,8 +133,8 @@
     </nav>
 
     <!-- HERO / ABOUT SECTION -->
-    <section class="min-h-screen flex flex-col items-center justify-center px-6 pt-20">
-        <div class="text-center mb-12">
+    <section class="min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-12 bg-[#f5f5f7]">
+        <div class="text-center mb-16">
             <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
                 <span id="name-typewriter"></span><span id="name-cursor" class="cursor">&nbsp;</span>
             </div>
@@ -129,7 +143,7 @@
             </h1>
         </div>
 
-        <div id="about" class="apple-bubble max-w-5xl w-full p-8 md:p-12 flex flex-col md:flex-row items-center gap-12 mt-4">
+        <div id="about" class="apple-bubble max-w-5xl w-full p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
             <div class="flex-1 space-y-6">
                 <h2 class="text-5xl font-extrabold tracking-tight">About</h2>
                 <p class="text-gray-500 text-lg leading-relaxed">
@@ -148,20 +162,34 @@
         </div>
     </section>
 
-    <!-- RACK AND PINION TRANSITION -->
-    <div id="transition-container">
-        <div class="sticky-wrapper">
-            <div class="rack"></div>
-            <!-- Pinion Gear SVG -->
-            <svg id="rolling-pinion" class="pinion" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
+    <!-- REALISTIC RACK AND PINION INTERLUDE -->
+    <div id="mechanical-transition">
+        <div class="sticky-engine">
+            <div class="rack-assembly">
+                <div class="rack-teeth"></div>
+            </div>
+            
+            <div id="massive-pinion" class="pinion-container">
+                <svg class="gear-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Complex Gear Body -->
+                    <circle cx="50" cy="50" r="15" fill="white" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="50" cy="50" r="4" fill="currentColor"/>
+                    <path d="M50 20 L50 80 M20 50 L80 50" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 4"/>
+                    
+                    <!-- 16 Realistic Teeth -->
+                    <g id="gear-teeth" stroke="currentColor" stroke-width="2.5" fill="currentColor">
+                        <!-- Teeth are generated by the script for precision -->
+                    </g>
+                    
+                    <!-- Outer Ring -->
+                    <circle cx="50" cy="50" r="38" stroke="currentColor" stroke-width="4" fill="none"/>
+                </svg>
+            </div>
         </div>
     </div>
 
     <!-- PROJECTS SECTION -->
-    <section id="projects" class="py-24 px-6 min-h-screen">
+    <section id="projects" class="py-24 px-6 min-h-screen bg-[#1d1d1f]">
         <div class="max-w-6xl mx-auto">
             <div class="space-y-12">
                 <div class="flex justify-start">
@@ -172,7 +200,7 @@
                     </a>
                 </div>
                 <div class="flex justify-end">
-                    <a href="project-2.html" class="w-full md:w-[70%] project-bubble bg-[#1d1d1f] text-white">
+                    <a href="project-2.html" class="w-full md:w-[70%] project-bubble bg-[#2c2c2e] text-white">
                         <div class="px-10 py-16 text-center">
                             <h3 class="text-4xl md:text-5xl font-bold">Smart Rehabilitation <br>Knee Sleeve</h3>
                         </div>
@@ -186,9 +214,9 @@
                     </a>
                 </div>
                 <div class="flex justify-end">
-                    <a href="project-4.html" class="w-full md:w-[70%] project-bubble bg-gray-200">
+                    <a href="project-4.html" class="w-full md:w-[70%] project-bubble bg-gray-400">
                         <div class="px-10 py-16 text-center">
-                            <h3 class="text-4xl md:text-5xl font-bold text-gray-800">Mechanical <br>Dissections</h3>
+                            <h3 class="text-4xl md:text-5xl font-bold text-gray-900">Mechanical <br>Dissections</h3>
                         </div>
                     </a>
                 </div>
@@ -196,15 +224,14 @@
         </div>
     </section>
 
-    <footer class="py-12 text-center text-gray-400 text-sm bg-white">
-        &copy; 2025 Avery Wong. Built with precision.
+    <footer class="py-12 text-center text-gray-500 text-sm bg-[#1d1d1f]">
+        &copy; 2025 Avery Wong. Engineered for Impact.
     </footer>
 
     <script>
-        // --- TYPEWRITER LOGIC ---
+        // --- 1. TYPEWRITER ---
         const nameText = "Avery Wong";
         const titleText = "Mechanical Engineer.";
-        
         const nameEl = document.getElementById("name-typewriter");
         const titleEl = document.getElementById("title-typewriter");
         const nameCursor = document.getElementById("name-cursor");
@@ -228,27 +255,43 @@
             }, speed);
         }
 
-        // --- RACK & PINION SCROLL LOGIC ---
-        const transitionContainer = document.getElementById('transition-container');
-        const rollingPinion = document.getElementById('rolling-pinion');
+        // --- 2. GEAR GENERATOR (For Realism) ---
+        const teethGroup = document.getElementById('gear-teeth');
+        for (let i = 0; i < 16; i++) {
+            const angle = (i * 360 / 16) * (Math.PI / 180);
+            const x1 = 50 + 38 * Math.cos(angle);
+            const y1 = 50 + 38 * Math.sin(angle);
+            const x2 = 50 + 48 * Math.cos(angle);
+            const y2 = 50 + 48 * Math.sin(angle);
+            
+            const tooth = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            tooth.setAttribute("x1", x1); tooth.setAttribute("y1", y1);
+            tooth.setAttribute("x2", x2); tooth.setAttribute("y2", y2);
+            teethGroup.appendChild(tooth);
+        }
+
+        // --- 3. SCROLL ENGINE ---
+        const transitionSection = document.getElementById('mechanical-transition');
+        const pinion = document.getElementById('massive-pinion');
 
         window.addEventListener('scroll', () => {
-            const containerRect = transitionContainer.getBoundingClientRect();
-            const viewHeight = window.innerHeight;
+            const rect = transitionSection.getBoundingClientRect();
+            const vh = window.innerHeight;
+            const vw = window.innerWidth;
 
-            // Check if the sticky section is active in the viewport
-            if (containerRect.top <= 0 && containerRect.bottom >= viewHeight) {
-                // Calculate progress within the transition section (0 to 1)
-                const scrollRange = transitionContainer.offsetHeight - viewHeight;
-                const progress = Math.abs(containerRect.top) / scrollRange;
-
-                // Move linear (translateX) - from -120px (left) to viewWidth + 120px (right)
-                const translateX = progress * (window.innerWidth + 240) - 120;
+            if (rect.top <= 0 && rect.bottom >= vh) {
+                // Progress normalized to 0.0 -> 1.0
+                const progress = Math.abs(rect.top) / (transitionSection.offsetHeight - vh);
                 
-                // Rotate based on progress (3 full rotations = 1080 degrees)
-                const rotation = progress * 1080;
+                // Linear travel: Offscreen left -> Offscreen right
+                const travelDist = vw + 1200; 
+                const currentX = (progress * travelDist) - 600;
+                
+                // Rotation Sync: Mathematically tied to movement for "meshing"
+                // One full rotation moves the gear its circumference
+                const rotation = (progress * travelDist) * 0.8; 
 
-                rollingPinion.style.transform = `translateX(${translateX}px) rotate(${rotation}deg)`;
+                pinion.style.transform = `translateX(${currentX}px) rotate(${rotation}deg)`;
             }
         });
 
