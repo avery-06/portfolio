@@ -28,13 +28,12 @@
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* OPTIMIZED TRACK HEIGHT */
         #transition-track { height: 450vh; position: relative; }
         .sticky-viewport { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; }
 
         .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
 
-        /* HIDE SCROLLBARS */
+        /* HIDE SCROLLBARS ON PROJECTS */
         #projects-layer { 
             z-index: 10; 
             opacity: 0; 
@@ -46,6 +45,7 @@
             transform: scale(0.1);
             scrollbar-width: none;
             -ms-overflow-style: none;
+            will-change: transform, opacity;
         }
         #projects-layer::-webkit-scrollbar { display: none; }
 
@@ -86,7 +86,7 @@
 
 <div id="transition-track">
     <div class="sticky-viewport">
-        <!-- PROJECTS -->
+        <!-- PROJECTS LAYER -->
         <div id="projects-layer" class="layer">
             <div class="max-w-6xl mx-auto w-full px-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10">
@@ -98,7 +98,7 @@
             </div>
         </div>
 
-        <!-- HERO -->
+        <!-- HERO LAYER -->
         <div id="hero-layer" class="layer px-6">
             <div class="text-center mb-12">
                 <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
@@ -178,13 +178,16 @@
 
         let x=0, y=0, scale=0.4, rotY=0, rotZ=0, hOp=1, pOp=0, pScale=0.1;
 
+        // Hero Opacity
         hOp = Math.max(0, 1 - (progress * 12));
 
         const startX = (slotRect.left + slotRect.width/2) - (vw/2);
         const startY = (slotRect.top + slotRect.height/2) - (vh/2);
 
         // Stage 1: Flip & Position (0 to 0.2)
-        if (progress <= 0.05) { x = startX; y = startY; scale = 0.4; } 
+        if (progress <= 0.05) { 
+            x = startX; y = startY; scale = 0.4; rotZ = 0;
+        } 
         else if (progress <= 0.2) {
             const p = (progress - 0.05) / 0.15;
             x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.4;
@@ -192,33 +195,45 @@
         // Stage 2: Zoom to 10.2x (0.2 to 0.5)
         else if (progress <= 0.5) {
             const p = (progress - 0.2) / 0.3;
-            rotY = 180; rotZ = 90 + (p * 450);
+            rotY = 180; 
+            rotZ = 90 + (p * 450); // Ends at 540deg
             scale = 0.4 + (Math.pow(p, 3) * (10.2 - 0.4));
             pOp = 0; pScale = 0.1;
         } 
-        // Stage 3: Project Reveal (0.5 to 0.9)
+        // Stage 3: Project Reveal (0.5 to 0.9) - GEAR STOPS ROTATING HERE
         else if (progress <= 0.9) {
-            rotY = 180; rotZ = 540 + ((progress - 0.5) * 60);
-            scale = 10.2; 
+            rotY = 180; 
+            rotZ = 540; // LOCKED ROTATION
+            scale = 10.2; // LOCKED SCALE
+            
             const revealProg = (progress - 0.5) / 0.4;
             pOp = revealProg;
             pScale = 0.1 + (revealProg * 0.9);
         }
-        // Stage 4: End (0.9 to 1.0)
+        // Stage 4: Static End (0.9 to 1.0)
         else {
-            rotY = 180; rotZ = 540 + (0.4 * 60);
-            scale = 10.2; pOp = 1; pScale = 1;
+            rotY = 180; rotZ = 540; scale = 10.2; pOp = 1; pScale = 1;
         }
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
+        
+        // Portal Card Transform
         card.style.transform = `translate3d(${x}px, ${y}px, 0) rotateY(${rotY}deg) scale(${scale})`;
         gearSvg.style.transform = `rotate(${rotZ}deg)`;
+        
+        // Layering/Opacity
         hero.style.opacity = hOp;
         projects.style.opacity = pOp;
         projects.style.transform = `scale(${pScale})`;
 
-        if (pOp > 0.6) { projects.style.pointerEvents = 'auto'; projects.style.zIndex = '50'; } 
-        else { projects.style.pointerEvents = 'none'; projects.style.zIndex = '10'; }
+        // Interactivity handling
+        if (pOp > 0.6) { 
+            projects.style.pointerEvents = 'auto'; 
+            projects.style.zIndex = '50'; 
+        } else { 
+            projects.style.pointerEvents = 'none'; 
+            projects.style.zIndex = '10'; 
+        }
     }
 
     window.addEventListener('scroll', handleScroll);
