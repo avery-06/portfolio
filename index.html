@@ -28,12 +28,13 @@
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* REDUCED TRACK HEIGHT TO REMOVE UNNECESSARY SPACE */
+        /* OPTIMIZED TRACK HEIGHT */
         #transition-track { height: 450vh; position: relative; }
         .sticky-viewport { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; }
 
         .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
 
+        /* HIDE SCROLLBARS */
         #projects-layer { 
             z-index: 10; 
             opacity: 0; 
@@ -85,6 +86,7 @@
 
 <div id="transition-track">
     <div class="sticky-viewport">
+        <!-- PROJECTS -->
         <div id="projects-layer" class="layer">
             <div class="max-w-6xl mx-auto w-full px-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10">
@@ -96,6 +98,7 @@
             </div>
         </div>
 
+        <!-- HERO -->
         <div id="hero-layer" class="layer px-6">
             <div class="text-center mb-12">
                 <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
@@ -118,6 +121,7 @@
             </div>
         </div>
 
+        <!-- GEAR PORTAL -->
         <div class="card-container">
             <div class="flip-card" id="main-card">
                 <div class="card-face card-front" id="front-face"><img src="headshot.jpg" alt="Transition" class="w-full h-full object-cover grayscale"></div>
@@ -185,25 +189,25 @@
             const p = (progress - 0.05) / 0.15;
             x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.4;
         } 
-        // Stage 2: Zoom (0.2 to 0.5)
+        // Stage 2: Zoom to 10.2x (0.2 to 0.5)
         else if (progress <= 0.5) {
             const p = (progress - 0.2) / 0.3;
             rotY = 180; rotZ = 90 + (p * 450);
-            scale = 0.4 + (Math.pow(p, 3) * (10.5 - 0.4));
+            scale = 0.4 + (Math.pow(p, 3) * (10.2 - 0.4));
             pOp = 0; pScale = 0.1;
         } 
-        // Stage 3: Reveal (0.5 to 0.9)
+        // Stage 3: Project Reveal (0.5 to 0.9)
         else if (progress <= 0.9) {
             rotY = 180; rotZ = 540 + ((progress - 0.5) * 60);
-            scale = 10.5; 
+            scale = 10.2; 
             const revealProg = (progress - 0.5) / 0.4;
             pOp = revealProg;
             pScale = 0.1 + (revealProg * 0.9);
         }
-        // Stage 4: End Hold (0.9 to 1.0)
+        // Stage 4: End (0.9 to 1.0)
         else {
             rotY = 180; rotZ = 540 + (0.4 * 60);
-            scale = 10.5; pOp = 1; pScale = 1;
+            scale = 10.2; pOp = 1; pScale = 1;
         }
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
