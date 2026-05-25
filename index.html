@@ -19,7 +19,6 @@
 
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         
-        /* Nav Gear Animation */
         @keyframes spin-slow {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
@@ -42,12 +41,13 @@
             min-height: 280px;
             text-decoration: none;
             border: 1px solid rgba(0,0,0,0.03);
+            position: relative;
+            z-index: 10;
         }
         .project-bubble:hover { transform: translateY(-5px) scale(1.01); }
         
         .text-sapphire { color: var(--sapphire); }
 
-        /* Cursor blinking */
         .cursor {
             display: inline-block;
             width: 3px;
@@ -56,6 +56,56 @@
             animation: blink 1s infinite;
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* --- FLIP TRANSITION STYLES --- */
+        #flip-container {
+            height: 300vh; /* Scroll duration */
+            position: relative;
+            perspective: 2000px;
+        }
+
+        .flip-sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .flip-card {
+            position: relative;
+            width: 320px; /* Matches headshot width */
+            height: 320px;
+            transform-style: preserve-3d;
+            transition: transform 0.1s linear;
+            will-change: transform, width, height;
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 3rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flip-card-back {
+            background-color: #1d1d1f;
+            transform: rotateY(180deg);
+            color: var(--sapphire);
+        }
+
+        #scroll-gear {
+            width: 80%;
+            height: 80%;
+            filter: drop-shadow(0 0 30px rgba(15, 82, 186, 0.4));
+        }
     </style>
 </head>
 <body>
@@ -103,10 +153,28 @@
                 </div>
             </div>
             <div class="w-full md:w-1/3">
+                <!-- Image remains here for layout, but we'll transition into the flip -->
                 <img src="headshot.jpg" alt="Avery Wong" class="w-full h-80 object-cover rounded-[3rem] shadow-lg grayscale brightness-105 contrast-110">
             </div>
         </div>
     </section>
+
+    <!-- FLIP TRANSITION SECTION -->
+    <div id="flip-container">
+        <div class="flip-sticky">
+            <div class="flip-card" id="main-card">
+                <div class="flip-card-front">
+                    <img src="headshot.jpg" alt="Avery Wong" class="w-full h-full object-cover grayscale brightness-105 contrast-110">
+                </div>
+                <div class="flip-card-back">
+                    <svg id="scroll-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- PROJECTS SECTION -->
     <section id="projects" class="py-24 px-6 min-h-screen">
@@ -152,7 +220,6 @@
         // --- TYPEWRITER LOGIC ---
         const nameText = "Avery Wong";
         const titleText = "Mechanical Engineer.";
-        
         const nameEl = document.getElementById("name-typewriter");
         const titleEl = document.getElementById("title-typewriter");
         const nameCursor = document.getElementById("name-cursor");
@@ -175,6 +242,48 @@
                 }
             }, speed);
         }
+
+        // --- SCROLL FLIP LOGIC ---
+        const flipContainer = document.getElementById('flip-container');
+        const mainCard = document.getElementById('main-card');
+        const scrollGear = document.getElementById('scroll-gear');
+
+        window.addEventListener('scroll', () => {
+            const rect = flipContainer.getBoundingClientRect();
+            const viewHeight = window.innerHeight;
+            
+            // Calculate progress (0 to 1) through the flip-container
+            let progress = -rect.top / (rect.height - viewHeight);
+            progress = Math.max(0, Math.min(1, progress));
+
+            // 1. Flip: 0 to 180 degrees over the first 50% of scroll
+            const flipProgress = Math.min(1, progress * 2);
+            const rotation = flipProgress * 180;
+
+            // 2. Scale: Start scaling early, reach full screen by 80% scroll
+            const scaleProgress = Math.min(1, progress * 1.2);
+            // Calculate scale to fill screen (from initial 320px to roughly 150vw/vh)
+            const targetScale = 1 + (scaleProgress * 10);
+            const borderRadius = 3 * (1 - scaleProgress); // Corner radius fades out
+
+            // 3. Gear Rotation: Spins as you scroll
+            const gearRotation = progress * 1000;
+
+            // Apply transforms
+            mainCard.style.transform = `rotateY(${rotation}deg) scale(${targetScale})`;
+            mainCard.style.borderRadius = `${borderRadius}rem`;
+            mainCard.querySelectorAll('.flip-card-front, .flip-card-back').forEach(el => {
+                el.style.borderRadius = `${borderRadius}rem`;
+            });
+            scrollGear.style.transform = `rotate(${gearRotation}deg)`;
+
+            // Fade in/out logic for smooth transition into projects
+            if (progress > 0.9) {
+                mainCard.style.opacity = 1 - ((progress - 0.9) * 10);
+            } else {
+                mainCard.style.opacity = 1;
+            }
+        });
 
         window.onload = () => {
             typeEffect(nameEl, nameText, 100, () => {
