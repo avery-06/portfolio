@@ -9,7 +9,7 @@
     <style>
         :root { 
             --sapphire: #0F52BA; 
-            --bg-color: #f5f5f7; /* Apple Gray */
+            --bg-color: #f5f5f7; 
         }
         
         body { 
@@ -47,8 +47,6 @@
         }
         .project-bubble:hover { transform: translateY(-5px) scale(1.01); }
         
-        .text-sapphire { color: var(--sapphire); }
-
         .cursor {
             display: inline-block;
             width: 3px;
@@ -59,10 +57,7 @@
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         /* --- SCROLL SYSTEM --- */
-        #main-scroll-container {
-            height: 500vh; 
-            position: relative;
-        }
+        #main-scroll-container { height: 500vh; position: relative; }
 
         .sticky-viewport {
             position: sticky;
@@ -90,23 +85,24 @@
             overflow-y: auto;
             justify-content: flex-start;
             padding-top: 140px;
-            background: var(--bg-color); /* The final background color */
+            background: var(--bg-color);
         }
 
-        /* --- FLIP CARD --- */
+        /* --- HIGH-RES FLIP CARD --- */
         .flip-card-container {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            perspective: 2000px;
+            perspective: 3000px;
             z-index: 100;
             pointer-events: none;
         }
 
         .flip-card {
-            width: 320px; 
-            height: 320px;
+            /* We start with a massive base size to ensure high resolution */
+            width: 1000px; 
+            height: 1000px;
             transform-style: preserve-3d;
             will-change: transform;
         }
@@ -123,18 +119,24 @@
 
         .flip-card-front { 
             background: white; 
-            border-radius: 3rem;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+            border-radius: 80px; /* Adjusted for 1000px scale */
             overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.1);
         }
         
         .flip-card-back { 
             background: var(--bg-color); 
             transform: rotateY(180deg);
-            /* Border radius will be animated via JS */
         }
 
-        #scroll-gear { width: 80%; height: 80%; color: #1d1d1f; }
+        /* The SVG now renders at a high resolution natively */
+        #scroll-gear { 
+            width: 70%; 
+            height: 70%; 
+            color: #1d1d1f;
+            /* Force vector rendering */
+            shape-rendering: geometricPrecision;
+        }
     </style>
 </head>
 <body>
@@ -142,7 +144,7 @@
     <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
         <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
             <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 text-sapphire animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg class="w-5 h-5 text-[#0F52BA] animate-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="3"></circle>
                     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                 </svg>
@@ -150,8 +152,7 @@
             </div>
             <div class="space-x-8">
                 <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-gray-500 hover:text-black transition">About</button>
-                <button onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" class="text-gray-500 hover:text-black transition">Projects</button>
-                <a href="mailto:averywong3@gmail.com" class="hover:text-sapphire transition">Contact</a>
+                <a href="mailto:averywong3@gmail.com" class="hover:text-[#0F52BA] transition">Contact</a>
             </div>
         </div>
     </nav>
@@ -177,10 +178,9 @@
                             I'm a mechanical engineering student at the University of Toronto with a focus on research & development. I specialize in taking projects from concept to functional prototyping.
                         </p>
                         <div class="flex flex-wrap gap-4 pt-4">
-                            <a href="#" class="bg-white border border-gray-200 px-6 py-3 rounded-2xl text-sm font-bold hover:border-sapphire transition uppercase">LinkedIn ↗</a>
+                            <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="bg-white border border-gray-200 px-6 py-3 rounded-2xl text-sm font-bold hover:border-[#0F52BA] transition uppercase">LinkedIn ↗</a>
                         </div>
                     </div>
-                    <!-- TARGET SLOT FOR IMAGE -->
                     <div id="image-slot" class="w-full md:w-[320px] h-[320px] flex-shrink-0"></div>
                 </div>
             </div>
@@ -230,9 +230,9 @@
                 if (i < text.length) {
                     let displayedText = text.substring(0, i + 1);
                     if (element.id === "name-typewriter") {
-                        element.innerHTML = displayedText.length > 6 ? `Avery <span class="text-sapphire">${text.substring(6, i + 1)}</span>` : displayedText;
+                        element.innerHTML = displayedText.length > 6 ? `Avery <span class="text-[#0F52BA]">${text.substring(6, i + 1)}</span>` : displayedText;
                     } else if (element.id === "title-typewriter") {
-                        element.innerHTML = displayedText.length > 11 ? `Mechanical <span class="text-sapphire">${text.substring(11, i + 1)}</span>` : displayedText;
+                        element.innerHTML = displayedText.length > 11 ? `Mechanical <span class="text-[#0F52BA]">${text.substring(11, i + 1)}</span>` : displayedText;
                     }
                     i++;
                 } else { clearInterval(timer); if (callback) callback(); }
@@ -257,14 +257,13 @@
             let progress = -rect.top / totalScrollable;
             progress = Math.max(0, Math.min(1, progress));
 
-            // TIMELINE:
-            // 0.00 - 0.10: Scroll Delay (Reading)
-            // 0.10 - 0.60: The "Takeover" (Flip and Scale to Fullscreen)
-            // 0.60 - 1.00: Fade projects and shrink gear to header
+            // TIMELINE MATH
+            // Because our base card is 1000px, 
+            // a scale of 0.32 makes it look exactly 320px wide.
+            const baseScale = 0.32; 
 
-            let x = 0, y = 0, scale = 1, rotY = 0, rotZ = 0, heroOp = 1, projOp = 0, radius = 3;
+            let x = 0, y = 0, scale = baseScale, rotY = 0, rotZ = 0, heroOp = 1, projOp = 0, radius = 80;
 
-            // Start coordinates (relative to center)
             const startX = (slotRect.left + slotRect.width/2) - (vw/2);
             const startY = (slotRect.top + slotRect.height/2) - (vh/2);
 
@@ -273,22 +272,17 @@
             } 
             else if (progress <= 0.60) {
                 const p = (progress - 0.10) / 0.5;
-                
-                // Glide to center
                 x = startX * (1 - p);
                 y = startY * (1 - p);
-                
-                // Flip
                 rotY = p * 180;
                 rotZ = p * 360;
 
-                // FULLSCREEN SCALE
-                // We scale enough so the 320px card covers the largest screen dimension
-                const targetScale = (Math.max(vw, vh) / 320) * 1.5;
-                scale = 1 + (p * (targetScale - 1));
+                // FULLSCREEN SCALE: 
+                // We calculate what scale a 1000px box needs to cover the screen.
+                const targetScale = (Math.max(vw, vh) / 1000) * 1.2;
+                scale = baseScale + (p * (targetScale - baseScale));
                 
-                // Flatten corners as it hits fullscreen
-                radius = 3 * (1 - p);
+                radius = 80 * (1 - p); // Fade corner roundness
                 heroOp = 1 - (p * 2);
             } 
             else {
@@ -296,29 +290,20 @@
                 rotY = 180;
                 rotZ = 360 + (p * 360);
                 
-                // Shrink from fullscreen down to a small header icon (e.g., 80px)
-                const fullScale = (Math.max(vw, vh) / 320) * 1.5;
-                const headerScale = 0.25; 
+                const fullScale = (Math.max(vw, vh) / 1000) * 1.2;
+                const headerScale = 0.08; // 80px result
                 scale = fullScale - (p * (fullScale - headerScale));
                 
-                // Move gear to the top
                 y = -(vh * 0.44) * p;
-                
-                radius = p * 2; // Return some roundness to header icon
+                radius = p * 100; 
                 heroOp = 0;
                 projOp = p;
             }
 
-            // Apply Styles
+            // CSS Transformations
             mainCard.style.transform = `translate(${x}px, ${y}px) rotateY(${rotY}deg) scale(${scale})`;
-            cardBack.style.borderRadius = `${radius}rem`;
+            cardBack.style.borderRadius = `${radius}px`;
             scrollGear.style.transform = `rotate(${rotZ}deg)`;
-            
-            // Sync Gear size so it doesn't look massive when card is fullscreen
-            // If card is scaled by 5, gear inside should be scaled by 1/5 to stay "normal"
-            const gearInvScale = 1 / scale; 
-            // However, we want it to look like a nice logo, so we'll cap the inverse
-            scrollGear.style.scale = Math.max(0.2, gearInvScale * 1.2);
 
             heroLayer.style.opacity = Math.max(0, heroOp);
             projectsLayer.style.opacity = projOp;
