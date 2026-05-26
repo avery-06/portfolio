@@ -1,270 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avery Wong | Mechanical Engineer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root { --sapphire: #0F52BA; --bg-color: #ffffff; --project-bg: #ffffff; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: #1d1d1f; margin: 0; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-
-        .text-sapphire { color: var(--sapphire); }
-        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        
-        @keyframes spin-nav { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .animate-gear-nav { animation: spin-nav 8s linear infinite; }
-
-        .apple-bubble { background: #f5f5f7; border-radius: 3.5rem; border: 1px solid rgba(0,0,0,0.03); }
-        
-        /* Updated project bubble to handle link styling */
-        .project-bubble { 
-            background: white; border-radius: 3.5rem; display: flex; align-items: center; justify-content: center; 
-            min-height: 280px; border: 1px solid rgba(0,0,0,0.08); transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); 
-            padding: 2rem; text-align: center; cursor: pointer; text-decoration: none; color: inherit;
-        }
-        .project-bubble:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.04); border-color: var(--sapphire); }
-
-        /* Preview Window Styles */
-        #project-preview-container {
-            position: fixed; top: 15%; right: 5%; width: 400px; height: 500px; 
-            z-index: 150; pointer-events: none; opacity: 0; transform: translateY(20px);
-            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            border-radius: 2rem; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.15);
-            border: 4px solid white; background: white;
-        }
-        #project-preview-container.active { opacity: 1; transform: translateY(0); }
-        #preview-iframe { width: 100%; height: 100%; border: none; transform: scale(0.8); transform-origin: top left; width: 125%; height: 125%; }
-
-        .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-        #transition-track { height: 600vh; position: relative; }
-        .sticky-viewport { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; }
-
-        .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
-
-        #projects-layer { 
-            z-index: 10; opacity: 0; background: var(--project-bg); padding: 80px 2rem; 
-            overflow-y: auto; pointer-events: none; justify-content: flex-start;
-            transform: scale(0.05); scrollbar-width: none; -ms-overflow-style: none; will-change: transform, opacity;
-        }
-        #projects-layer::-webkit-scrollbar { display: none; }
-
-        #hero-layer { z-index: 30; justify-content: center; will-change: opacity; }
-
-        .card-container { 
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            perspective: 2000px; z-index: 20; pointer-events: none; 
-        }
-        
-        .flip-card { width: 800px; height: 800px; transform-style: preserve-3d; will-change: transform; }
-        .card-face { 
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; 
-            -webkit-backface-visibility: hidden; display: flex; align-items: center; justify-content: center; border-radius: 80px;
-        }
-        
-        .card-front { background: var(--bg-color); overflow: hidden; border: 1px solid #eee; }
-        .card-back { background: var(--bg-color); transform: rotateY(180deg); position: relative; }
-
-        #main-gear-svg { width: 70%; height: 70%; fill: #333333; will-change: transform; }
-        
-        .static-label {
-            position: absolute; font-weight: 800; font-size: 32px; color: #1d1d1f;
-            text-transform: uppercase; letter-spacing: 0.1em; pointer-events: none; z-index: 10;
-        }
-
-        #image-slot img { width: 100%; height: 100%; object-fit: cover; border-radius: 2.5rem; filter: grayscale(100%); }
-    </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Rehabilitation Knee Sleeve — Avery Wong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Bricolage+Grotesque:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0f2830;
+      color: #e8f8f6;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: -180px; left: 50%;
+      transform: translateX(-50%);
+      width: 900px; height: 600px;
+      background: radial-gradient(ellipse, rgba(78,205,196,0.14) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 60px; display: flex; justify-content: space-between; align-items: center;
+      padding: 0 2.5rem;
+      background: rgba(9,21,24,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(78,205,196,0.28);
+    }
+    .nav-logo { font-family: 'Bricolage Grotesque', sans-serif; font-size: 0.95rem; font-weight: 600; color: #e8f8f6; text-decoration: none; }
+    .nav-links { display: flex; gap: 0.2rem; list-style: none; align-items: center; }
+    .nav-links > li > a { font-size: 0.83rem; font-weight: 500; color: #8ac8c2; text-decoration: none; padding: 0.4rem 0.9rem; border-radius: 6px; transition: all 0.18s; display: flex; align-items: center; gap: 4px; }
+    .nav-links > li > a:hover { color: #e8f8f6; background: #163438; }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown .chevron { width: 12px; height: 12px; transition: transform 0.2s; opacity: 0.6; }
+    .nav-dropdown:hover > a .chevron { transform: rotate(180deg); }
+    .nav-dropdown:hover > a { color: #e8f8f6; background: #163438; }
+    .dropdown-menu { position: absolute; top: calc(100% + 8px); right: 0; background: #0c2028; border: 1px solid rgba(78,205,196,0.28); border-radius: 10px; padding: 0.4rem; min-width: 260px; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.18s ease, transform 0.18s ease; z-index: 200; }
+    .nav-dropdown:hover .dropdown-menu { opacity: 1; pointer-events: all; transform: translateY(0); }
+    .dropdown-menu a { display: flex !important; flex-direction: column; gap: 2px; padding: 0.6rem 0.85rem !important; border-radius: 7px !important; background: transparent !important; color: #8ac8c2 !important; text-decoration: none; transition: all 0.15s !important; }
+    .dropdown-menu a:hover { background: #163438 !important; color: #e8f8f6 !important; }
+    .dropdown-menu a .d-title { font-size: 0.83rem; font-weight: 500; color: inherit; }
+    .dropdown-menu a .d-sub { font-size: 0.7rem; color: #508888; }
+    .dropdown-divider { height: 1px; background: rgba(78,205,196,0.28); margin: 0.35rem 0.5rem; }
+    .page-wrap { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 7rem 2.5rem 5rem; }
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.83rem; color: #8ac8c2; text-decoration: none; margin-bottom: 2.5rem; transition: color 0.18s; }
+    .back-link:hover { color: #3de8de; }
+    .label-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #3de8de; margin-bottom: 0.65rem; }
+    .label-pill::before { content: ''; width: 16px; height: 1px; background: #3de8de; }
+    h1 { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; color: #e8f8f6; line-height: 1.1; margin-bottom: 0.75rem; }
+    h2 { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 700; letter-spacing: -0.02em; color: #e8f8f6; line-height: 1.2; margin-bottom: 1rem; }
+    .proj-meta-bar { display: flex; flex-wrap: wrap; gap: 1.75rem; margin: 1.5rem 0 2rem; padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(78,205,196,0.28); background: #163438; }
+    .proj-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .proj-meta-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.09em; color: #508888; }
+    .proj-meta-val { font-size: 0.88rem; color: #e8f8f6; font-weight: 500; }
+    .proj-section { margin-bottom: 2.5rem; }
+    .proj-section p { font-size: 0.95rem; color: #8ac8c2; line-height: 1.85; margin-bottom: 0.9rem; }
+    .proj-section ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+    .proj-section ul li { font-size: 0.92rem; color: #8ac8c2; padding-left: 1.2rem; position: relative; line-height: 1.7; }
+    .proj-section ul li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 5px; height: 5px; border-radius: 50%; background: #3de8de; opacity: 0.6; }
+    .divider { height: 1px; background: rgba(78,205,196,0.28); margin: 2rem 0; }
+    .ptag { font-size: 0.7rem; font-weight: 500; padding: 0.25rem 0.65rem; border-radius: 5px; background: rgba(78,205,196,0.18); color: #3de8de; border: 1px solid rgba(78,205,196,0.38); }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .proj-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(78,205,196,0.28); flex-wrap: wrap; gap: 1rem; }
+    .proj-nav a { font-size: 0.83rem; color: #8ac8c2; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.18s; }
+    .proj-nav a:hover { color: #3de8de; }
+    .proj-section img { width:100%; border-radius:10px; border:2px solid var(--t-border); display:block; }
+    footer { position: relative; z-index: 1; text-align: center; padding: 1.5rem; border-top: 1px solid rgba(78,205,196,0.28); font-size: 0.78rem; color: #508888; }
+    @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 1; transform: none; transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.animate { opacity: 0; transform: translateY(20px); }
+    .reveal.animate.visible { opacity: 1; transform: none; }
+    @media (max-width: 700px) { nav { padding: 0 1.5rem; } .page-wrap { padding: 6rem 1.5rem 4rem; } }
+  </style>
 </head>
 <body>
-
-<!-- Preview Window -->
-<div id="project-preview-container">
-    <iframe id="preview-iframe" src="about:blank"></iframe>
-</div>
-
-<nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
-    <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
-        <!-- EDITED: Click logo to reload -->
-        <div class="flex items-center gap-2 cursor-pointer group" onclick="window.location.reload()">
-            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-            <span class="font-bold group-hover:text-sapphire transition-colors">Avery Wong</span>
-        </div>
-        <div class="space-x-8">
-            <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-gray-500 hover:text-black transition">About</button>
-            <a href="mailto:averywong3@gmail.com" class="hover:text-sapphire transition">Contact</a>
-        </div>
-    </div>
+<nav>
+  <a class="nav-logo" href="index.html">Avery Wong</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li class="nav-dropdown">
+      <a href="projects.html">Projects
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </a>
+      <div class="dropdown-menu">
+        <a href="projects.html"><span class="d-title">All Projects</span><span class="d-sub">Selected work overview</span></a>
+        <div class="dropdown-divider"></div>
+        <a href="project-1.html"><span class="d-title">Cinematography Robotic Arm</span><span class="d-sub">MIE 243</span></a>
+        <a href="project-2.html"><span class="d-title">Smart Rehabilitation Knee Sleeve</span><span class="d-sub">True North Competition</span></a>
+        <a href="project-3.html"><span class="d-title">Desk with Integrated Charging Ports</span><span class="d-sub">APS 112</span></a>
+        <a href="project-4.html"><span class="d-title">Ball Bearing &amp; Screwdriver Dissections</span><span class="d-sub">MIE 243</span></a>
+      </div>
+    </li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
 </nav>
-
-<div id="transition-track">
-    <div class="sticky-viewport">
-        <div id="projects-layer" class="layer">
-            <div class="max-w-6xl mx-auto w-full px-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-20 pb-20">
-                    <!-- EDITED: Added links and hover preview data -->
-                    <a href="project-1.html" class="project-bubble" onmouseenter="showPreview('project-1.html')" onmouseleave="hidePreview()">
-                        <h3 class="text-3xl font-bold">Robotic Cinematography Arm</h3>
-                    </a>
-                    <a href="project-2.html" class="project-bubble bg-[#1d1d1f] text-white" onmouseenter="showPreview('project-2.html')" onmouseleave="hidePreview()">
-                        <h3 class="text-3xl font-bold">Smart Knee Sleeve</h3>
-                    </a>
-                    <a href="project-3.html" class="project-bubble" onmouseenter="showPreview('project-3.html')" onmouseleave="hidePreview()">
-                        <h3 class="text-3xl font-bold">Integrated Desk Outlets</h3>
-                    </a>
-                    <a href="project-4.html" class="project-bubble bg-zinc-200" onmouseenter="showPreview('project-4.html')" onmouseleave="hidePreview()">
-                        <h3 class="text-3xl font-bold text-zinc-800">Mechanical Dissections</h3>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div id="hero-layer" class="layer px-6">
-            <div class="text-center mb-12">
-                <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
-                    <span id="name-type"></span><span id="name-cursor" class="cursor"></span>
-                </div>
-                <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter leading-none h-24 md:h-32">
-                    <span id="title-type"></span><span id="title-cursor" class="cursor hidden"></span>
-                </h1>
-            </div>
-            <div id="about-bubble" class="apple-bubble max-w-5xl w-full p-8 md:p-12 flex flex-col md:flex-row items-center gap-12">
-                <div class="flex-1 space-y-6">
-                    <h2 class="text-5xl font-extrabold tracking-tight">About</h2>
-                    <p class="text-gray-500 text-lg leading-relaxed">Mechanical engineering student at the University of Toronto. Specializing in functional prototyping and elegant R&D solutions.</p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold hover:border-sapphire transition shadow-sm uppercase">LinkedIn ↗</a>
-                        <div class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold text-sapphire shadow-sm">averywong3@gmail.com</div>
-                    </div>
-                </div>
-                <div id="image-slot" class="w-full md:w-[320px] h-[320px] flex-shrink-0"><img src="headshot.jpg" alt="Avery Wong"></div>
-            </div>
-        </div>
-
-        <div class="card-container">
-            <div class="flip-card" id="main-card">
-                <div class="card-face card-front" id="front-face"><img src="headshot.jpg" alt="Transition" class="w-full h-full object-cover grayscale"></div>
-                <div class="card-face card-back" id="back-face">
-                    <div class="static-label">Projects</div>
-                    <svg id="main-gear-svg" viewBox="0 0 100 100">
-                        <path d="M100 42.6V57.4L88.4 59.4C87.4 63 85.8 66.4 83.7 69.4L90.5 78.9L79.9 89.5L70.4 82.7C67.4 84.8 64 86.4 60.4 87.4L58.4 99H43.6L41.6 87.4C38 86.4 34.6 84.8 31.6 82.7L22.1 89.5L11.5 78.9L18.3 69.4C16.2 66.4 14.6 63 13.6 59.4L2 57.4V42.6L13.6 40.6C14.6 37 16.2 33.6 18.3 30.6L11.5 21.1L22.1 10.5L31.6 17.3C34.6 15.2 38 13.6 41.6 12.6L43.6 1H58.4L60.4 12.6C64 13.6 67.4 15.2 70.4 17.3L79.9 10.5L90.5 21.1L83.7 30.6C85.8 33.6 87.4 37 88.4 40.6L100 42.6ZM51 31C40 31 31 40 31 51C31 62 40 71 51 71C62 71 71 62 71 51C71 40 62 31 51 31Z" fill-rule="evenodd"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="page-wrap">
+  <a class="back-link reveal" href="projects.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    All Projects
+  </a>
+  <div class="reveal">
+    <div class="label-pill">Project 02</div>
+    <h1>Smart Rehabilitation Knee Sleeve</h1>
+  </div>
+  <div class="proj-meta-bar reveal">
+    <div class="proj-meta-item"><span class="proj-meta-label">Competition</span><span class="proj-meta-val">True North Biomedical Design Competition</span></div>
+    <div class="proj-meta-item"><span class="proj-meta-label">Role</span><span class="proj-meta-val">Mechanical &amp; User Design Lead</span></div>
+    <div class="proj-meta-item"><span class="proj-meta-label">Tags</span><div class="proj-tags" style="margin-top:4px;"><span class="ptag">Material Selection</span><span class="ptag">CAD</span><span class="ptag">ANSYS</span><span class="ptag">Integrative Design</span></div></div>
+  </div>
+  <div class="divider"></div>
+  <div class="proj-section reveal"><h2>Overview</h2>
+<p>The True North Biomedical Design Competition challenged teams to design and prototype a smart rehabilitation knee sleeve to aid physiotherapists in tracking muscle growth and development in ACL-injured patients. I was part of the Mechanical Design and User Experience (MDUX) subteam, responsible for the mechanical and material properties of the sleeve. As the Mechanical &amp; User Design Lead, I was responsible for integration with other subsystems, the mechanics and materials of the knee sleeve, and virtual modelling and simulation.</p>
+</div>
+<div class="proj-section reveal"><h2>Quantiflex's Design</h2>
+<ul>
+<li>The knee sleeve features a triple layered knit with two outside layers of isotropic spandex, and one interior layer of orthotropic Nylon 6-6 for directional elasticity. Furthermore, a neoprene patella support was added for addtional comfort and support. These materials and stitching patterns were determined through Ansys Granta Edupack software, literature, and market benchmarking.</li>
+<li>To capture muscle activation and knee flextion, Inertial Measurement Units (IMUs) were placed on the quad and shin to measure knee flextion and surface Electromyography Sensros (sEMGs) were placed on the vastus medialus and biceps femoris respectively. These IMUs and sEMGs are connected via wire and protobard to an ESP32 microcontroller where data is hosted over Wifi to the Quantiflex website.</li>
+<li>To ensure user comfort, the team performed research on suitable compression pressures the knee sleeve should provide and used Ansys Mechanical to validate these values.</li>
+</ul>
+</div>
+<div class="proj-section reveal">
+  <!-- Top row: 2 equal images -->
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:0.5rem;">
+    <img src="kneesleeve.png" alt="" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:1px solid rgba(78,205,196,0.28);display:block;">
+    <img src="kneesleevecad.png" alt="" style="width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:1px solid rgba(78,205,196,0.28);display:block;">
+  </div>
+  <!-- Bottom row: 1 large image -->
+  <div style="margin-top:1rem;">
+    <img src="quantiflexelec.png" alt="" style="width:100%;aspect-ratio:16/7;object-fit:cover;border-radius:10px;border:1px solid rgba(78,205,196,0.28);display:block;">
+  </div>
 </div>
 
-<script>
-    let cachedSlotRect = null, trackHeight = 0, vh = 0, vw = 0;
+<div class="proj-section reveal"><h2>Iterations</h2>
+<ul>
+<li>Iteration 1: The team initially wanted to do a single layer fabric of neoprene foam with a 3D printed TPU patella support; but we found that the triple layer mesh and neoprene foam ring better suits a wider range of users and provides better adjustbility and support.</li>
+<li>Iteration 2: The team initially used a conductive material to host the sEMGs for easier application and use; however, we found that sEMG readings were not very accurate nor precise, so team decided to add slits to the knee sleeve in which the sEMGs would slot in and directly contact the desired muscle.</li>
+<li>Iteration 3: The team initially used no grounding node as for easy application and knee sleeve fit; however, sEMG readings were very sporatic and inconsistent. As a result, we added grounding electrodes on the patella and femur bones, respectively, and we achieve stable, consistend readings.</li>
+</ul>
+</div>
 
-    // Hover Preview Logic
-    const previewContainer = document.getElementById('project-preview-container');
-    const previewIframe = document.getElementById('preview-iframe');
+<div class="proj-section reveal"><h2>Video</h2>
+  <!-- To add your video: replace "YOUR_VIDEO.mp4" below with your filename, then delete the placeholder div -->
+  <!-- To use YouTube instead: replace the <video> tag with: <iframe width="100%" height="100%" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" frameborder="0" allowfullscreen style="border-radius:10px;"></iframe> -->
 
-    function showPreview(url) {
-        previewIframe.src = url;
-        previewContainer.classList.add('active');
-    }
+  <iframe width="100%" style="aspect-ratio:16/9;border-radius:10px;border:1px solid rgba(78,205,196,0.28);display:block;" src="https://www.youtube.com/embed/Gn7hyigKtgs" frameborder="0" allowfullscreen></iframe>
+</div>
 
-    function hidePreview() {
-        previewContainer.classList.remove('active');
-        // Clear src after fade out to stop any background audio/video if present
-        setTimeout(() => { if(!previewContainer.classList.contains('active')) previewIframe.src = "about:blank"; }, 500);
-    }
+<div class="proj-section reveal"><h2>Key Takeaways</h2>
+<p>This project introduced me to engineering simulation tools such as Ansys Mechanical and further solidified my 3D CAD and R&D skills.It also highlifghted the importance of designing with consideration to other subsystems such as the Electronics and Sensor Subsystem, so as to ensure a seamless prototype assembly. Finally, this experience emphasized the importance of a human-centered design whilst also maintaining a balance of ergonomics and functionality.</p>
+</div>
 
-    function updateMetrics() {
-        const slot = document.getElementById('image-slot'), track = document.getElementById('transition-track');
-        if(slot) cachedSlotRect = slot.getBoundingClientRect(); 
-        trackHeight = track.offsetHeight;
-        vh = window.innerHeight; vw = window.innerWidth;
-    }
+  <div class="proj-nav">
+    <a href="project-1.html">← Cinematography Robotic Arm</a>
+    <a href="projects.html" style="color:#508888;">All Projects</a>
+    <a href="project-3.html">Desk with Integrated Charging Ports →</a>
+  </div>
+</div>
 
-    function type(elId, fullText, speed, callback) {
-        let i = 0; const el = document.getElementById(elId); const blueWords = ["Avery", "Engineer"];
-        const timer = setInterval(() => {
-            let currentStr = fullText.substring(0, i + 1); let words = currentStr.split(/(\s+)/);
-            let html = "";
-            words.forEach(word => {
-                const cleanWord = word.trim().replace(/[^\w]/g, '');
-                if (blueWords.includes(cleanWord) || blueWords.some(bw => bw.startsWith(cleanWord) && cleanWord.length > 0)) {
-                    html += `<span class="text-sapphire">${word}</span>`;
-                } else { html += `<span>${word}</span>`; }
-            });
-            el.innerHTML = html; i++;
-            if (i === fullText.length) { clearInterval(timer); if (callback) callback(); }
-        }, speed);
-    }
-
-    window.onload = () => {
-        updateMetrics();
-        type("name-type", "Avery Wong", 100, () => {
-            document.getElementById("name-cursor").style.display = "none";
-            document.getElementById("title-cursor").classList.remove("hidden");
-            type("title-type", "Mechanical Engineer.", 80, null);
-        });
-        requestAnimationFrame(handleScroll);
-    };
-
-    const card = document.getElementById('main-card'), frontFace = document.getElementById('front-face');
-    const gearSvg = document.getElementById('main-gear-svg'), hero = document.getElementById('hero-layer'), projects = document.getElementById('projects-layer');
-
-    function handleScroll() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        let progress = scrollTop / (trackHeight - vh);
-        progress = Math.max(0, Math.min(1, progress));
-
-        let x=0, y=0, scale=0.4, rotY=0, rotZ=0, hOp=1, pOp=0, pScale=0.05, cardOp=1;
-        const startX = (cachedSlotRect.left + cachedSlotRect.width/2) - (vw/2);
-        const startY = (cachedSlotRect.top + cachedSlotRect.height/2) - (vh/2);
-
-        hOp = Math.max(0, 1 - (progress * 10));
-
-        if (progress <= 0.1) { 
-            x = startX; y = startY; scale = 0.4; 
-        } 
-        else if (progress <= 0.3) {
-            const p = (progress - 0.1) / 0.2;
-            x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.4;
-        } 
-        else if (progress <= 0.75) {
-            const p = (progress - 0.3) / 0.45;
-            rotY = 180; 
-            rotZ = 90 + (p * 500);
-            scale = 0.4 + (Math.pow(p, 2) * (10.2 - 0.4));
-            cardOp = 1; pOp = 0; pScale = 0.05;
-        }
-        else {
-            const p = (progress - 0.75) / 0.25; 
-            rotY = 180;
-            rotZ = 590 + (p * 220);
-            scale = 10.2 + (p * 5);
-            cardOp = 1 - (p * 1.5);
-            pOp = p;
-            pScale = 0.05 + (p * 0.95);
-        }
-
-        frontFace.style.opacity = (rotY > 90) ? '0' : '1';
-        card.style.transform = `translate3d(${x}px, ${y}px, 0) rotateY(${rotY}deg) scale(${scale})`;
-        card.style.opacity = cardOp;
-        gearSvg.style.transform = `rotate(${rotZ}deg)`;
-        
-        hero.style.opacity = hOp;
-        projects.style.opacity = pOp;
-        projects.style.transform = `scale(${pScale})`;
-
-        if (progress >= 0.98) {
-            projects.style.pointerEvents = 'auto'; projects.style.zIndex = '100';
-        } else {
-            projects.style.pointerEvents = 'none'; projects.style.zIndex = '10';
-            hidePreview(); // Close preview if user scrolls back up
-        }
-    }
-
-    window.addEventListener('scroll', () => requestAnimationFrame(handleScroll), { passive: true });
-    window.addEventListener('resize', () => { updateMetrics(); handleScroll(); });
-</script>
-</body>
-</html>
+<div style="height:8px;background:#000;margin-top:4rem;"></div>
+<div id="contact" style="position:relative;z-index:1;max-width:900px;margin:0 auto;padding:3.5rem 2.5rem 4rem;background:#0f2830;">
+  <div style="border:2px solid #000;border-radius:16px;padding:2.5rem;background:#fff;">
+    <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(1.4rem,3vw,1.9rem);font-weight:700;letter-spacing:-0.02em;color:#1e2d4d;margin-bottom:0.5rem;">Contact</div>
+    <p style="font-size:0.9rem;color:#64748b;margin-bottom:1.5rem;">Open to internships, co-ops, and engineering opportunities.</p>
+    <div style="display:flex;flex-direction:column;gap:0.55rem;">
+      <div style="font-size:0.84rem;color:#64748b;display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:#1e2d4d;opacity:0.5;flex-shrink:0;display:inline-block;"></span>&#97;&#118;&#101;&#114;&#121;&#119;&#111;&#110;&#103;&#51;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</div>
+      <div style="font-size:0.84rem;color:#64748b;display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:#1e2d4d;opacity:0.5;flex-shrink:0;display:inline-block;"></span>(778) 685-0986</div>
+      <div style="font-size:0.84rem;color:#64748b;display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:#1e2d4d;opacity:0.5;flex-shrink:0;display:inline-block;"></span>linkedin.com/in/averywong0</div
