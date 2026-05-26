@@ -18,30 +18,37 @@
 
         .apple-bubble { background: #f5f5f7; border-radius: 3.5rem; border: 1px solid rgba(0,0,0,0.03); }
         
-        /* Updated Project Bubble: Expands over neighbors */
+        /* Grid Container for Projects */
+        .projects-grid-wrapper { position: relative; width: 100%; }
+
         .project-bubble { 
             background: white; border-radius: 3.5rem; display: flex; align-items: center; justify-content: center; 
             min-height: 280px; border: 1px solid rgba(0,0,0,0.08); transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); 
             padding: 2rem; text-align: center; cursor: pointer; text-decoration: none; color: inherit;
-            position: relative; z-index: 1; /* relative allows z-index to work */
+            position: relative; z-index: 1;
         }
         .project-bubble:hover { 
-            transform: scale(1.12); /* Aggressive expansion */
-            z-index: 50; /* Sits on top of all other bubbles */
-            box-shadow: 0 40px 80px rgba(0,0,0,0.1); 
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.05); 
             border-color: var(--sapphire);
         }
 
-        /* Preview Window Styles */
-        #project-preview-container {
-            position: fixed; top: 15%; right: 5%; width: 400px; height: 500px; 
-            z-index: 150; pointer-events: none; opacity: 0; transform: translateY(20px);
-            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            border-radius: 2rem; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.15);
-            border: 4px solid white; background: white;
+        /* NEW: Master Preview that covers the entire 4-bubble grid area */
+        #master-preview-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 40; pointer-events: none; opacity: 0; 
+            transition: opacity 0.4s ease;
+            border-radius: 3.5rem; overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.1);
+            background: white;
         }
-        #project-preview-container.active { opacity: 1; transform: translateY(0); }
-        #preview-iframe { width: 100%; height: 100%; border: none; transform: scale(0.8); transform-origin: top left; width: 125%; height: 125%; }
+        #master-preview-container.active { opacity: 1; }
+        #preview-iframe { 
+            width: 100%; height: 100%; border: none; 
+            /* Zoom the iframe slightly so it looks like a real page preview */
+            transform: scale(1); transform-origin: top left;
+        }
 
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
@@ -86,13 +93,9 @@
 </head>
 <body>
 
-<div id="project-preview-container">
-    <iframe id="preview-iframe" src="about:blank"></iframe>
-</div>
-
 <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
-        <!-- Logo with Force Reload to Top -->
+        <!-- Logo: Reload from very top -->
         <div class="flex items-center gap-2 cursor-pointer group" onclick="reloadToTop()">
             <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             <span class="font-bold group-hover:text-sapphire transition-colors">Avery Wong</span>
@@ -107,20 +110,31 @@
 <div id="transition-track">
     <div class="sticky-viewport">
         <div id="projects-layer" class="layer">
-            <div class="max-w-6xl mx-auto w-full px-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-20 pb-20">
-                    <a href="project-1.html" class="project-bubble" onmouseenter="showPreview('project-1.html')" onmouseleave="hidePreview()">
-                        <h3 class="text-3xl font-bold">Robotic Cinematography Arm</h3>
-                    </a>
-                    <a href="project-2.html" class="project-bubble bg-[#1d1d1f] text-white" onmouseenter="showPreview('project-2.html')" onmouseleave="hidePreview()">
-                        <h3 class="text-3xl font-bold">Smart Knee Sleeve</h3>
-                    </a>
-                    <a href="project-3.html" class="project-bubble" onmouseenter="showPreview('project-3.html')" onmouseleave="hidePreview()">
-                        <h3 class="text-3xl font-bold">Integrated Desk Outlets</h3>
-                    </a>
-                    <a href="project-4.html" class="project-bubble bg-zinc-200" onmouseenter="showPreview('project-4.html')" onmouseleave="hidePreview()">
-                        <h3 class="text-3xl font-bold text-zinc-800">Mechanical Dissections</h3>
-                    </a>
+            <div class="max-w-6xl mx-auto w-full px-6 pt-20 pb-20">
+                <!-- Wrapper for the grid and the master preview overlay -->
+                <div class="projects-grid-wrapper">
+                    
+                    <!-- The Grid of 4 bubbles -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                        <a href="project-1.html" class="project-bubble" onmouseenter="showFullPreview('project-1.html')" onmouseleave="hideFullPreview()">
+                            <h3 class="text-3xl font-bold">Robotic Cinematography Arm</h3>
+                        </a>
+                        <a href="project-2.html" class="project-bubble bg-[#1d1d1f] text-white" onmouseenter="showFullPreview('project-2.html')" onmouseleave="hideFullPreview()">
+                            <h3 class="text-3xl font-bold">Smart Knee Sleeve</h3>
+                        </a>
+                        <a href="project-3.html" class="project-bubble" onmouseenter="showFullPreview('project-3.html')" onmouseleave="hideFullPreview()">
+                            <h3 class="text-3xl font-bold">Integrated Desk Outlets</h3>
+                        </a>
+                        <a href="project-4.html" class="project-bubble bg-zinc-200" onmouseenter="showFullPreview('project-4.html')" onmouseleave="hideFullPreview()">
+                            <h3 class="text-3xl font-bold text-zinc-800">Mechanical Dissections</h3>
+                        </a>
+                    </div>
+
+                    <!-- The Master Overlay: Covers exactly the space of the bubbles above -->
+                    <div id="master-preview-container">
+                        <iframe id="preview-iframe" src="about:blank"></iframe>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -164,24 +178,26 @@
 <script>
     let cachedSlotRect = null, trackHeight = 0, vh = 0, vw = 0;
 
-    // Force reload and jump to top
     function reloadToTop() {
         window.scrollTo(0, 0);
-        // Using window.location.pathname ensures we clear hashes/scroll anchors
         window.location.href = window.location.origin + window.location.pathname;
     }
 
-    const previewContainer = document.getElementById('project-preview-container');
+    // Full Grid Preview Logic
+    const masterPreview = document.getElementById('master-preview-container');
     const previewIframe = document.getElementById('preview-iframe');
 
-    function showPreview(url) {
+    function showFullPreview(url) {
         previewIframe.src = url;
-        previewContainer.classList.add('active');
+        masterPreview.classList.add('active');
     }
 
-    function hidePreview() {
-        previewContainer.classList.remove('active');
-        setTimeout(() => { if(!previewContainer.classList.contains('active')) previewIframe.src = "about:blank"; }, 500);
+    function hideFullPreview() {
+        masterPreview.classList.remove('active');
+        // Delay clearing source so the fade out is smooth
+        setTimeout(() => { 
+            if(!masterPreview.classList.contains('active')) previewIframe.src = "about:blank"; 
+        }, 400);
     }
 
     function updateMetrics() {
@@ -268,7 +284,7 @@
             projects.style.pointerEvents = 'auto'; projects.style.zIndex = '100';
         } else {
             projects.style.pointerEvents = 'none'; projects.style.zIndex = '10';
-            hidePreview(); 
+            hideFullPreview(); // Hide if scrolling away
         }
     }
 
