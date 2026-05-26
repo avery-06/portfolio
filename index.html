@@ -178,27 +178,38 @@
         const startX = (cachedSlotRect.left + cachedSlotRect.width/2) - (vw/2);
         const startY = (cachedSlotRect.top + cachedSlotRect.height/2) - (vh/2);
 
+        // Hero fades out quickly
         hOp = Math.max(0, 1 - (progress * 10));
 
         if (progress <= 0.1) { 
+            // Phase 1: Card on headshot
             x = startX; y = startY; scale = 0.4; 
         } 
         else if (progress <= 0.3) {
+            // Phase 2: Move to center and flip
             const p = (progress - 0.1) / 0.2;
             x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.4;
         } 
+        else if (progress <= 0.75) {
+            // NEW Phase 3: Zoom the gear to 10.2x BEFORE the project switch
+            const p = (progress - 0.3) / 0.45; // Normalized for this range
+            rotY = 180; 
+            rotZ = 90 + (p * 500);
+            scale = 0.4 + (Math.pow(p, 2) * (10.2 - 0.4));
+            cardOp = 1; // Keep gear fully visible during this zoom
+            pOp = 0;    // Projects still hidden
+            pScale = 0.05;
+        }
         else {
-            const p = (progress - 0.3) / 0.7;
-            rotY = 180; rotZ = 90 + (p * 720);
+            // Phase 4: Final exit and project reveal
+            const p = (progress - 0.75) / 0.25; 
+            rotY = 180;
+            rotZ = 590 + (p * 220); // Keep spinning
+            scale = 10.2 + (p * 5); // Continue expanding out of view
             
-            // EDITED: The scale now zooms from 0.4 up to 10.2
-            scale = 0.4 + (Math.pow(p, 3) * (10.2 - 0.4));
-            
-            pOp = Math.max(0, (p - 0.1) * 1.1); // Slightly faster fade in for projects
-            pScale = 0.05 + (Math.pow(p, 2) * 0.95);
-            
-            // Gear fades out as it reaches the target zoom
-            cardOp = Math.max(0, 1 - (p * 1.2)); 
+            cardOp = 1 - (p * 1.5); // Fade gear out fast
+            pOp = p; // Projects fade in
+            pScale = 0.05 + (p * 0.95); // Projects zoom to full size
         }
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
@@ -210,7 +221,8 @@
         projects.style.opacity = pOp;
         projects.style.transform = `scale(${pScale})`;
 
-        if (progress >= 0.95) {
+        // Interactions active only at the very end
+        if (progress >= 0.98) {
             projects.style.pointerEvents = 'auto'; projects.style.zIndex = '100';
         } else {
             projects.style.pointerEvents = 'none'; projects.style.zIndex = '10';
