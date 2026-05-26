@@ -18,12 +18,24 @@
 
         .apple-bubble { background: #f5f5f7; border-radius: 3.5rem; border: 1px solid rgba(0,0,0,0.03); }
         
+        /* Updated project bubble to handle link styling */
         .project-bubble { 
             background: white; border-radius: 3.5rem; display: flex; align-items: center; justify-content: center; 
-            min-height: 280px; border: 1px solid rgba(0,0,0,0.08); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); 
-            padding: 2rem; text-align: center;
+            min-height: 280px; border: 1px solid rgba(0,0,0,0.08); transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            padding: 2rem; text-align: center; cursor: pointer; text-decoration: none; color: inherit;
         }
-        .project-bubble:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.04); }
+        .project-bubble:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.04); border-color: var(--sapphire); }
+
+        /* Preview Window Styles */
+        #project-preview-container {
+            position: fixed; top: 15%; right: 5%; width: 400px; height: 500px; 
+            z-index: 150; pointer-events: none; opacity: 0; transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            border-radius: 2rem; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+            border: 4px solid white; background: white;
+        }
+        #project-preview-container.active { opacity: 1; transform: translateY(0); }
+        #preview-iframe { width: 100%; height: 100%; border: none; transform: scale(0.8); transform-origin: top left; width: 125%; height: 125%; }
 
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
@@ -68,11 +80,17 @@
 </head>
 <body>
 
+<!-- Preview Window -->
+<div id="project-preview-container">
+    <iframe id="preview-iframe" src="about:blank"></iframe>
+</div>
+
 <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
-        <div class="flex items-center gap-2">
+        <!-- EDITED: Click logo to reload -->
+        <div class="flex items-center gap-2 cursor-pointer group" onclick="window.location.reload()">
             <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-            <span class="font-bold">Avery Wong</span>
+            <span class="font-bold group-hover:text-sapphire transition-colors">Avery Wong</span>
         </div>
         <div class="space-x-8">
             <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-gray-500 hover:text-black transition">About</button>
@@ -86,10 +104,19 @@
         <div id="projects-layer" class="layer">
             <div class="max-w-6xl mx-auto w-full px-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-20 pb-20">
-                    <div class="project-bubble"><h3 class="text-3xl font-bold">Robotic Cinematography Arm</h3></div>
-                    <div class="project-bubble bg-[#1d1d1f] text-white"><h3 class="text-3xl font-bold">Smart Knee Sleeve</h3></div>
-                    <div class="project-bubble"><h3 class="text-3xl font-bold">Integrated Desk Outlets</h3></div>
-                    <div class="project-bubble bg-zinc-200"><h3 class="text-3xl font-bold text-zinc-800">Mechanical Dissections</h3></div>
+                    <!-- EDITED: Added links and hover preview data -->
+                    <a href="project-1.html" class="project-bubble" onmouseenter="showPreview('project-1.html')" onmouseleave="hidePreview()">
+                        <h3 class="text-3xl font-bold">Robotic Cinematography Arm</h3>
+                    </a>
+                    <a href="project-2.html" class="project-bubble bg-[#1d1d1f] text-white" onmouseenter="showPreview('project-2.html')" onmouseleave="hidePreview()">
+                        <h3 class="text-3xl font-bold">Smart Knee Sleeve</h3>
+                    </a>
+                    <a href="project-3.html" class="project-bubble" onmouseenter="showPreview('project-3.html')" onmouseleave="hidePreview()">
+                        <h3 class="text-3xl font-bold">Integrated Desk Outlets</h3>
+                    </a>
+                    <a href="project-4.html" class="project-bubble bg-zinc-200" onmouseenter="showPreview('project-4.html')" onmouseleave="hidePreview()">
+                        <h3 class="text-3xl font-bold text-zinc-800">Mechanical Dissections</h3>
+                    </a>
                 </div>
             </div>
         </div>
@@ -132,6 +159,21 @@
 
 <script>
     let cachedSlotRect = null, trackHeight = 0, vh = 0, vw = 0;
+
+    // Hover Preview Logic
+    const previewContainer = document.getElementById('project-preview-container');
+    const previewIframe = document.getElementById('preview-iframe');
+
+    function showPreview(url) {
+        previewIframe.src = url;
+        previewContainer.classList.add('active');
+    }
+
+    function hidePreview() {
+        previewContainer.classList.remove('active');
+        // Clear src after fade out to stop any background audio/video if present
+        setTimeout(() => { if(!previewContainer.classList.contains('active')) previewIframe.src = "about:blank"; }, 500);
+    }
 
     function updateMetrics() {
         const slot = document.getElementById('image-slot'), track = document.getElementById('transition-track');
@@ -178,38 +220,30 @@
         const startX = (cachedSlotRect.left + cachedSlotRect.width/2) - (vw/2);
         const startY = (cachedSlotRect.top + cachedSlotRect.height/2) - (vh/2);
 
-        // Hero fades out quickly
         hOp = Math.max(0, 1 - (progress * 10));
 
         if (progress <= 0.1) { 
-            // Phase 1: Card on headshot
             x = startX; y = startY; scale = 0.4; 
         } 
         else if (progress <= 0.3) {
-            // Phase 2: Move to center and flip
             const p = (progress - 0.1) / 0.2;
             x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.4;
         } 
         else if (progress <= 0.75) {
-            // NEW Phase 3: Zoom the gear to 10.2x BEFORE the project switch
-            const p = (progress - 0.3) / 0.45; // Normalized for this range
+            const p = (progress - 0.3) / 0.45;
             rotY = 180; 
             rotZ = 90 + (p * 500);
             scale = 0.4 + (Math.pow(p, 2) * (10.2 - 0.4));
-            cardOp = 1; // Keep gear fully visible during this zoom
-            pOp = 0;    // Projects still hidden
-            pScale = 0.05;
+            cardOp = 1; pOp = 0; pScale = 0.05;
         }
         else {
-            // Phase 4: Final exit and project reveal
             const p = (progress - 0.75) / 0.25; 
             rotY = 180;
-            rotZ = 590 + (p * 220); // Keep spinning
-            scale = 10.2 + (p * 5); // Continue expanding out of view
-            
-            cardOp = 1 - (p * 1.5); // Fade gear out fast
-            pOp = p; // Projects fade in
-            pScale = 0.05 + (p * 0.95); // Projects zoom to full size
+            rotZ = 590 + (p * 220);
+            scale = 10.2 + (p * 5);
+            cardOp = 1 - (p * 1.5);
+            pOp = p;
+            pScale = 0.05 + (p * 0.95);
         }
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
@@ -221,11 +255,11 @@
         projects.style.opacity = pOp;
         projects.style.transform = `scale(${pScale})`;
 
-        // Interactions active only at the very end
         if (progress >= 0.98) {
             projects.style.pointerEvents = 'auto'; projects.style.zIndex = '100';
         } else {
             projects.style.pointerEvents = 'none'; projects.style.zIndex = '10';
+            hidePreview(); // Close preview if user scrolls back up
         }
     }
 
