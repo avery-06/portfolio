@@ -36,39 +36,43 @@
 <main class="max-w-6xl mx-auto px-6 pb-24">
     <header class="project-hero grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div><h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight">Smart Rehab <br><span class="text-sapphire">Knee Sleeve</span></h1></div>
-        <div><img src="kneesleeve.png" alt="Prototype"><p class="caption">Quantiflex Wearable Prototype</p></div>
+        <div><img src="kneesleeve.png" alt="Prototype"><p class="caption">Wearable Prototype</p></div>
     </header>
 
     <section class="apple-bubble grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div class="order-2 md:order-1"><img src="kneesleevecad.png" alt="CAD"><p class="caption">Mechanical Modeling</p></div>
-        <div class="order-1 md:order-2"><h2 class="text-3xl font-bold tracking-tight mb-6">Overview</h2><p class="text-gray-600 text-lg leading-relaxed">Developed for the True North Biomedical Design Competition, this smart sleeve aids physiotherapists in tracking muscle growth. As Lead, I managed subsystem integration and stress simulations in ANSYS.</p></div>
+        <div class="order-2 md:order-1"><img src="kneesleevecad.png" alt="CAD"><p class="caption">Knee Sleeve CAD Model</p></div>
+        <div class="order-1 md:order-2"><h2 class="text-3xl font-bold tracking-tight mb-6">Overview</h2><p class="text-gray-600 text-lg leading-relaxed">Developed for the True North Biomedical Design Competition, this smart sleeve aids physiotherapists in tracking muscle growth and leg range of motion for patients recovering from a torn ACL. As Mechanical and User Experience Lead, my team and I filtered and selected materials based on stress and comfort paramaters, collaborated with external partners for fabrication, and performed stress analysis to validate the design.</p></div>
     </section>
 
     <section class="apple-bubble">
         <h2 class="text-3xl font-bold tracking-tight mb-8">Design & Electronics</h2>
         <div class="mb-12"><ul class="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-600 text-lg">
-            <li class="flex gap-4"><span class="text-sapphire font-bold">•</span>Triple-layered knit for directional elasticity.</li>
-            <li class="flex gap-4"><span class="text-sapphire font-bold">•</span>ESP32 WiFi data hosting for sEMG sensors.</li>
+            <li class="flex gap-4"><span class="text-sapphire font-bold">•</span>Triple-layered knit for directional elasticity, ensuring a tight-fitting, yet comfortable wear..</li>
+            <li class="flex gap-4"><span class="text-sapphire font-bold">•</span>Myoware surface electromyography (sEMG) sensors send electrical data along with intertial measurement units (IMU) to ESP32 microcontrollers that host our website over wifi</li>
         </ul></div>
         <div class="space-y-12">
             <div><img src="quantiflexelec.png" alt="Electronics"><p class="caption">Sensor Integration</p></div>
-            <div class="space-y-4"><div class="aspect-video w-full overflow-hidden rounded-[1.5rem]"><iframe class="w-full h-full shadow-sm" src="[placeholder]" frameborder="0" allowfullscreen></iframe></div><p class="caption">Functional Testing</p></div>
+            <div class="space-y-4"><div class="aspect-video w-full overflow-hidden rounded-[1.5rem]"><iframe class="w-full h-full shadow-sm" src="https://youtu.be/USpFhyEQ6g8" frameborder="0" allowfullscreen></iframe></div><p class="caption">Functional Testing</p></div>
         </div>
     </section>
 
     <section class="apple-bubble bg-white border-2 border-[#f5f5f7]">
         <h2 class="text-3xl font-bold tracking-tight mb-8 text-sapphire">Iterative Development</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="p-8 bg-[#f5f5f7] rounded-[2rem]"><h4 class="font-bold text-xl mb-3">01. Fabric</h4><p class="text-gray-600 text-sm">Pivoted to triple-layer mesh for better adjustability.</p></div>
-            <div class="p-8 bg-[#f5f5f7] rounded-[2rem]"><h4 class="font-bold text-xl mb-3">02. Precision</h4><p class="text-gray-600 text-sm">Added slits for direct skin-to-sensor contact.</p></div>
-            <div class="p-8 bg-[#f5f5f7] rounded-[2rem]"><h4 class="font-bold text-xl mb-3">03. Stability</h4><p class="text-gray-600 text-sm">Integrated grounding electrodes for consistent data.</p></div>
+            <div class="p-8 bg-[#f5f5f7] rounded-[2rem]"><h4 class="font-bold text-xl mb-3">01. Fabric</h4><p class="text-gray-600 text-sm">Pivoted to triple-layer mesh for better adjustability, originally from a one layered mesh.</p></div>
+            <div class="p-8 bg-[#f5f5f7] rounded-[2rem]"><h4 class="font-bold text-xl mb-3">02. Precision</h4><p class="text-gray-600 text-sm">Added slits for direct skin-to-sensor contact that also keep sensors flush with the skin through knee sleeve compression.</p></div>
+            <div class="p-8 bg-[#f5f5f7] rounded-[2rem]"><h4 class="font-bold text-xl mb-3">03. Stability</h4><p class="text-gray-600 text-sm">Integrated grounding electrodes on the patellar and fibula and improved power input for consistent data.</p></div>
         </div>
     </section>
 
-    <div class="flex justify-between items-center mt-12 pt-8 border-t border-gray-100">
-        <a href="project-1.html" class="text-gray-400 hover:text-sapphire font-bold transition flex items-center gap-2">← Previous: Robotic Arm</a>
-        <a href="project-3.html" class="bg-black text-white px-10 py-5 rounded-full font-bold hover:bg-sapphire transition shadow-lg">Next Project →</a>
-    </div>
+<div class="flex justify-between items-center mt-12 pt-8 border-t border-gray-100">
+    <a href="project-1.html" class="bg-white text-gray-500 px-10 py-5 rounded-full font-bold border border-gray-200 hover:border-sapphire hover:text-sapphire transition shadow-lg flex items-center gap-2">
+        ← Previous: Robotic Arm
+    </a>
+    <a href="project-3.html" class="bg-black text-white px-10 py-5 rounded-full font-bold hover:bg-sapphire transition shadow-lg">
+        Next Project →
+    </a>
+</div>
 </main>
 </body>
 </html>
