@@ -135,7 +135,8 @@
 
     function updateMetrics() {
         const slot = document.getElementById('image-slot'), track = document.getElementById('transition-track');
-        cachedSlotRect = slot.getBoundingClientRect(); trackHeight = track.offsetHeight;
+        if(slot) cachedSlotRect = slot.getBoundingClientRect(); 
+        trackHeight = track.offsetHeight;
         vh = window.innerHeight; vw = window.innerWidth;
     }
 
@@ -179,7 +180,9 @@
 
         hOp = Math.max(0, 1 - (progress * 10));
 
-        if (progress <= 0.1) { x = startX; y = startY; scale = 0.4; } 
+        if (progress <= 0.1) { 
+            x = startX; y = startY; scale = 0.4; 
+        } 
         else if (progress <= 0.3) {
             const p = (progress - 0.1) / 0.2;
             x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.4;
@@ -187,25 +190,27 @@
         else {
             const p = (progress - 0.3) / 0.7;
             rotY = 180; rotZ = 90 + (p * 720);
-            scale = 0.4 + (Math.pow(p, 3) * (20 - 0.4));
             
-            pOp = Math.max(0, (p - 0.2) * 1.25);
+            // EDITED: The scale now zooms from 0.4 up to 10.2
+            scale = 0.4 + (Math.pow(p, 3) * (10.2 - 0.4));
+            
+            pOp = Math.max(0, (p - 0.1) * 1.1); // Slightly faster fade in for projects
             pScale = 0.05 + (Math.pow(p, 2) * 0.95);
             
-            // CHANGED: Gear and "Projects" label now fade out slowly as projects fade in
-            cardOp = Math.max(0, 1 - (p * 1.1)); 
+            // Gear fades out as it reaches the target zoom
+            cardOp = Math.max(0, 1 - (p * 1.2)); 
         }
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
         card.style.transform = `translate3d(${x}px, ${y}px, 0) rotateY(${rotY}deg) scale(${scale})`;
-        card.style.opacity = cardOp; // Apply the slow fade
+        card.style.opacity = cardOp;
         gearSvg.style.transform = `rotate(${rotZ}deg)`;
         
         hero.style.opacity = hOp;
         projects.style.opacity = pOp;
         projects.style.transform = `scale(${pScale})`;
 
-        if (progress >= 0.98) {
+        if (progress >= 0.95) {
             projects.style.pointerEvents = 'auto'; projects.style.zIndex = '100';
         } else {
             projects.style.pointerEvents = 'none'; projects.style.zIndex = '10';
