@@ -35,139 +35,14 @@
             padding-bottom: 4rem;
         }
 
-        .tag {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: white;
-            border-radius: 2rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--sapphire);
-            border: 1px solid rgba(0,0,0,0.05);
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        img { border-radius: 2rem; width: 100%; height: auto; }
+        img { border-radius: 1.5rem; width: 100%; height: auto; border: 1px solid rgba(0,0,0,0.05); }
+        .caption { text-align: center; font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.75rem; }
     </style>
 </head>
 <body>
 
-<!-- EXACT SAME NAV AS MAIN PAGE -->
+<!-- TASKBAR -->
 <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
         <a href="index.html" class="flex items-center gap-2 cursor-pointer group">
-            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-            <span class="font-bold group-hover:text-sapphire transition-colors text-black">Avery Wong</span>
-        </a>
-        <div class="space-x-8">
-            <a href="index.html" class="text-gray-500 hover:text-black transition">About</a>
-            <a href="index.html" class="text-gray-500 hover:text-sapphire transition">Projects</a>
-        </div>
-    </div>
-</nav>
-
-<main class="max-w-5xl mx-auto px-6 pb-24">
-    <!-- Hero Section -->
-    <header class="project-hero">
-        <a href="index.html" class="text-sapphire font-bold text-sm uppercase tracking-widest mb-4 inline-block hover:underline">← Back to Projects</a>
-        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight mt-4">
-            Cinematography <br><span class="text-sapphire">Robotic Arm</span>
-        </h1>
-        
-        <div class="flex flex-wrap gap-12 mt-12 py-8 border-y border-gray-100">
-            <div>
-                <p class="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-1">Course</p>
-                <p class="font-semibold">MIE 243: Mech. Design</p>
-            </div>
-            <div>
-                <p class="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-1">Role</p>
-                <p class="font-semibold">CAD Lead · Motor Selection</p>
-            </div>
-            <div class="flex-1">
-                <p class="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-1">Expertise</p>
-                <div>
-                    <span class="tag">SolidWorks</span>
-                    <span class="tag">Prototyping</span>
-                    <span class="tag">Mechanical Analysis</span>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Content Sections -->
-    <section class="apple-bubble">
-        <h2 class="text-3xl font-bold tracking-tight mb-6">Overview</h2>
-        <p class="text-gray-600 text-lg leading-relaxed">
-            Tasked with creating an advanced conceptual design of a low-cost, long-reach robot arm targeting advanced hobbyists and beginner cinematographers. I primarily worked on movement mechanics and requirements based on torque and speed requirements, 3D modelling the robot in SolidWorks, and creating professional assembly and part drawings.
-        </p>
-    </section>
-
-    <section class="apple-bubble">
-        <h2 class="text-3xl font-bold tracking-tight mb-6">Design Architecture</h2>
-        <ul class="space-y-4 text-gray-600 text-lg mb-8">
-            <li class="flex gap-4">
-                <span class="text-sapphire font-bold">•</span>
-                Six degrees of freedom (DOF) sitting on a motorized dolly for cinematic flexibility.
-            </li>
-            <li class="flex gap-4">
-                <span class="text-sapphire font-bold">•</span>
-                Elbow and wrist joints feature timing belt pulleys for precision motion transmission.
-            </li>
-            <li class="flex gap-4">
-                <span class="text-sapphire font-bold">•</span>
-                Dolly powered by an electric motor for smooth track-based movement.
-            </li>
-        </ul>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="space-y-2">
-                <img src="robotcad.png" alt="Robot CAD Model">
-                <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest">Main Assembly</p>
-            </div>
-            <div class="space-y-2">
-                <img src="dollycard.png" alt="Dolly System">
-                <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest">Motorized Dolly</p>
-            </div>
-            <div class="space-y-2">
-                <img src="assemblydrawing.png" alt="Engineering Drawing">
-                <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest">BOM & Exploded View</p>
-            </div>
-            <div class="space-y-2">
-                <img src="partdrawing.png" alt="Detailed Part Drawing">
-                <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest">Technical Specifications</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="apple-bubble bg-white border-2 border-[#f5f5f7]">
-        <h2 class="text-3xl font-bold tracking-tight mb-6 text-sapphire">Iterative Development</h2>
-        <div class="space-y-8">
-            <div class="flex gap-6">
-                <div class="w-12 h-12 rounded-full bg-sapphire/10 flex items-center justify-center shrink-0 text-sapphire font-bold">01</div>
-                <div>
-                    <h4 class="font-bold text-xl mb-2">Dolly Drive System</h4>
-                    <p class="text-gray-600">Initially designed with a belt drive system but pivoted to a motorized wheel drive to significantly reduce production costs without sacrificing stability.</p>
-                </div>
-            </div>
-            <div class="flex gap-6">
-                <div class="w-12 h-12 rounded-full bg-sapphire/10 flex items-center justify-center shrink-0 text-sapphire font-bold">02</div>
-                <div>
-                    <h4 class="font-bold text-xl mb-2">Weight Distribution</h4>
-                    <p class="text-gray-600">Moved motors away from joints to act as counterweights after engineering analysis proved original materials couldn't support the end-effector's moment arm.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer Nav -->
-    <div class="flex justify-between items-center mt-12 pt-8 border-t border-gray-100">
-        <a href="index.html" class="text-gray-400 hover:text-black font-bold transition">← Previous Project</a>
-        <a href="project-2.html" class="bg-black text-white px-8 py-4 rounded-full font-bold hover:bg-sapphire transition">Next Project: Knee Sleeve →</a>
-    </div>
-</main>
-
-</body>
-</html>
+            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.
