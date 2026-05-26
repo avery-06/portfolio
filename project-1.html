@@ -31,18 +31,112 @@
         }
 
         .project-hero {
-            padding-top: 8rem;
+            padding-top: 10rem;
             padding-bottom: 4rem;
         }
 
-        img { border-radius: 1.5rem; width: 100%; height: auto; border: 1px solid rgba(0,0,0,0.05); }
+        img { border-radius: 1.5rem; width: 100%; height: auto; border: 1px solid rgba(0,0,0,0.08); background: white; }
         .caption { text-align: center; font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.75rem; }
     </style>
 </head>
 <body>
 
-<!-- TASKBAR -->
+<!-- TASKBAR (Identical to main page) -->
 <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
         <a href="index.html" class="flex items-center gap-2 cursor-pointer group">
-            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.
+            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span class="font-bold group-hover:text-sapphire transition-colors text-black">Avery Wong</span>
+        </a>
+        <div class="space-x-8">
+            <a href="index.html" class="text-gray-500 hover:text-black transition">About</a>
+            <a href="index.html" class="text-gray-500 hover:text-sapphire transition">Projects</a>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-6xl mx-auto px-6 pb-24">
+    
+    <!-- Hero Section: Title beside robotcad.png -->
+    <header class="project-hero grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight">
+                Cinematography <br><span class="text-sapphire">Robotic Arm</span>
+            </h1>
+        </div>
+        <div class="relative">
+            <img src="robotcad.png" alt="Robot CAD Model">
+            <p class="caption">6-DOF Full System Assembly</p>
+        </div>
+    </header>
+
+    <!-- Overview Section: Text beside dollycard.png -->
+    <section class="apple-bubble grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div>
+            <h2 class="text-3xl font-bold tracking-tight mb-6">Overview</h2>
+            <p class="text-gray-600 text-lg leading-relaxed">
+                Designed as a low-cost, long-reach robot arm targeting advanced hobbyists and beginner cinematographers. This project focused on creating a conceptual design capable of cinematic precision. I primarily worked on movement mechanics, requirements analysis for torque and speed, and 3D modeling the entire system in SolidWorks.
+            </p>
+        </div>
+        <div>
+            <img src="dollycard.png" alt="Dolly System">
+            <p class="caption">Motorized Track Dolly System</p>
+        </div>
+    </section>
+
+    <!-- Design Architecture Section -->
+    <section class="apple-bubble">
+        <h2 class="text-3xl font-bold tracking-tight mb-8">Design Architecture</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <ul class="space-y-6 text-gray-600 text-lg">
+                <li class="flex gap-4">
+                    <span class="text-sapphire font-bold">•</span>
+                    Six degrees of freedom (DOF) sitting on a motorized dolly for cinematic flexibility.
+                </li>
+                <li class="flex gap-4">
+                    <span class="text-sapphire font-bold">•</span>
+                    Elbow and wrist joints feature timing belt pulleys for precision motion transmission.
+                </li>
+                <li class="flex gap-4">
+                    <span class="text-sapphire font-bold">•</span>
+                    Dolly powered by an electric motor for smooth track-based movement.
+                </li>
+            </ul>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <img src="assemblydrawing.png" alt="Engineering Drawing">
+                    <p class="caption">Exploded View</p>
+                </div>
+                <div class="space-y-2">
+                    <img src="partdrawing.png" alt="Detailed Part Drawing">
+                    <p class="caption">Tech Specs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Iterative Development Section -->
+    <section class="apple-bubble bg-white border-2 border-[#f5f5f7]">
+        <h2 class="text-3xl font-bold tracking-tight mb-8 text-sapphire">Iterative Development</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="p-8 bg-[#f5f5f7] rounded-[2rem]">
+                <h4 class="font-bold text-xl mb-3">Dolly Drive System</h4>
+                <p class="text-gray-600 leading-relaxed">Initially designed with a belt drive system but pivoted to a motorized wheel drive to significantly reduce production costs without sacrificing stability.</p>
+            </div>
+            <div class="p-8 bg-[#f5f5f7] rounded-[2rem]">
+                <h4 class="font-bold text-xl mb-3">Weight Distribution</h4>
+                <p class="text-gray-600 leading-relaxed">Moved motors away from joints to act as counterweights after engineering analysis proved original materials couldn't support the end-effector's moment arm.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Nav: Only Next Button -->
+    <div class="flex justify-end items-center mt-12 pt-8 border-t border-gray-100">
+        <a href="project-2.html" class="bg-black text-white px-10 py-5 rounded-full font-bold hover:bg-sapphire transition shadow-lg">
+            Next Project: Knee Sleeve →
+        </a>
+    </div>
+</main>
+
+</body>
+</html>
