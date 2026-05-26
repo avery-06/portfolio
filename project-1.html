@@ -1,160 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cinematography Robotic Arm — Avery Wong</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Bricolage+Grotesque:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: #2a3038;
-      color: #edf1f8;
-      font-family: 'Instrument Sans', sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-    body::before {
-      content: '';
-      position: fixed;
-      top: -180px; left: 50%;
-      transform: translateX(-50%);
-      width: 900px; height: 600px;
-      background: radial-gradient(ellipse, rgba(160,168,180,0.12) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      height: 60px; display: flex; justify-content: space-between; align-items: center;
-      padding: 0 2.5rem;
-      background: rgba(20,23,29,0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(180,185,195,0.25);
-    }
-    .nav-logo { font-family: 'Bricolage Grotesque', sans-serif; font-size: 0.95rem; font-weight: 600; color: #edf1f8; text-decoration: none; }
-    .nav-links { display: flex; gap: 0.2rem; list-style: none; align-items: center; }
-    .nav-links > li > a { font-size: 0.83rem; font-weight: 500; color: #a8b0c0; text-decoration: none; padding: 0.4rem 0.9rem; border-radius: 6px; transition: all 0.18s; display: flex; align-items: center; gap: 4px; }
-    .nav-links > li > a:hover { color: #edf1f8; background: #2a3038; }
-    .nav-dropdown { position: relative; }
-    .nav-dropdown .chevron { width: 12px; height: 12px; transition: transform 0.2s; opacity: 0.6; }
-    .nav-dropdown:hover > a .chevron { transform: rotate(180deg); }
-    .nav-dropdown:hover > a { color: #edf1f8; background: #2a3038; }
-    .dropdown-menu { position: absolute; top: calc(100% + 8px); right: 0; background: #1a1e26; border: 1px solid rgba(180,185,195,0.25); border-radius: 10px; padding: 0.4rem; min-width: 260px; opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 0.18s ease, transform 0.18s ease; z-index: 200; }
-    .nav-dropdown:hover .dropdown-menu { opacity: 1; pointer-events: all; transform: translateY(0); }
-    .dropdown-menu a { display: flex !important; flex-direction: column; gap: 2px; padding: 0.6rem 0.85rem !important; border-radius: 7px !important; background: transparent !important; color: #a8b0c0 !important; text-decoration: none; transition: all 0.15s !important; }
-    .dropdown-menu a:hover { background: #2a3038 !important; color: #edf1f8 !important; }
-    .dropdown-menu a .d-title { font-size: 0.83rem; font-weight: 500; color: inherit; }
-    .dropdown-menu a .d-sub { font-size: 0.7rem; color: #7a8090; }
-    .dropdown-divider { height: 1px; background: rgba(180,185,195,0.25); margin: 0.35rem 0.5rem; }
-    .page-wrap { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 7rem 2.5rem 5rem; }
-    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.83rem; color: #a8b0c0; text-decoration: none; margin-bottom: 2.5rem; transition: color 0.18s; }
-    .back-link:hover { color: #c8d2e8; }
-    .label-pill { display: inline-flex; align-items: center; gap: 8px; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #c8d2e8; margin-bottom: 0.65rem; }
-    .label-pill::before { content: ''; width: 16px; height: 1px; background: #c8d2e8; }
-    h1 { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; color: #edf1f8; line-height: 1.1; margin-bottom: 0.75rem; }
-    h2 { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 700; letter-spacing: -0.02em; color: #edf1f8; line-height: 1.2; margin-bottom: 1rem; }
-    .proj-meta-bar { display: flex; flex-wrap: wrap; gap: 1.75rem; margin: 1.5rem 0 2rem; padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(180,185,195,0.25); background: #2a3038; }
-    .proj-meta-item { display: flex; flex-direction: column; gap: 4px; }
-    .proj-meta-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.09em; color: #7a8090; }
-    .proj-meta-val { font-size: 0.88rem; color: #edf1f8; font-weight: 500; }
-    .proj-section { margin-bottom: 2.5rem; }
-    .proj-section p { font-size: 0.95rem; color: #a8b0c0; line-height: 1.85; margin-bottom: 0.9rem; }
-    .proj-section ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
-    .proj-section ul li { font-size: 0.92rem; color: #a8b0c0; padding-left: 1.2rem; position: relative; line-height: 1.7; }
-    .proj-section ul li::before { content: ''; position: absolute; left: 0; top: 0.65em; width: 5px; height: 5px; border-radius: 50%; background: #c8d2e8; opacity: 0.6; }
-    .divider { height: 1px; background: rgba(180,185,195,0.25); margin: 2rem 0; }
-    .ptag { font-size: 0.7rem; font-weight: 500; padding: 0.25rem 0.65rem; border-radius: 5px; background: rgba(180,185,195,0.15); color: #c8d2e8; border: 1px solid rgba(180,185,195,0.35); }
-    .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-    .proj-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(180,185,195,0.25); flex-wrap: wrap; gap: 1rem; }
-    .proj-nav a { font-size: 0.83rem; color: #a8b0c0; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.18s; }
-    .proj-nav a:hover { color: #c8d2e8; }
-    .proj-section img { width:100%; border-radius:10px; border:2px solid var(--t-border); display:block; }
-    footer { position: relative; z-index: 1; text-align: center; padding: 1.5rem; border-top: 1px solid rgba(180,185,195,0.25); font-size: 0.78rem; color: #7a8090; }
-    @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-    .reveal { opacity: 1; transform: none; transition: opacity 0.55s ease, transform 0.55s ease; }
-    .reveal.animate { opacity: 0; transform: translateY(20px); }
-    .reveal.animate.visible { opacity: 1; transform: none; }
-    @media (max-width: 700px) { nav { padding: 0 1.5rem; } .page-wrap { padding: 6rem 1.5rem 4rem; } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinematography Robotic Arm | Avery Wong</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --sapphire: #0F52BA; --bg-color: #ffffff; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color); 
+            color: #1d1d1f; 
+            margin: 0; 
+            -webkit-font-smoothing: antialiased; 
+        }
+
+        .text-sapphire { color: var(--sapphire); }
+        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        
+        @keyframes spin-nav { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .animate-gear-nav { animation: spin-nav 8s linear infinite; }
+
+        .apple-bubble { 
+            background: #f5f5f7; 
+            border-radius: 3rem; 
+            border: 1px solid rgba(0,0,0,0.03); 
+            padding: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-hero {
+            padding-top: 8rem;
+            padding-bottom: 4rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: white;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--sapphire);
+            border: 1px solid rgba(0,0,0,0.05);
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        img { border-radius: 2rem; width: 100%; height: auto; }
+    </style>
 </head>
 <body>
-<nav>
-  <a class="nav-logo" href="index.html">Avery Wong</a>
-  <ul class="nav-links">
-    <li><a href="index.html#about">About</a></li>
-    <li class="nav-dropdown">
-      <a href="projects.html">Projects
-        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-      </a>
-      <div class="dropdown-menu">
-        <a href="projects.html"><span class="d-title">All Projects</span><span class="d-sub">Selected work overview</span></a>
-        <div class="dropdown-divider"></div>
-        <a href="project-1.html"><span class="d-title">Cinematography Robotic Arm</span><span class="d-sub">MIE 243</span></a>
-        <a href="project-2.html"><span class="d-title">Smart Rehabilitation Knee Sleeve</span><span class="d-sub">True North Competition</span></a>
-        <a href="project-3.html"><span class="d-title">Desk with Integrated Charging Ports</span><span class="d-sub">APS 112</span></a>
-        <a href="project-4.html"><span class="d-title">Ball Bearing &amp; Screwdriver Dissections</span><span class="d-sub">MIE 243</span></a>
-      </div>
-    </li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+
+<!-- EXACT SAME NAV AS MAIN PAGE -->
+<nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
+    <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
+        <a href="index.html" class="flex items-center gap-2 cursor-pointer group">
+            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span class="font-bold group-hover:text-sapphire transition-colors text-black">Avery Wong</span>
+        </a>
+        <div class="space-x-8">
+            <a href="index.html" class="text-gray-500 hover:text-black transition">About</a>
+            <a href="index.html" class="text-gray-500 hover:text-sapphire transition">Projects</a>
+        </div>
+    </div>
 </nav>
-<div class="page-wrap">
-  <a class="back-link reveal" href="projects.html">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    All Projects
-  </a>
-  <div class="reveal">
-    <div class="label-pill">Project 01</div>
-    <h1>Cinematography Robotic Arm</h1>
-  </div>
-  <div class="proj-meta-bar reveal">
-    <div class="proj-meta-item"><span class="proj-meta-label">Course</span><span class="proj-meta-val">MIE 243 — Mechanical Engineering Design</span></div>
-    <div class="proj-meta-item"><span class="proj-meta-label">Role</span><span class="proj-meta-val">CAD Lead · Motor Selection</span></div>
-    <div class="proj-meta-item"><span class="proj-meta-label">Tags</span><div class="proj-tags" style="margin-top:4px;"><span class="ptag">CAD</span><span class="ptag">Assembly and Exploded Views</span><span class="ptag">BOM</span><span class="ptag">Iterative Design</span></div></div>
-  </div>
-  <div class="divider"></div>
-  <div class="proj-section reveal"><h2>Overview</h2>
-<p>For my design course MIE 243, my team and I were tasked with creating an advanced conceptual design of a low-cost, long-reach robot arm targeting advanced hobbyists and beginner cinematographers. I primarily worked on movement mechanics and requirements based on torque and speed requirements, 3D modelling the robot in SolidWorks, and creating professional assembly and part drawings.</p>
-</div>
-<div class="proj-section reveal"><h2>Design</h2>
-<ul>
-<li>The robot arm sits on a motorized dolly and has six degrees of freedom (DOF), enabling flexible camera positioning.</li>
-<li>The elbow and wrist joints feature timing belt pulleys for motion transmission allowing for accurate camera positioning.</li>
-<li>The dolly is powered by an electric motor that allows for movement along a predetermined axis via track.</li>
-</ul>
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1.25rem;">
-      <img src="robotcad.png" alt="">
-      <img src="dollycard.png" alt="">
-      <img src="assemblydrawing.png" alt="">
-      <img src="partdrawing.png" alt="">
-</div>
-</div>
-<div class="proj-section reveal"><h2>Iterations</h2>
-<ul>
-<li>The team initially designed the dolly with a belt drive system but switched to a motorized wheel drive after determining the belt drive was too costly for the project budget.</li>
-<li>The team initially had motors placed directly on the joints, but calculations and engineering analyses showed that the materials selected could not adequately balance the robot, so motors were placed to counterbalance the weight of the end affector.</li>
-</ul>
-</div>
-<div class="proj-section reveal"><h2>Key Takeaways</h2>
-<p>This project strengthened my SolidWorks skills — from part modelling to assembly management and engineering drawings. It also gave me hands-on experience with motor and material selection and the importance of cost-driven design decisions in an iterative design process</p>
-</div>
 
-  <div class="proj-nav">
-    <span></span>
-    <a href="projects.html" style="color:#7a8090;">All Projects</a>
-    <a href="project-2.html">Smart Rehabilitation Knee Sleeve →</a>
-  </div>
-</div>
+<main class="max-w-5xl mx-auto px-6 pb-24">
+    <!-- Hero Section -->
+    <header class="project-hero">
+        <a href="index.html" class="text-sapphire font-bold text-sm uppercase tracking-widest mb-4 inline-block hover:underline">← Back to Projects</a>
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight mt-4">
+            Cinematography <br><span class="text-sapphire">Robotic Arm</span>
+        </h1>
+        
+        <div class="flex flex-wrap gap-12 mt-12 py-8 border-y border-gray-100">
+            <div>
+                <p class="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-1">Course</p>
+                <p class="font-semibold">MIE 243: Mech. Design</p>
+            </div>
+            <div>
+                <p class="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-1">Role</p>
+                <p class="font-semibold">CAD Lead · Motor Selection</p>
+            </div>
+            <div class="flex-1">
+                <p class="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-1">Expertise</p>
+                <div>
+                    <span class="tag">SolidWorks</span>
+                    <span class="tag">Prototyping</span>
+                    <span class="tag">Mechanical Analysis</span>
+                </div>
+            </div>
+        </div>
+    </header>
 
-<div style="height:8px;background:#000;margin-top:4rem;"></div>
-<div id="contact" style="position:relative;z-index:1;max-width:900px;margin:0 auto;padding:3.5rem 2.5rem 4rem;background:#2a3038;">
-  <div style="border:2px solid #000;border-radius:16px;padding:2.5rem;background:#fff;">
-    <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(1.4rem,3vw,1.9rem);font-weight:700;letter-spacing:-0.02em;color:#1e2d4d;margin-bottom:0.5rem;">Contact</div>
-    <p style="font-size:0.9rem;color:#64748b;margin-bottom:1.5rem;">Open to internships, co-ops, and engineering opportunities.</p>
-    <div style="display:flex;flex-direction:column;gap:0.55rem;">
-      <div style="font-size:0.84rem;color:#64748b;display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:#1e2d4d;opacity:0.5;flex-shrink:0;display:inline-block;"></span>&#97;&#118;&#101;&#114;&#121;&#119;&#111;&#110;&#103;&#51;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</div>
-      <div style="font-size:0.84rem;color:#64748b;display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:#1e2d4d;opacity:0.5;flex-shrink:0;display:inline-block;"></span>(778) 685-0986</div>
-      <div style="font-size:0.84rem;color:#64748b;display:flex;align-items:center;gap:8px;"><span style="width:5px;height:5px;border-radius:50%;background:#1e2d4d;opacity:0.5;flex-shrink:0;display:inline-block;"></span>linkedin.com/in/averywong0</div
+    <!-- Content Sections -->
+    <section class="apple-bubble">
+        <h2 class="text-3xl font-bold tracking-tight mb-6">Overview</h2>
+        <p class="text-gray-600 text-lg leading-relaxed">
+            Tasked with creating an advanced conceptual design of a low-cost, long-reach robot arm targeting advanced hobbyists and beginner cinematographers. I primarily worked on movement mechanics and requirements based on torque and speed requirements, 3D modelling the robot in SolidWorks, and creating professional assembly and part drawings.
+        </p>
+    </section>
+
+    <section class="apple-bubble">
+        <h2 class="text-3xl font-bold tracking-tight mb-6">Design Architecture</h2>
+        <ul class="space-y-4 text-gray-600 text-lg mb-8">
+            <li class="flex gap-4">
+                <span class="text-sapphire font-bold">•</span>
+                Six degrees of freedom (DOF) sitting on a motorized dolly for cinematic flexibility.
+            </li>
+            <li class="flex gap-4">
+                <span class="text-sapphire font-bold">•</span>
+                Elbow and wrist joints feature timing belt pulleys for precision motion transmission.
+            </li>
+            <li class="flex gap-4">
+                <span class="text-sapphire font-bold">•</span>
+                Dolly powered by an electric motor for smooth track-based movement.
+            </li>
+        </ul>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+                <img src="robotcad.png" alt="Robot CAD Model">
+                <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest">Main Assembly</p>
+            </div>
+            <div class="space-y-2">
+                <img src="dollycard.png" alt="Dolly System">
+                <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest">Motorized Dolly</p>
+            </div>
+            <div class="space-y-2">
+                <img src="assemblydrawing.png" alt="Engineering Drawing">
+                <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest">BOM & Exploded View</p>
+            </div>
+            <div class="space-y-2">
+                <img src="partdrawing.png" alt="Detailed Part Drawing">
+                <p class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest">Technical Specifications</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="apple-bubble bg-white border-2 border-[#f5f5f7]">
+        <h2 class="text-3xl font-bold tracking-tight mb-6 text-sapphire">Iterative Development</h2>
+        <div class="space-y-8">
+            <div class="flex gap-6">
+                <div class="w-12 h-12 rounded-full bg-sapphire/10 flex items-center justify-center shrink-0 text-sapphire font-bold">01</div>
+                <div>
+                    <h4 class="font-bold text-xl mb-2">Dolly Drive System</h4>
+                    <p class="text-gray-600">Initially designed with a belt drive system but pivoted to a motorized wheel drive to significantly reduce production costs without sacrificing stability.</p>
+                </div>
+            </div>
+            <div class="flex gap-6">
+                <div class="w-12 h-12 rounded-full bg-sapphire/10 flex items-center justify-center shrink-0 text-sapphire font-bold">02</div>
+                <div>
+                    <h4 class="font-bold text-xl mb-2">Weight Distribution</h4>
+                    <p class="text-gray-600">Moved motors away from joints to act as counterweights after engineering analysis proved original materials couldn't support the end-effector's moment arm.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Nav -->
+    <div class="flex justify-between items-center mt-12 pt-8 border-t border-gray-100">
+        <a href="index.html" class="text-gray-400 hover:text-black font-bold transition">← Previous Project</a>
+        <a href="project-2.html" class="bg-black text-white px-8 py-4 rounded-full font-bold hover:bg-sapphire transition">Next Project: Knee Sleeve →</a>
+    </div>
+</main>
+
+</body>
+</html>
