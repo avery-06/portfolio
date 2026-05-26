@@ -41,7 +41,7 @@
 </head>
 <body>
 
-<!-- TASKBAR (Identical to main page) -->
+<!-- TASKBAR -->
 <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
         <a href="index.html" class="flex items-center gap-2 cursor-pointer group">
@@ -57,38 +57,40 @@
 
 <main class="max-w-6xl mx-auto px-6 pb-24">
     
-    <!-- Hero Section: Title beside robotcad.png -->
+    <!-- Hero Section -->
     <header class="project-hero grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div>
             <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight">
                 Cinematography <br><span class="text-sapphire">Robotic Arm</span>
             </h1>
         </div>
-        <div class="relative">
+        <div>
             <img src="robotcad.png" alt="Robot CAD Model">
             <p class="caption">6-DOF Full System Assembly</p>
         </div>
     </header>
 
-    <!-- Overview Section: Text beside dollycard.png -->
+    <!-- Overview Section: Swapped (Image Left, Text Right) -->
     <section class="apple-bubble grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div>
+        <div class="order-2 md:order-1">
+            <img src="dollycard.png" alt="Dolly System">
+            <p class="caption">Motorized Track Dolly System</p>
+        </div>
+        <div class="order-1 md:order-2">
             <h2 class="text-3xl font-bold tracking-tight mb-6">Overview</h2>
             <p class="text-gray-600 text-lg leading-relaxed">
                 Designed as a low-cost, long-reach robot arm targeting advanced hobbyists and beginner cinematographers. This project focused on creating a conceptual design capable of cinematic precision. I primarily worked on movement mechanics, requirements analysis for torque and speed, and 3D modeling the entire system in SolidWorks.
             </p>
         </div>
-        <div>
-            <img src="dollycard.png" alt="Dolly System">
-            <p class="caption">Motorized Track Dolly System</p>
-        </div>
     </section>
 
-    <!-- Design Architecture Section -->
+    <!-- Design Architecture Section: Large Images Below -->
     <section class="apple-bubble">
         <h2 class="text-3xl font-bold tracking-tight mb-8">Design Architecture</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <ul class="space-y-6 text-gray-600 text-lg">
+        
+        <!-- Text Content -->
+        <div class="mb-12">
+            <ul class="grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-600 text-lg">
                 <li class="flex gap-4">
                     <span class="text-sapphire font-bold">•</span>
                     Six degrees of freedom (DOF) sitting on a motorized dolly for cinematic flexibility.
@@ -102,15 +104,17 @@
                     Dolly powered by an electric motor for smooth track-based movement.
                 </li>
             </ul>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="space-y-2">
-                    <img src="assemblydrawing.png" alt="Engineering Drawing">
-                    <p class="caption">Exploded View</p>
-                </div>
-                <div class="space-y-2">
-                    <img src="partdrawing.png" alt="Detailed Part Drawing">
-                    <p class="caption">Tech Specs</p>
-                </div>
+        </div>
+
+        <!-- Large Images Content -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-2">
+                <img src="assemblydrawing.png" alt="Engineering Drawing" class="w-full">
+                <p class="caption">Exploded View & Bill of Materials</p>
+            </div>
+            <div class="space-y-2">
+                <img src="partdrawing.png" alt="Detailed Part Drawing" class="w-full">
+                <p class="caption">Technical Engineering Specifications</p>
             </div>
         </div>
     </section>
@@ -130,7 +134,7 @@
         </div>
     </section>
 
-    <!-- Footer Nav: Only Next Button -->
+    <!-- Footer Nav -->
     <div class="flex justify-end items-center mt-12 pt-8 border-t border-gray-100">
         <a href="project-2.html" class="bg-black text-white px-10 py-5 rounded-full font-bold hover:bg-sapphire transition shadow-lg">
             Next Project: Knee Sleeve →
