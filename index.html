@@ -93,8 +93,9 @@
             <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             <span class="font-bold group-hover:text-sapphire transition-colors">Avery Wong</span>
         </div>
-        <div>
+        <div class="space-x-8">
             <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-gray-500 hover:text-black transition">About</button>
+            <button onclick="scrollToProjects()" class="text-gray-500 hover:text-sapphire transition">Projects</button>
         </div>
     </div>
 </nav>
@@ -163,31 +164,33 @@
 
 <script>
     let cachedSlotRect = null, trackHeight = 0, vh = 0, vw = 0;
-    let previewTimer = null; // Timer for the 0.5s hover delay
+    let previewTimer = null; 
 
     function reloadToTop() {
         window.scrollTo(0, 0);
         window.location.href = window.location.origin + window.location.pathname;
     }
 
+    function scrollToProjects() {
+        // Calculations for the bottom of the track (1.0 progress)
+        const target = trackHeight - vh;
+        window.scrollTo({ top: target, behavior: 'smooth' });
+    }
+
     const masterPreview = document.getElementById('master-preview-container');
     const previewIframe = document.getElementById('preview-iframe');
 
     function showFullPreview(url) {
-        // Clear any existing timer to prevent overlapping
         if (previewTimer) clearTimeout(previewTimer);
-        
-        // Start 0.5s countdown
+        // Changed to 0.25s
         previewTimer = setTimeout(() => {
             previewIframe.src = url;
             masterPreview.classList.add('active');
-        }, 500); // 0.5 seconds
+        }, 250); 
     }
 
     function hideFullPreview() {
-        // If the mouse leaves before the 500ms, cancel the preview
         if (previewTimer) clearTimeout(previewTimer);
-        
         masterPreview.classList.remove('active');
         setTimeout(() => { 
             if(!masterPreview.classList.contains('active')) previewIframe.src = "about:blank"; 
