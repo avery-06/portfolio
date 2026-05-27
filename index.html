@@ -19,25 +19,23 @@
 
         .apple-bubble { background: #f5f5f7; border-radius: 3.5rem; border: 1px solid rgba(0,0,0,0.03); }
         
-        /* CAROUSEL & CARD STYLES */
+        /* CAROUSEL STYLES */
         .carousel-wrap {
             width: 100vw;
-            overflow: hidden;
-            padding: 40px 0;
-            position: relative;
+            overflow-x: auto;
+            overflow-y: hidden;
+            display: flex;
+            align-items: center;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE 10+ */
+            padding: 20px 0;
+            scroll-behavior: auto;
         }
+        .carousel-wrap::-webkit-scrollbar { display: none; } /* Chrome/Safari */
 
         .carousel-track {
             display: flex;
-            width: max-content;
-            animation: scroll 30s linear infinite;
-        }
-
-        .carousel-wrap:hover .carousel-track { animation-play-state: paused; }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            padding: 0 calc(50vw - 220px); /* Centers the first/last cards */
         }
 
         .project-card {
@@ -45,6 +43,7 @@
             height: 500px;
             perspective: 1500px;
             margin: 0 20px;
+            flex-shrink: 0;
             text-decoration: none;
         }
 
@@ -70,20 +69,38 @@
             justify-content: center;
             padding: 2rem;
             text-align: center;
-            border: 1px solid rgba(0,0,0,0.08);
         }
 
-        /* Alternating Colors */
-        .project-card:nth-child(odd) .card-front-p { background: var(--sapphire); color: white; }
-        .project-card:nth-child(even) .card-front-p { background: white; color: #1d1d1f; }
+        /* Alternating Colors & Requested Black Border */
+        .project-card:nth-child(odd) .card-front-p { background: var(--sapphire); color: white; border: 1px solid var(--sapphire); }
+        .project-card:nth-child(even) .card-front-p { background: white; color: #1d1d1f; border: 1px solid black; }
 
         .card-back-p {
             background: #f5f5f7;
             transform: rotateY(180deg);
             overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.1);
         }
 
         .card-back-p img { width: 100%; height: 100%; object-fit: cover; border-radius: 2.5rem; }
+
+        /* DOT NAVIGATION */
+        .dot-nav {
+            display: flex;
+            gap: 12px;
+            margin-top: 40px;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #d1d1d6;
+            transition: all 0.3s ease;
+        }
+        .dot.active {
+            background: #000;
+            transform: scale(1.2);
+        }
 
         /* SCROLLYTELLING ELEMENTS */
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
@@ -96,10 +113,9 @@
 
         #projects-layer { 
             z-index: 10; opacity: 0; background: var(--project-bg); 
-            overflow-y: auto; pointer-events: none; justify-content: center;
-            transform: scale(0.05); scrollbar-width: none; -ms-overflow-style: none; will-change: transform, opacity;
+            pointer-events: none; justify-content: center;
+            transform: scale(0.05); will-change: transform, opacity;
         }
-        #projects-layer::-webkit-scrollbar { display: none; }
 
         #hero-layer { z-index: 30; justify-content: center; will-change: opacity; }
 
@@ -144,40 +160,34 @@
 
 <div id="transition-track">
     <div class="sticky-viewport">
-        <!-- UPDATED PROJECTS LAYER WITH CAROUSEL -->
+        <!-- UPDATED PROJECTS LAYER -->
         <div id="projects-layer" class="layer">
-            <h2 class="text-5xl font-extrabold tracking-tight mb-8">Selected Projects</h2>
-            <div class="carousel-wrap">
-                <div class="carousel-track" id="carousel-track">
-                    <!-- Project 1 -->
+            <div class="carousel-wrap" id="carousel-wrap">
+                <div class="carousel-track">
                     <a href="project-1.html" class="project-card">
                         <div class="card-inner">
                             <div class="card-face-p card-front-p"><h3 class="text-3xl font-bold">Cinematography Robotic Arm</h3></div>
                             <div class="card-face-p card-back-p"><img src="placeholderimage.png" alt="Preview"></div>
                         </div>
                     </a>
-                    <!-- Project 2 -->
                     <a href="project-2.html" class="project-card">
                         <div class="card-inner">
                             <div class="card-face-p card-front-p"><h3 class="text-3xl font-bold">Smart Rehabilitation Knee Sleeve</h3></div>
                             <div class="card-face-p card-back-p"><img src="placeholderimage.png" alt="Preview"></div>
                         </div>
                     </a>
-                    <!-- Project 3 -->
                     <a href="project-3.html" class="project-card">
                         <div class="card-inner">
                             <div class="card-face-p card-front-p"><h3 class="text-3xl font-bold">Integrated Desk Outlets</h3></div>
                             <div class="card-face-p card-back-p"><img src="placeholderimage.png" alt="Preview"></div>
                         </div>
                     </a>
-                    <!-- Project 4 -->
                     <a href="project-4.html" class="project-card">
                         <div class="card-inner">
                             <div class="card-face-p card-front-p"><h3 class="text-3xl font-bold">Mechanical Dissections</h3></div>
                             <div class="card-face-p card-back-p"><img src="placeholderimage.png" alt="Preview"></div>
                         </div>
                     </a>
-                    <!-- Project 5 -->
                     <a href="project-5.html" class="project-card">
                         <div class="card-inner">
                             <div class="card-face-p card-front-p"><h3 class="text-3xl font-bold">Piano Playing Robot</h3></div>
@@ -185,6 +195,14 @@
                         </div>
                     </a>
                 </div>
+            </div>
+            <!-- DOT NAVIGATION BAR -->
+            <div class="dot-nav">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
             </div>
         </div>
 
@@ -226,7 +244,8 @@
 
 <script>
     let cachedSlotRect = null, trackHeight = 0, vh = 0, vw = 0;
-    let previewTimer = null; 
+    let isHoveringProjects = false;
+    let autoScrollSpeed = 1;
 
     function reloadToTop() {
         window.scrollTo(0, 0);
@@ -237,10 +256,6 @@
         const target = trackHeight - vh;
         window.scrollTo({ top: target, behavior: 'smooth' });
     }
-
-    // Functions left empty to prevent breaking handleScroll
-    function showFullPreview(url) {}
-    function hideFullPreview() {}
 
     function updateMetrics() {
         const slot = document.getElementById('image-slot'), track = document.getElementById('transition-track');
@@ -265,19 +280,50 @@
         }, speed);
     }
 
+    // CAROUSEL LOGIC
+    const carousel = document.getElementById('carousel-wrap');
+    const dots = document.querySelectorAll('.dot');
+    
+    // Vertical scroll over carousel -> Horizontal move
+    carousel.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            e.preventDefault();
+            carousel.scrollLeft += e.deltaY;
+        }
+    });
+
+    carousel.addEventListener('mouseenter', () => { isHoveringProjects = true; });
+    carousel.addEventListener('mouseleave', () => { isHoveringProjects = false; });
+
+    function handleAutoScroll() {
+        if (!isHoveringProjects && projects.style.opacity > 0.9) {
+            carousel.scrollLeft += autoScrollSpeed;
+            // Loop back to start if at end
+            if (carousel.scrollLeft >= (carousel.scrollWidth - carousel.clientWidth - 10)) {
+                carousel.scrollLeft = 0;
+            }
+        }
+        
+        // Update dots
+        const cardWidth = 440; // 400px + 40px margin
+        const scrollOffset = carousel.scrollLeft;
+        const activeIndex = Math.round(scrollOffset / cardWidth);
+        dots.forEach((dot, idx) => {
+            dot.classList.toggle('active', idx === activeIndex % 5);
+        });
+
+        requestAnimationFrame(handleAutoScroll);
+    }
+
     window.onload = () => {
         updateMetrics();
-        
-        // Clone carousel for infinite effect
-        const track = document.getElementById('carousel-track');
-        track.innerHTML += track.innerHTML;
-
         type("name-type", "Avery Wong", 100, () => {
             document.getElementById("name-cursor").style.display = "none";
             document.getElementById("title-cursor").classList.remove("hidden");
             type("title-type", "Mechanical Engineer.", 80, null);
         });
         requestAnimationFrame(handleScroll);
+        requestAnimationFrame(handleAutoScroll);
     };
 
     const card = document.getElementById('main-card'), frontFace = document.getElementById('front-face');
