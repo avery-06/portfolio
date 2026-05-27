@@ -20,7 +20,7 @@
         /* CAROUSEL STYLES */
         .carousel-wrap {
             width: 100vw;
-            overflow-x: auto; /* Allows native horizontal scroll */
+            overflow-x: auto; 
             overflow-y: hidden;
             display: flex;
             align-items: center;
@@ -28,6 +28,7 @@
             -ms-overflow-style: none;
             padding: 40px 0;
             scroll-behavior: auto;
+            position: relative;
         }
         .carousel-wrap::-webkit-scrollbar { display: none; }
 
@@ -53,6 +54,7 @@
             transform-style: preserve-3d;
         }
 
+        /* FLIP ON HOVER */
         .project-card:hover .card-inner { transform: rotateY(180deg); }
 
         .card-face-p {
@@ -69,10 +71,11 @@
             text-align: center;
         }
 
-        /* Front Side Alternating Colors + Black Border on White */
-        .project-card:nth-child(odd) .card-front-p { background: var(--sapphire); color: white; }
+        /* Front Side Styling */
+        .project-card:nth-child(odd) .card-front-p { background: var(--sapphire); color: white; border: 1px solid var(--sapphire); }
         .project-card:nth-child(even) .card-front-p { background: white; color: #1d1d1f; border: 1px solid black; }
 
+        /* Back Side Styling */
         .card-back-p {
             background: #f5f5f7;
             transform: rotateY(180deg);
@@ -131,41 +134,41 @@
         <div id="projects-layer" class="layer">
             <div class="carousel-wrap" id="carousel-wrap">
                 <div class="carousel-track" id="carousel-track">
+                    <!-- Cards will be cloned in JS for circularity -->
                     <a href="project-1.html" class="project-card">
                         <div class="card-inner">
                             <div class="card-face-p card-front-p"><h3 class="text-3xl font-bold">Cinematography Robotic Arm</h3></div>
-                            <div class="card-face-p card-back-p"><img src="robotcad.png" alt="Preview"></div>
+                            <div class="card-face-p card-back-p"><img src="placeholderimage.png" alt="Preview"></div>
                         </div>
                     </a>
                     <a href="project-2.html" class="project-card">
                         <div class="card-inner">
                             <div class="card-face-p card-front-p"><h3 class="text-3xl font-bold">Smart Rehabilitation Knee Sleeve</h3></div>
-                            <div class="card-face-p card-back-p"><img src="kneesleeve.png" alt="Preview"></div>
+                            <div class="card-face-p card-back-p"><img src="placeholderimage.png" alt="Preview"></div>
                         </div>
                     </a>
                     <a href="project-3.html" class="project-card">
                         <div class="card-inner">
                             <div class="card-face-p card-front-p"><h3 class="text-3xl font-bold">Integrated Desk Outlets</h3></div>
-                            <div class="card-face-p card-back-p"><img src="esptable.png" alt="Preview"></div>
+                            <div class="card-face-p card-back-p"><img src="placeholderimage.png" alt="Preview"></div>
                         </div>
                     </a>
                     <a href="project-4.html" class="project-card">
                         <div class="card-inner">
                             <div class="card-face-p card-front-p"><h3 class="text-3xl font-bold">Mechanical Dissections</h3></div>
-                            <div class="card-face-p card-back-p"><img src="gearboxassembly.png" alt="Preview"></div>
+                            <div class="card-face-p card-back-p"><img src="placeholderimage.png" alt="Preview"></div>
                         </div>
                     </a>
-                    <!--
                     <a href="project-5.html" class="project-card">
                         <div class="card-inner">
                             <div class="card-face-p card-front-p"><h3 class="text-3xl font-bold">Piano Playing Robot</h3></div>
                             <div class="card-face-p card-back-p"><img src="placeholderimage.png" alt="Preview"></div>
                         </div>
-                    </a> -->
+                    </a>
                 </div>
             </div>
             <div class="dot-nav">
-                <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"><!--</div><div class="dot"></div>-->
+                <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
             </div>
         </div>
 
@@ -211,7 +214,7 @@
     const carousel = document.getElementById('carousel-wrap');
     const track = document.getElementById('carousel-track');
     const dots = document.querySelectorAll('.dot');
-    const projects = document.getElementById('projects-layer');
+    const projectsLayer = document.getElementById('projects-layer');
 
     function reloadToTop() {
         window.scrollTo(0, 0);
@@ -222,7 +225,7 @@
         window.scrollTo({ top: trackHeight - vh, behavior: 'smooth' });
     }
 
-    // INFINITE CLONING
+    // CLONING FOR INFINITE CIRCULAR EFFECT
     const originalCards = Array.from(track.children);
     originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
     originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
@@ -250,12 +253,13 @@
         }, speed);
     }
 
+    // HOVER LISTENERS
     carousel.addEventListener('mouseenter', () => { isHoveringProjects = true; });
     carousel.addEventListener('mouseleave', () => { isHoveringProjects = false; });
 
-    // Handle Infinite Loop Jumps
+    // INFINITE WRAP LOGIC
     function checkCircular() {
-        const itemWidth = 440; // 400 width + 40 margin
+        const itemWidth = 440; // 400 + 40 margin
         const totalSetWidth = itemWidth * 5;
         if (carousel.scrollLeft >= totalSetWidth * 2) {
             carousel.scrollLeft -= totalSetWidth;
@@ -264,18 +268,18 @@
         }
     }
 
-    // Auto-scroll loop
+    // MAIN ANIMATION LOOP
     function handleAutoScroll() {
-        if (!isHoveringProjects && projects.style.opacity > 0.9) {
+        // Only auto-scroll if NOT hovering and the layer is visible
+        if (!isHoveringProjects && parseFloat(projectsLayer.style.opacity) > 0.9) {
             carousel.scrollLeft += autoScrollSpeed;
             checkCircular();
         }
         
-        // Update dots based on the middle of the viewport
+        // Update Dots
         const cardWidth = 440;
         const normalizedScroll = (carousel.scrollLeft + (vw / 2)) % (cardWidth * 5);
         const activeIndex = Math.floor(normalizedScroll / cardWidth) % 5;
-        
         dots.forEach((dot, idx) => {
             dot.classList.toggle('active', idx === activeIndex);
         });
@@ -283,12 +287,12 @@
         requestAnimationFrame(handleAutoScroll);
     }
 
-    // Listen for manual horizontal scroll to trigger circular check
+    // Trigger circular check on any scroll (manual or auto)
     carousel.addEventListener('scroll', checkCircular);
 
     window.onload = () => {
         updateMetrics();
-        // Set initial scroll to middle set
+        // Set initial scroll to the middle set
         carousel.scrollLeft = 440 * 5;
         
         type("name-type", "Avery Wong", 100, () => {
@@ -338,11 +342,16 @@
         gearSvg.style.transform = `rotate(${rotZ}deg)`;
         
         hero.style.opacity = hOp;
-        projects.style.opacity = pOp;
-        projects.style.transform = `scale(${pScale})`;
+        projectsLayer.style.opacity = pOp;
+        projectsLayer.style.transform = `scale(${pScale})`;
 
-        if (progress >= 0.98) { projects.style.pointerEvents = 'auto'; projects.style.zIndex = '100'; } 
-        else { projects.style.pointerEvents = 'none'; projects.style.zIndex = '10'; }
+        if (progress >= 0.98) { 
+            projectsLayer.style.pointerEvents = 'auto'; 
+            projectsLayer.style.zIndex = '100'; 
+        } else { 
+            projectsLayer.style.pointerEvents = 'none'; 
+            projectsLayer.style.zIndex = '10'; 
+        }
     }
 
     window.addEventListener('scroll', () => requestAnimationFrame(handleScroll), { passive: true });
