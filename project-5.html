@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piano Robot Player | Avery Wong</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --sapphire: #0F52BA; --bg-color: #ffffff; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color); 
+            color: #1d1d1f; 
+            margin: 0; 
+            -webkit-font-smoothing: antialiased; 
+        }
+
+        .text-sapphire { color: var(--sapphire); }
+        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        
+        @keyframes spin-nav { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .animate-gear-nav { animation: spin-nav 8s linear infinite; }
+
+        .project-hero {
+            padding-top: 15rem;
+            padding-bottom: 10rem;
+        }
+    </style>
+</head>
+<body>
+
+<!-- TASKBAR -->
+<nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
+    <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
+        <a href="index.html" class="flex items-center gap-2 cursor-pointer group">
+            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span class="font-bold group-hover:text-sapphire transition-colors text-black">Avery Wong</span>
+        </a>
+        <div class="space-x-8">
+            <a href="index.html" class="text-gray-500 hover:text-black transition">About</a>
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-6xl mx-auto px-6">
+    
+    <!-- Hero Section -->
+    <header class="project-hero">
+        <div class="text-center">
+            <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter leading-tight">
+                Piano <span class="text-sapphire">Robot</span> Player
+            </h1>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <div class="flex justify-start items-center mt-12 py-12 border-t border-gray-100">
+        <a href="project-4.html" class="text-gray-400 font-bold hover:text-black transition flex items-center gap-2">
+            ← Previous: Mechanical Dissections
+        </a>
+    </div>
+</main>
+
+</body>
+</html>
