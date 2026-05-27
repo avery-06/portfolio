@@ -122,6 +122,7 @@
         .card-container { 
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
             perspective: 2000px; z-index: 20; pointer-events: none; 
+            opacity: 0; /* FIX: Starts hidden to prevent reload flash */
         }
         
         .flip-card { width: 800px; height: 800px; transform-style: preserve-3d; will-change: transform; }
@@ -148,9 +149,9 @@
 <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
         <div class="flex items-center gap-2 cursor-pointer group" onclick="reloadToTop()">
-            <svg class="w-5 h-5 text-sapphire animate-gear-nav flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="w-5 h-5 text-sapphire animate-gear-nav flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="3"></circle>
-                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
             </svg>
             <span class="font-bold group-hover:text-sapphire transition-colors">Avery Wong</span>
         </div>
@@ -190,14 +191,6 @@
                             <div class="card-face-p card-back-p"><img src="gearboxassembly.png" alt="Preview"></div>
                         </div>
                     </a>
-                    <!--
-                    <a href="project-5.html" class="project-card">
-                        <div class="card-inner">
-                            <div class="card-face-p card-front-p"><h3 class="text-3xl font-bold">Piano Playing Robot</h3></div>
-                            <div class="card-face-p card-back-p"><img src="placeholderimage.png" alt="Preview"></div>
-                        </div>
-                    </a>
-                    -->
                 </div>
             </div>
             <div class="slider-container">
@@ -264,7 +257,7 @@
 
     // CLONE CARDS FOR CIRCULARITY
     const originalCards = Array.from(track.children);
-    const cardCount = originalCards.length; // This is 4
+    const cardCount = originalCards.length;
     originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
     originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
 
@@ -294,7 +287,6 @@
     carousel.addEventListener('mouseenter', () => { isHoveringProjects = true; });
     carousel.addEventListener('mouseleave', () => { isHoveringProjects = false; });
 
-    // SLIDER INTERACTIONS
     slider.addEventListener('mousedown', () => { 
         isDraggingSlider = true; 
         initialScrollOnGrab = carousel.scrollLeft; 
@@ -317,13 +309,10 @@
     window.addEventListener('mouseup', releaseSlider);
     window.addEventListener('touchend', releaseSlider);
 
-    // LOOPING LOGIC
     function checkCircular() {
         if (isDraggingSlider) return; 
-
         const itemWidth = 440; 
-        const totalSetWidth = itemWidth * cardCount; // 440 * 4 = 1760
-        
+        const totalSetWidth = itemWidth * cardCount;
         if (carousel.scrollLeft >= totalSetWidth * 2) {
             carousel.scrollLeft -= totalSetWidth;
         } else if (carousel.scrollLeft <= 0) {
@@ -343,7 +332,10 @@
 
     window.onload = () => {
         updateMetrics();
-        // Start in the middle set (at index 4)
+        // FORCE POSITION BEFORE SHOWING
+        handleScroll();
+        document.querySelector('.card-container').style.opacity = '1';
+        
         carousel.scrollLeft = 440 * cardCount; 
 
         type("name-type", "Avery Wong", 100, () => {
