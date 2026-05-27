@@ -36,6 +36,9 @@
         .carousel-track {
             display: flex;
             width: max-content;
+            /* Added padding so the first and last cards can be centered if desired, 
+               or just standard padding for the spring effect */
+            padding: 0 40px; 
         }
 
         .project-card {
@@ -197,9 +200,8 @@
                     </a>
                 </div>
             </div>
-            <!-- UPDATED: SLIDER NAVIGATION -->
             <div class="slider-container">
-                <input type="range" min="0" max="2200" value="0" class="project-slider" id="project-slider">
+                <input type="range" min="0" max="100" value="0" class="project-slider" id="project-slider">
             </div>
         </div>
 
@@ -243,9 +245,9 @@
     let cachedSlotRect = null, trackHeight = 0, vh = 0, vw = 0;
     let isHoveringProjects = false;
     let autoScrollSpeed = 1.0;
+    let isSpringing = false;
 
     const carousel = document.getElementById('carousel-wrap');
-    const track = document.getElementById('carousel-track');
     const slider = document.getElementById('project-slider');
     const projectsLayer = document.getElementById('projects-layer');
 
@@ -258,16 +260,14 @@
         window.scrollTo({ top: trackHeight - vh, behavior: 'smooth' });
     }
 
-    // CLONE CARDS FOR CIRCULARITY
-    const originalCards = Array.from(track.children);
-    originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
-    originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
-
     function updateMetrics() {
         const slot = document.getElementById('image-slot'), t = document.getElementById('transition-track');
         if(slot) cachedSlotRect = slot.getBoundingClientRect(); 
         trackHeight = t.offsetHeight;
         vh = window.innerHeight; vw = window.innerWidth;
+        
+        // Update slider max based on content width
+        slider.max = carousel.scrollWidth - carousel.clientWidth;
     }
 
     function type(elId, fullText, speed, callback) {
@@ -289,43 +289,48 @@
     carousel.addEventListener('mouseenter', () => { isHoveringProjects = true; });
     carousel.addEventListener('mouseleave', () => { isHoveringProjects = false; });
 
-    // Slider listener: Move carousel based on slider input
+    // Manual slider movement
     slider.addEventListener('input', () => {
-        const itemWidth = 440;
-        const totalSetWidth = itemWidth * 5;
-        carousel.scrollLeft = totalSetWidth + parseFloat(slider.value);
+        isSpringing = false;
+        carousel.scrollLeft = slider.value;
+        if (parseFloat(slider.value) >= parseFloat(slider.max)) {
+            triggerSpring();
+        }
     });
 
-    function checkCircular() {
-        const itemWidth = 440; 
-        const totalSetWidth = itemWidth * 5;
-        if (carousel.scrollLeft >= totalSetWidth * 2) {
-            carousel.scrollLeft -= totalSetWidth;
-        } else if (carousel.scrollLeft <= 0) {
-            carousel.scrollLeft += totalSetWidth;
-        }
+    function triggerSpring() {
+        if (isSpringing) return;
+        isSpringing = true;
+        carousel.scrollTo({ left: 0, behavior: 'smooth' });
+        // Small timeout to allow the smooth scroll to finish before resuming auto
+        setTimeout(() => { isSpringing = false; }, 1000);
     }
 
     function handleAutoScroll() {
-        if (!isHoveringProjects && parseFloat(projectsLayer.style.opacity) > 0.9) {
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+
+        if (!isHoveringProjects && !isSpringing && parseFloat(projectsLayer.style.opacity) > 0.9) {
             carousel.scrollLeft += autoScrollSpeed;
-            checkCircular();
+            
+            // Reached the end: Spring back
+            if (carousel.scrollLeft >= maxScroll - 1) {
+                triggerSpring();
+            }
         }
 
-        // Sync slider thumb to current scroll position (modulo set width)
-        const itemWidth = 440;
-        const totalSetWidth = itemWidth * 5;
-        slider.value = carousel.scrollLeft % totalSetWidth;
+        // Sync slider thumb to current scroll position
+        if (!isSpringing) {
+            slider.value = carousel.scrollLeft;
+        } else {
+            // While springing, still update slider position to follow the smooth scroll
+            slider.value = carousel.scrollLeft;
+        }
 
         requestAnimationFrame(handleAutoScroll);
     }
 
-    carousel.addEventListener('scroll', checkCircular);
-
     window.onload = () => {
         updateMetrics();
-        carousel.scrollLeft = 440 * 5; 
-
         type("name-type", "Avery Wong", 100, () => {
             document.getElementById("name-cursor").style.display = "none";
             document.getElementById("title-cursor").classList.remove("hidden");
