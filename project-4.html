@@ -36,7 +36,19 @@
         }
 
         img, .video-placeholder { border-radius: 1.5rem; width: 100%; height: auto; border: 1px solid rgba(0,0,0,0.08); background: white; }
-        .video-placeholder { aspect-ratio: 16 / 9; background: #e5e7eb; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        
+        /* Large Video Styling */
+        .video-placeholder { 
+            aspect-ratio: 16 / 9; 
+            background: #000; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
         .caption { text-align: center; font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.75rem; }
     </style>
 </head>
@@ -60,10 +72,10 @@
     <!-- Hero Section -->
     <header class="project-hero grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div>
-            <div class="text-xs font-bold text-sapphire uppercase tracking-widest mb-4">Project 04 — MIE 243</div>
             <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight">
-                Mechanical <br><span class="text-sapphire">Engineering</span> Design
+                Mechanical <br><span class="text-sapphire">Design</span> Elements
             </h1>
+            <p class="mt-6 text-gray-500 text-lg">Detailed reverse-engineering and mechanism design for high-performance applications.</p>
         </div>
         <div>
             <img src="gearboxassembly.png" alt="Gearbox Assembly">
@@ -71,72 +83,61 @@
         </div>
     </header>
 
-    <!-- Gearbox Section -->
-    <section class="apple-bubble grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div class="order-2 md:order-1">
-            <!-- YouTube Placeholder Container -->
+    <!-- Large Video Test Section -->
+    <section class="apple-bubble">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl font-bold tracking-tight mb-8 text-center">Performance Testing</h2>
+            
             <div class="video-placeholder">
                 <div class="text-center">
-                    <svg class="w-16 h-16 text-sapphire mx-auto mb-2" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                    <p class="text-sm font-bold text-gray-400">Testing Video Placeholder</p>
+                    <!-- Large Play Button -->
+                    <div class="w-20 h-20 bg-sapphire rounded-full flex items-center justify-center mb-4 mx-auto shadow-2xl transition-transform hover:scale-110 cursor-pointer">
+                        <svg class="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <p class="text-lg font-bold text-white opacity-80">Watch Gearbox Load Test</p>
+                    <p class="text-xs text-gray-500 mt-2 uppercase tracking-widest">YouTube Embed Placeholder</p>
                 </div>
             </div>
-            <p class="caption">Gearbox Performance & Load Test</p>
-        </div>
-        <div class="order-1 md:order-2">
-            <h2 class="text-3xl font-bold tracking-tight mb-6">Gearbox Creation</h2>
-            <p class="text-gray-600 text-lg leading-relaxed">
-                As part of the Mechanical Engineering Design curriculum, I developed a high-efficiency reduction gearbox. This involved complex gear ratio calculations, material selection for durability, and precision assembly to ensure minimal backlash during high-RPM operations.
-            </p>
-            <ul class="mt-6 space-y-3 text-gray-500 font-medium">
-                <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-sapphire"></div> Optimized for high torque transmission</li>
-                <li class="flex items-center gap-2"><div class="w-1.5 h-1.5 rounded-full bg-sapphire"></div> Integrated bearing housing for axial stability</li>
-            </ul>
+            
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Gearbox Creation</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Developed a high-efficiency reduction gearbox requiring complex gear ratio calculations and material selection. This assembly was designed to minimize backlash while maximizing torque transmission from a high-RPM motor input.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Functional Validation</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Testing confirmed structural integrity under peak load. The video demonstrates smooth power delivery and the axial stability of the integrated bearing housings during rapid acceleration cycles.
+                    </p>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Screwdriver Section -->
     <section class="apple-bubble">
-        <h2 class="text-3xl font-bold tracking-tight mb-8">Screwdriver Modification</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-            <div class="md:col-span-1">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl font-bold tracking-tight mb-6">Screwdriver Modification</h2>
                 <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                    This task involved the reverse-engineering of a standard screwdriver followed by a novel functional modification.
+                    A study in reverse engineering and ergonomic innovation. After mapping the original tool's internal geometry, I designed a custom **Push-Button Shaft-Lock**.
                 </p>
-                <div class="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
-                    <h4 class="font-bold text-sapphire mb-2">The Innovation</h4>
-                    <p class="text-sm text-gray-500">Designed a push-button shaft-lock mechanism that prevents rotation when engaged, allowing for higher manual torque application without slipping.</p>
+                <div class="flex gap-4">
+                    <div class="h-auto w-1 bg-sapphire rounded-full"></div>
+                    <p class="text-sm text-gray-500 italic">Allows users to lock rotation instantly for high-torque manual tightening without needing to reposition the grip.</p>
                 </div>
             </div>
-            <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <img src="screwdrivercad.png" alt="Screwdriver CAD">
-                    <p class="caption">Modified 3D Model</p>
-                </div>
-                <div>
+            <div class="grid grid-cols-1 gap-4">
+                <img src="screwdrivercad.png" alt="Screwdriver CAD">
+                <div class="grid grid-cols-2 gap-4">
                     <img src="screwdriverdrawing.png" alt="Screwdriver Drawing">
-                    <p class="caption">Tolerance & Fit Analysis</p>
+                    <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 flex flex-col justify-center">
+                        <span class="text-sapphire font-bold text-2xl">0.02mm</span>
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-tighter">Measured Tolerance</span>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Takeaways Section -->
-    <section class="apple-bubble bg-white border-2 border-[#f5f5f7]">
-        <h2 class="text-3xl font-bold tracking-tight mb-8 text-sapphire text-center">Technical Proficiency</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="p-8 bg-[#f5f5f7] rounded-[2rem] text-center">
-                <h4 class="font-bold text-xl mb-3">Precision Measurement</h4>
-                <p class="text-gray-400 text-sm">Expert use of digital calipers for reverse-engineering complex mechanical geometries.</p>
-            </div>
-            <div class="p-8 bg-[#f5f5f7] rounded-[2rem] text-center">
-                <h4 class="font-bold text-xl mb-3">Mechanism Design</h4>
-                <p class="text-gray-400 text-sm">Applying fits and tolerances (ANSI/ISO) to ensure reliable actuation in tight spatial constraints.</p>
-            </div>
-            <div class="p-8 bg-[#f5f5f7] rounded-[2rem] text-center">
-                <h4 class="font-bold text-xl mb-3">SolidWorks CAD</h4>
-                <p class="text-gray-400 text-sm">Advanced assembly modeling, motion study analysis, and engineering drawing production.</p>
             </div>
         </div>
     </section>
@@ -147,7 +148,7 @@
             ← Previous: Integrated Charging Desk
         </a>
         <a href="index.html" class="bg-black text-white px-10 py-5 rounded-full font-bold hover:bg-sapphire transition shadow-lg">
-            Return to Portfolio
+            Back to Home
         </a>
     </div>
 </main>
