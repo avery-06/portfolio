@@ -35,18 +35,20 @@
             padding-bottom: 4rem;
         }
 
-        img, .video-placeholder { border-radius: 1.5rem; width: 100%; height: auto; border: 1px solid rgba(0,0,0,0.08); background: white; }
+        img, .video-short-placeholder { border-radius: 1.5rem; width: 100%; height: auto; border: 1px solid rgba(0,0,0,0.08); background: white; }
         
-        /* Large Video Styling */
-        .video-placeholder { 
-            aspect-ratio: 16 / 9; 
+        /* Vertical YouTube Short Styling */
+        .video-short-placeholder { 
+            aspect-ratio: 9 / 16; 
+            max-width: 320px;
             background: #000; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             position: relative; 
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin: 0 auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
 
         .caption { text-align: center; font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.75rem; }
@@ -72,10 +74,10 @@
     <!-- Hero Section -->
     <header class="project-hero grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div>
+            <div class="text-xs font-bold text-sapphire uppercase tracking-widest mb-4">Project 04 — MIE 243</div>
             <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight">
                 Mechanical <br><span class="text-sapphire">Design</span> Elements
             </h1>
-            <p class="mt-6 text-gray-500 text-lg">Detailed reverse-engineering and mechanism design for high-performance applications.</p>
         </div>
         <div>
             <img src="gearboxassembly.png" alt="Gearbox Assembly">
@@ -83,61 +85,49 @@
         </div>
     </header>
 
-    <!-- Large Video Test Section -->
-    <section class="apple-bubble">
-        <div class="max-w-5xl mx-auto">
-            <h2 class="text-3xl font-bold tracking-tight mb-8 text-center">Performance Testing</h2>
-            
-            <div class="video-placeholder">
-                <div class="text-center">
-                    <!-- Large Play Button -->
-                    <div class="w-20 h-20 bg-sapphire rounded-full flex items-center justify-center mb-4 mx-auto shadow-2xl transition-transform hover:scale-110 cursor-pointer">
-                        <svg class="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    <!-- Vertical Video Test Section -->
+    <section class="apple-bubble grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="md:pr-12">
+            <h2 class="text-3xl font-bold tracking-tight mb-6">Performance Validation</h2>
+            <p class="text-gray-600 text-lg leading-relaxed mb-6">
+                The core of the gearbox project focused on high-efficiency reduction. This testing phase validated the structural integrity of the 3D-printed housings and the mesh alignment of the internal gears under variable loads.
+            </p>
+            <div class="bg-white p-6 rounded-2xl border border-gray-100">
+                <h4 class="font-bold text-sapphire text-sm uppercase tracking-wider mb-2">Key Outcome</h4>
+                <p class="text-gray-500 text-sm">Achieved smooth power delivery with negligible vibration during high-RPM testing cycles.</p>
+            </div>
+        </div>
+        <div>
+            <div class="video-short-placeholder">
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-sapphire rounded-full flex items-center justify-center mb-4 mx-auto shadow-xl">
+                        <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </div>
-                    <p class="text-lg font-bold text-white opacity-80">Watch Gearbox Load Test</p>
-                    <p class="text-xs text-gray-500 mt-2 uppercase tracking-widest">YouTube Embed Placeholder</p>
+                    <p class="text-sm font-bold text-white opacity-90">Watch Gearbox Short</p>
+                    <p class="text-[10px] text-gray-500 mt-2 uppercase tracking-widest">YouTube Shorts Placeholder</p>
                 </div>
             </div>
-            
-            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Gearbox Creation</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        Developed a high-efficiency reduction gearbox requiring complex gear ratio calculations and material selection. This assembly was designed to minimize backlash while maximizing torque transmission from a high-RPM motor input.
-                    </p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Functional Validation</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        Testing confirmed structural integrity under peak load. The video demonstrates smooth power delivery and the axial stability of the integrated bearing housings during rapid acceleration cycles.
-                    </p>
-                </div>
-            </div>
+            <p class="caption">Assembly in Motion</p>
         </div>
     </section>
 
-    <!-- Screwdriver Section -->
+    <!-- Screwdriver Section: Images in a Row -->
     <section class="apple-bubble">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="max-w-3xl mb-10">
+            <h2 class="text-3xl font-bold tracking-tight mb-4">Screwdriver Modification</h2>
+            <p class="text-gray-600 text-lg">
+                Reverse-engineered a standard hand tool to integrate a **Push-Button Shaft-Lock**. This allows the user to apply maximum manual torque without rotating the grip—ideal for breaking seized fasteners.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-                <h2 class="text-3xl font-bold tracking-tight mb-6">Screwdriver Modification</h2>
-                <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                    A study in reverse engineering and ergonomic innovation. After mapping the original tool's internal geometry, I designed a custom **Push-Button Shaft-Lock**.
-                </p>
-                <div class="flex gap-4">
-                    <div class="h-auto w-1 bg-sapphire rounded-full"></div>
-                    <p class="text-sm text-gray-500 italic">Allows users to lock rotation instantly for high-torque manual tightening without needing to reposition the grip.</p>
-                </div>
-            </div>
-            <div class="grid grid-cols-1 gap-4">
                 <img src="screwdrivercad.png" alt="Screwdriver CAD">
-                <div class="grid grid-cols-2 gap-4">
-                    <img src="screwdriverdrawing.png" alt="Screwdriver Drawing">
-                    <div class="bg-white rounded-[1.5rem] p-6 border border-gray-100 flex flex-col justify-center">
-                        <span class="text-sapphire font-bold text-2xl">0.02mm</span>
-                        <span class="text-xs font-bold text-gray-400 uppercase tracking-tighter">Measured Tolerance</span>
-                    </div>
-                </div>
+                <p class="caption">Modified Handle Internal Geometry</p>
+            </div>
+            <div>
+                <img src="screwdriverdrawing.png" alt="Screwdriver Engineering Drawing">
+                <p class="caption">Technical Drawing & Tolerance Mapping</p>
             </div>
         </div>
     </section>
@@ -148,7 +138,7 @@
             ← Previous: Integrated Charging Desk
         </a>
         <a href="index.html" class="bg-black text-white px-10 py-5 rounded-full font-bold hover:bg-sapphire transition shadow-lg">
-            Back to Home
+            Return to Home
         </a>
     </div>
 </main>
