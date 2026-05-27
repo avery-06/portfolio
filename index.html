@@ -36,9 +36,6 @@
         .carousel-track {
             display: flex;
             width: max-content;
-            /* Added padding so the first and last cards can be centered if desired, 
-               or just standard padding for the spring effect */
-            padding: 0 40px; 
         }
 
         .project-card {
@@ -103,9 +100,7 @@
             background: #000;
             border-radius: 50%;
             cursor: pointer;
-            transition: transform 0.2s;
         }
-        .project-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
         /* SCROLLYTELLING ELEMENTS */
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
@@ -153,7 +148,7 @@
 <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
         <div class="flex items-center gap-2 cursor-pointer group" onclick="reloadToTop()">
-            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             <span class="font-bold group-hover:text-sapphire transition-colors">Avery Wong</span>
         </div>
         <div class="space-x-8">
@@ -201,7 +196,8 @@
                 </div>
             </div>
             <div class="slider-container">
-                <input type="range" min="0" max="100" value="0" class="project-slider" id="project-slider">
+                <!-- Slider Thumb snaps back to 0 on release -->
+                <input type="range" min="0" max="2200" value="0" class="project-slider" id="project-slider">
             </div>
         </div>
 
@@ -244,10 +240,11 @@
 <script>
     let cachedSlotRect = null, trackHeight = 0, vh = 0, vw = 0;
     let isHoveringProjects = false;
+    let isResettingSlider = false; // Prevents reset from scrolling cards
     let autoScrollSpeed = 1.0;
-    let isSpringing = false;
 
     const carousel = document.getElementById('carousel-wrap');
+    const track = document.getElementById('carousel-track');
     const slider = document.getElementById('project-slider');
     const projectsLayer = document.getElementById('projects-layer');
 
@@ -260,14 +257,16 @@
         window.scrollTo({ top: trackHeight - vh, behavior: 'smooth' });
     }
 
+    // CLONE CARDS FOR CIRCULARITY
+    const originalCards = Array.from(track.children);
+    originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
+    originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
+
     function updateMetrics() {
         const slot = document.getElementById('image-slot'), t = document.getElementById('transition-track');
         if(slot) cachedSlotRect = slot.getBoundingClientRect(); 
         trackHeight = t.offsetHeight;
         vh = window.innerHeight; vw = window.innerWidth;
-        
-        // Update slider max based on content width
-        slider.max = carousel.scrollWidth - carousel.clientWidth;
     }
 
     function type(elId, fullText, speed, callback) {
@@ -289,48 +288,49 @@
     carousel.addEventListener('mouseenter', () => { isHoveringProjects = true; });
     carousel.addEventListener('mouseleave', () => { isHoveringProjects = false; });
 
-    // Manual slider movement
+    // DRAGGING SLIDER MOVES CAROUSEL
     slider.addEventListener('input', () => {
-        isSpringing = false;
-        carousel.scrollLeft = slider.value;
-        if (parseFloat(slider.value) >= parseFloat(slider.max)) {
-            triggerSpring();
-        }
+        if (isResettingSlider) return;
+        const itemWidth = 440;
+        const totalSetWidth = itemWidth * 5;
+        // Map slider value (0-2200) to the middle set of cards
+        carousel.scrollLeft = totalSetWidth + parseFloat(slider.value);
     });
 
-    function triggerSpring() {
-        if (isSpringing) return;
-        isSpringing = true;
-        carousel.scrollTo({ left: 0, behavior: 'smooth' });
-        // Small timeout to allow the smooth scroll to finish before resuming auto
-        setTimeout(() => { isSpringing = false; }, 1000);
+    // RELEASING SLIDER SNAPS THUMB BACK TO 0 WITHOUT MOVING CARDS
+    const snapBack = () => {
+        isResettingSlider = true;
+        slider.value = 0;
+        // Tiny timeout to allow the browser to process the value change
+        setTimeout(() => { isResettingSlider = false; }, 50);
+    };
+    slider.addEventListener('mouseup', snapBack);
+    slider.addEventListener('touchend', snapBack);
+
+    function checkCircular() {
+        const itemWidth = 440; 
+        const totalSetWidth = itemWidth * 5;
+        if (carousel.scrollLeft >= totalSetWidth * 2) {
+            carousel.scrollLeft -= totalSetWidth;
+        } else if (carousel.scrollLeft <= 0) {
+            carousel.scrollLeft += totalSetWidth;
+        }
     }
 
     function handleAutoScroll() {
-        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-
-        if (!isHoveringProjects && !isSpringing && parseFloat(projectsLayer.style.opacity) > 0.9) {
+        if (!isHoveringProjects && parseFloat(projectsLayer.style.opacity) > 0.9) {
             carousel.scrollLeft += autoScrollSpeed;
-            
-            // Reached the end: Spring back
-            if (carousel.scrollLeft >= maxScroll - 1) {
-                triggerSpring();
-            }
+            checkCircular();
         }
-
-        // Sync slider thumb to current scroll position
-        if (!isSpringing) {
-            slider.value = carousel.scrollLeft;
-        } else {
-            // While springing, still update slider position to follow the smooth scroll
-            slider.value = carousel.scrollLeft;
-        }
-
         requestAnimationFrame(handleAutoScroll);
     }
 
+    carousel.addEventListener('scroll', checkCircular);
+
     window.onload = () => {
         updateMetrics();
+        carousel.scrollLeft = 440 * 5; // Start at middle set
+
         type("name-type", "Avery Wong", 100, () => {
             document.getElementById("name-cursor").style.display = "none";
             document.getElementById("title-cursor").classList.remove("hidden");
