@@ -148,7 +148,10 @@
 <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
         <div class="flex items-center gap-2 cursor-pointer group" onclick="reloadToTop()">
-            <svg class="w-5 h-5 text-sapphire animate-gear-nav flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <svg class="w-5 h-5 text-sapphire animate-gear-nav flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0 2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
             <span class="font-bold group-hover:text-sapphire transition-colors">Avery Wong</span>
         </div>
         <div class="space-x-8">
@@ -261,6 +264,7 @@
 
     // CLONE CARDS FOR CIRCULARITY
     const originalCards = Array.from(track.children);
+    const cardCount = originalCards.length; // This is 4
     originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
     originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
 
@@ -302,26 +306,24 @@
 
     slider.addEventListener('input', () => {
         if (!isDraggingSlider) return;
-        // Move the cards relative to where they were when you grabbed the slider
-        // This will naturally "stop" when it hits the end of the HTML track
         carousel.scrollLeft = initialScrollOnGrab + parseFloat(slider.value);
     });
 
     const releaseSlider = () => {
         if (!isDraggingSlider) return;
         isDraggingSlider = false;
-        slider.value = 0; // Instant spring back
+        slider.value = 0; 
     };
     window.addEventListener('mouseup', releaseSlider);
     window.addEventListener('touchend', releaseSlider);
 
     // LOOPING LOGIC
     function checkCircular() {
-        // Only run circular logic when NOT dragging the slider
         if (isDraggingSlider) return; 
 
         const itemWidth = 440; 
-        const totalSetWidth = itemWidth * 5;
+        const totalSetWidth = itemWidth * cardCount; // 440 * 4 = 1760
+        
         if (carousel.scrollLeft >= totalSetWidth * 2) {
             carousel.scrollLeft -= totalSetWidth;
         } else if (carousel.scrollLeft <= 0) {
@@ -341,7 +343,8 @@
 
     window.onload = () => {
         updateMetrics();
-        carousel.scrollLeft = 440 * 5; 
+        // Start in the middle set (at index 4)
+        carousel.scrollLeft = 440 * cardCount; 
 
         type("name-type", "Avery Wong", 100, () => {
             document.getElementById("name-cursor").style.display = "none";
