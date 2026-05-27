@@ -102,7 +102,7 @@
             cursor: pointer;
         }
 
-        /* HERO SCROLLYTELLING */
+        /* SCROLLYTELLING ELEMENTS */
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
@@ -196,7 +196,7 @@
                 </div>
             </div>
             <div class="slider-container">
-                <input type="range" min="0" max="2200" value="0" class="project-slider" id="project-slider">
+                <input type="range" min="0" max="1000" value="0" class="project-slider" id="project-slider">
             </div>
         </div>
 
@@ -213,7 +213,7 @@
                 <div class="flex-1 space-y-6">
                     <h2 class="text-5xl font-extrabold tracking-tight">About</h2>
                     <p class="text-gray-500 text-lg leading-relaxed">Mechanical engineering student at the University of Toronto pursuing a minor in Engineering Business. A technical-focused engineer with strong interests in problem solving, design, and collaborative engineering environments.</p>
-                    <div class="flex flex-wrap gap-4">
+                    <div class="flex wrap gap-4">
                         <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold hover:border-sapphire transition shadow-sm uppercase">LinkedIn ↗</a>
                         <div class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold text-sapphire shadow-sm">averywong3@gmail.com</div>
                     </div>
@@ -239,8 +239,8 @@
 <script>
     let cachedSlotRect = null, trackHeight = 0, vh = 0, vw = 0;
     let isHoveringProjects = false;
-    let isDraggingSlider = false; // NEW: Track slider interaction
-    let isResettingSlider = false; 
+    let isDraggingSlider = false; 
+    let initialScrollOnGrab = 0;
     let autoScrollSpeed = 1.0;
 
     const carousel = document.getElementById('carousel-wrap');
@@ -288,29 +288,36 @@
     carousel.addEventListener('mouseenter', () => { isHoveringProjects = true; });
     carousel.addEventListener('mouseleave', () => { isHoveringProjects = false; });
 
-    // DRAGGING SLIDER
-    slider.addEventListener('mousedown', () => { isDraggingSlider = true; });
-    slider.addEventListener('touchstart', () => { isDraggingSlider = true; });
-
-    slider.addEventListener('input', () => {
-        if (isResettingSlider) return;
-        const itemWidth = 440;
-        const totalSetWidth = itemWidth * 5;
-        // Move cards relative to current set
-        carousel.scrollLeft = totalSetWidth + parseFloat(slider.value);
+    // SLIDER INTERACTIONS
+    slider.addEventListener('mousedown', () => { 
+        isDraggingSlider = true; 
+        initialScrollOnGrab = carousel.scrollLeft; 
+    });
+    slider.addEventListener('touchstart', () => { 
+        isDraggingSlider = true; 
+        initialScrollOnGrab = carousel.scrollLeft; 
     });
 
-    // RELEASE SLIDER: Spring back slider thumb instantly, don't move cards
+    slider.addEventListener('input', () => {
+        if (!isDraggingSlider) return;
+        // Move the cards relative to where they were when you grabbed the slider
+        // This will naturally "stop" when it hits the end of the HTML track
+        carousel.scrollLeft = initialScrollOnGrab + parseFloat(slider.value);
+    });
+
     const releaseSlider = () => {
+        if (!isDraggingSlider) return;
         isDraggingSlider = false;
-        isResettingSlider = true;
-        slider.value = 0;
-        setTimeout(() => { isResettingSlider = false; }, 50);
+        slider.value = 0; // Instant spring back
     };
     window.addEventListener('mouseup', releaseSlider);
     window.addEventListener('touchend', releaseSlider);
 
+    // LOOPING LOGIC
     function checkCircular() {
+        // Only run circular logic when NOT dragging the slider
+        if (isDraggingSlider) return; 
+
         const itemWidth = 440; 
         const totalSetWidth = itemWidth * 5;
         if (carousel.scrollLeft >= totalSetWidth * 2) {
@@ -321,7 +328,6 @@
     }
 
     function handleAutoScroll() {
-        // Auto-scroll ONLY if NOT hovering AND NOT dragging the slider
         if (!isHoveringProjects && !isDraggingSlider && parseFloat(projectsLayer.style.opacity) > 0.9) {
             carousel.scrollLeft += autoScrollSpeed;
             checkCircular();
