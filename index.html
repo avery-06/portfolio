@@ -152,7 +152,7 @@
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden; 
             -webkit-backface-visibility: hidden; display: flex; align-items: center; justify-content: center; border-radius: 80px;
             transform: translateZ(0);
-            image-rendering: -webkit-optimize-contrast;
+            will-change: transform;
         }
         
         .card-front { background: var(--bg-color); overflow: hidden; border: 1px solid #eee; }
@@ -393,7 +393,12 @@
         const startX = (cachedSlotRect.left + cachedSlotRect.width/2) - (vw/2);
         const startY = (cachedSlotRect.top + cachedSlotRect.height/2) - (vh/2);
 
-        hOp = (progress > 0.01) ? 0 : 1;
+        let blurVal = progress * 50; 
+        hero.style.filter = `blur(${blurVal}px)`;
+        hero.style.opacity = Math.max(0, 1 - (progress * 5));
+
+        const staticImg = document.getElementById('image-slot');
+        if (staticImg) staticImg.style.opacity = (progress > 0.01) ? '0' : '1';;
 
         if (progress <= 0.1) { x = startX; y = startY; scale = 0.4; } 
         else if (progress <= 0.3) {
