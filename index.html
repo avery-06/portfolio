@@ -138,23 +138,36 @@
         .card-container { 
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
             perspective: 2000px; z-index: 20; pointer-events: none; 
-            opacity: 0; /* FIX: Starts hidden to prevent reload flash */
+            opacity: 0;
         }
         
         .flip-card { 
             width: 800px; 
             height: 800px; 
             transform-style: preserve-3d; 
-            /* Removing will-change: transform here forces the browser 
-               to re-render the pixels as it scales, keeping it sharp. */
         }
+
         .card-face { 
-            position: absolute; width: 100%; height: 100%; backface-visibility: hidden; 
-            -webkit-backface-visibility: hidden; display: flex; align-items: center; justify-content: center; border-radius: 80px;
+            position: absolute; width: 100%; height: 100%; 
+            backface-visibility: hidden; 
+            -webkit-backface-visibility: hidden; 
+            display: flex; align-items: center; justify-content: center; border-radius: 80px;
+            /* FIX: Forces GPU layer to stay sharp during transform */
+            transform: translateZ(0); 
         }
         
         .card-front { background: var(--bg-color); overflow: hidden; border: 1px solid #eee; }
-        .card-back { background: var(--bg-color); transform: rotateY(180deg); position: relative; }
+        
+        /* FIX: Prevents photo blurring by forcing high-quality rasterization during scale */
+        .card-front img {
+            width: 100%; height: 100%; object-fit: cover;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: high-quality;
+            transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
+        }
+
+        .card-back { background: var(--bg-color); transform: rotateY(180deg) translateZ(0); position: relative; }
 
         #main-gear-svg { width: 70%; height: 70%; fill: #333333; will-change: transform; }
         
@@ -167,10 +180,8 @@
             letter-spacing: 0.1em; 
             pointer-events: none; 
             z-index: 10;
-            /* FIX: Force the browser to treat this as a 3D object and keep it sharp */
             transform: translateZ(1px);
             -webkit-font-smoothing: subpixel-antialiased;
-            will-change: auto; /* Overwrite the parent's will-change behavior */
         }
 
         #image-slot img { width: 100%; height: 100%; object-fit: cover; border-radius: 2.5rem; filter: grayscale(100%); }
@@ -254,7 +265,9 @@
 
         <div class="card-container">
             <div class="flip-card" id="main-card">
-                <div class="card-face card-front" id="front-face"><img src="headshot.jpg" alt="Transition" class="w-full h-full object-cover grayscale"></div>
+                <div class="card-face card-front" id="front-face">
+                    <img src="headshot.jpg" alt="Transition" class="grayscale">
+                </div>
                 <div class="card-face card-back" id="back-face">
                     <div class="static-label">Projects</div>
                     <svg id="main-gear-svg" viewBox="0 0 100 100">
@@ -287,7 +300,6 @@
         window.scrollTo({ top: trackHeight - vh, behavior: 'smooth' });
     }
 
-    // CLONE CARDS FOR CIRCULARITY
     const originalCards = Array.from(track.children);
     const cardCount = originalCards.length;
     originalCards.forEach(card => track.appendChild(card.cloneNode(true)));
@@ -364,7 +376,6 @@
 
     window.onload = () => {
         updateMetrics();
-        // FORCE POSITION BEFORE SHOWING
         handleScroll();
         document.querySelector('.card-container').style.opacity = '1';
         
