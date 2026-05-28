@@ -393,13 +393,7 @@
         const startX = (cachedSlotRect.left + cachedSlotRect.width/2) - (vw/2);
         const startY = (cachedSlotRect.top + cachedSlotRect.height/2) - (vh/2);
 
-        let blurVal = progress * 50; 
-        hero.style.filter = `blur(${blurVal}px)`;
-        hero.style.opacity = Math.max(0, 1 - (progress * 5));
-
-        const staticImg = document.getElementById('image-slot');
-        if (staticImg) staticImg.style.opacity = (progress > 0.01) ? '0' : '1';;
-
+        hOp = Math.max(0, 1 - (progress * 60));
         if (progress <= 0.1) { x = startX; y = startY; scale = 0.4; } 
         else if (progress <= 0.3) {
             const p = (progress - 0.1) / 0.2;
