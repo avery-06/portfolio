@@ -393,7 +393,7 @@
         const startX = (cachedSlotRect.left + cachedSlotRect.width/2) - (vw/2);
         const startY = (cachedSlotRect.top + cachedSlotRect.height/2) - (vh/2);
 
-        hOp = Math.max(0, 1 - (progress * 10));
+        hOp = Math.max(0, 1 - (progress * 40));
 
         if (progress <= 0.1) { x = startX; y = startY; scale = 0.4; } 
         else if (progress <= 0.3) {
