@@ -25,7 +25,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --sapphire: #0F52BA; --bg-color: #ffffff; --project-bg: #ffffff; --bron: #0F52BABF }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: #1d1d1f; margin: 0; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: #1d1d1f; margin: 0; overflow-x: hidden; -webkit-font-smoothing: antialiased; scrollbar-width: none; -ms-overflow-style: none; }
+        body::-webkit-scrollbar, html::-webkit-scrollbar { display: none; }
+        html { scrollbar-width: none; -ms-overflow-style: none; }
 
         .text-sapphire { color: var(--sapphire); }
         .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
@@ -59,11 +61,11 @@
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         #transition-track { height: 600vh; position: relative; }
-        .sticky-viewport { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; }
+        .sticky-viewport { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background: #ffffff; }
         .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
 
         #projects-layer { z-index: 10; opacity: 0; background: var(--project-bg); pointer-events: none; justify-content: center; transform: scale(0.05); }
-        #hero-layer { z-index: 30; justify-content: center; }
+        #hero-layer { z-index: 30; justify-content: center; background: #ffffff; }
 
         .card-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); perspective: 2000px; z-index: 20; pointer-events: none; opacity: 0; }
         
@@ -113,7 +115,7 @@
 <div id="transition-track">
     <div class="sticky-viewport">
         <div id="projects-layer" class="layer">
-            <div class="mb-8">
+            <div class="mt-16 mb-8">
                 <button onclick="slowScrollToAbout()" class="px-8 py-4 bg-black text-white rounded-3xl text-sm font-bold hover:bg-sapphire transition shadow-sm">↑ To About</button>
             </div>
             <div class="project-grid" id="carousel-track">
@@ -200,8 +202,8 @@
         window.scrollTo({ top: trackHeight - vh, behavior: 'smooth' });
     }
 
-    // --- Slow scroll + scroll lock (for the "To Projects" / "To About" buttons) ---
-    let isLockedScrolling = false;
+    // --- Slow scroll + permanent scroll lock (for the "To Projects" / "To About" buttons) ---
+    let isLockedScrolling = true; // user can never scroll manually; only the buttons move the page
 
     function preventScroll(e) { if (isLockedScrolling) e.preventDefault(); }
     window.addEventListener('wheel', preventScroll, { passive: false });
@@ -211,24 +213,24 @@
         if (isLockedScrolling && navKeys.includes(e.key)) e.preventDefault();
     });
 
+    function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+
     function animateScrollTo(targetY, duration) {
         const startY = window.pageYOffset || document.documentElement.scrollTop;
         const distance = targetY - startY;
         const startTime = performance.now();
-        isLockedScrolling = true;
 
         function step(now) {
             const t = Math.min((now - startTime) / duration, 1);
-            const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; // ease-in-out cubic
+            const eased = easeInOutCubic(t);
             window.scrollTo(0, startY + distance * eased);
             if (t < 1) requestAnimationFrame(step);
-            else isLockedScrolling = false;
         }
         requestAnimationFrame(step);
     }
 
-    function slowScrollToProjects() { animateScrollTo(trackHeight - vh, 4000); }
-    function slowScrollToAbout() { animateScrollTo(0, 4000); }
+    function slowScrollToProjects() { animateScrollTo(trackHeight - vh, 2200); }
+    function slowScrollToAbout() { animateScrollTo(0, 2200); }
 
     function updateMetrics() {
         const slot = document.getElementById('image-slot'), t = document.getElementById('transition-track');
@@ -282,17 +284,17 @@
 
         if (progress <= 0.1) { x = startX; y = startY; scale = 0.32; } 
         else if (progress <= 0.3) {
-            const p = (progress - 0.1) / 0.2;
+            const p = easeInOutCubic((progress - 0.1) / 0.2);
             x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.32;
         } 
         else if (progress <= 0.75) {
-            const p = (progress - 0.3) / 0.45;
+            const p = easeInOutCubic((progress - 0.3) / 0.45);
             rotY = 180; rotZ = 90 + (p * 500);
             scale = 0.32 + (Math.pow(p, 2) * (8 - 0.32));
             cardOp = 1; pOp = 0; pScale = 0.05;
         }
         else {
-            const p = (progress - 0.75) / 0.25; 
+            const p = easeInOutCubic((progress - 0.75) / 0.25); 
             rotY = 180; rotZ = 590 + (p * 220);
             scale = 8 + (p * 4); cardOp = 1 - (p * 1.5);
             pOp = p; pScale = 0.05 + (p * 0.95);
