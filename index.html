@@ -119,7 +119,7 @@
     <div class="sticky-viewport">
         <div id="projects-layer" class="layer">
             <div class="mt-16 mb-8">
-                button onclick="animateScrollTo(0, 2000)" class="text-gray-500 hover:text-black transition">About</button>
+                <button onclick="slowScrollToAbout()" class="px-8 py-4 bg-black text-white rounded-3xl text-sm font-bold hover:bg-sapphire transition shadow-sm">↑ To About</button>
             </div>
             <div class="project-grid" id="carousel-track">
                 <a href="project-1.html" class="project-card">
@@ -201,7 +201,7 @@
     }
 
     function scrollToProjects() {
-        animateScrollTo(trackHeight - vh, 2000);
+        window.scrollTo({ top: trackHeight - vh, behavior: 'smooth' });
     }
 
     // --- Slow scroll + permanent scroll lock (for the "To Projects" / "To About" buttons) ---
