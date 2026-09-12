@@ -306,7 +306,7 @@
         const scaleT = smoothstep(0.15, 0.7, progress);
         const scale = 0.32 + scaleT * (7 - 0.32);
         const cardOp = 1 - smoothstep(0.65, 1, progress);
-        const pOp = smoothstep(0.4, 1, progress);
+        const pOp = smoothstep(0.25, 0.85, progress);
         const pScale = 1;
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
