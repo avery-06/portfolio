@@ -291,10 +291,9 @@
         const posFactor = 1 - smoothstep(0, 0.35, progress);
         const x = startX * posFactor;
         const y = startY * posFactor;
-        const rotProgress = smoothstep(0.05, 0.35, progress);
-        const rotY = rotProgress * 180;
+        const rotY = smoothstep(0.05, 0.35, progress) * 180;
         const rotZ = progress * progress * 900;
-        const scaleT = smoothstep(0.5, 1, rotProgress);
+        const scaleT = smoothstep(0.05, 1, progress);
         const scale = 0.32 + Math.pow(scaleT, 2) * (12 - 0.32);        
         const cardOp = 1 - smoothstep(0.85, 1, progress);
         const pOp = smoothstep(0.7, 1, progress);
