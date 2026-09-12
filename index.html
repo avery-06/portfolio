@@ -232,8 +232,8 @@
         requestAnimationFrame(step);
     }
 
-    function slowScrollToProjects() { animateScrollTo(trackHeight - vh, 2900); }
-    function slowScrollToAbout() { animateScrollTo(0, 2900); }
+    function slowScrollToProjects() { animateScrollTo(trackHeight - vh, 3000); }
+    function slowScrollToAbout() { animateScrollTo(0, 3000); }
 
     function updateMetrics() {
         const slot = document.getElementById('image-slot'), t = document.getElementById('transition-track');
@@ -293,7 +293,8 @@
         const y = startY * posFactor;
         const rotY = smoothstep(0.05, 0.35, progress) * 180;
         const rotZ = progress * progress * 900;
-        const scale = 0.32 + Math.pow(progress, 2) * (12 - 0.32);
+        const scaleT = smoothstep(0.05, 1, progress);
+        const scale = 0.32 + Math.pow(scaleT, 2) * (12 - 0.32);
         const cardOp = 1 - smoothstep(0.85, 1, progress);
         const pOp = smoothstep(0.7, 1, progress);
         const pScale = 0.05 + smoothstep(0.7, 1, progress) * 0.95;
