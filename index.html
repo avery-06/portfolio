@@ -289,17 +289,18 @@
         const startX = (cachedSlotRect.left + cachedSlotRect.width/2) - (vw/2);
         const startY = (cachedSlotRect.top + cachedSlotRect.height/2) - (vh/2);
 
-        const hOp = 1 - smoothstep(0, 0.12, progress);
-        const posFactor = 1 - smoothstep(0, 0.35, progress);
+        const hOp = 1 - smoothstep(0, 0.08, progress);
+        const posFactor = 1 - smoothstep(0, 0.15, progress);
         const x = startX * posFactor;
         const y = startY * posFactor;
-        const rotY = smoothstep(0.05, 0.35, progress) * 180;
+        const rotProgress = smoothstep(0.05, 0.15, progress);
+        const rotY = rotProgress * 180;
         const rotZ = smoothstep(0, 1, progress) * 900;
-        const scaleT = smoothstep(0.05, 1, progress);
-        const scale = 0.32 + scaleT * (12 - 0.32);        
+        const scaleT = smoothstep(0.15, 0.85, progress);
+        const scale = 0.32 + scaleT * (12 - 0.32);
         const cardOp = 1 - smoothstep(0.85, 1, progress);
-        const pOp = smoothstep(0.7, 1, progress);
-        const pScale = 0.05 + smoothstep(0.7, 1, progress) * 0.95;
+        const pOp = smoothstep(0.85, 1, progress);
+        const pScale = 0.05 + smoothstep(0.85, 1, progress) * 0.95;
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
         card.style.transform = `translate3d(${x}px, ${y}px, 0) rotateY(${rotY}deg) scale3d(${scale}, ${scale}, 1)`;
