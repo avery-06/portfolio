@@ -274,41 +274,35 @@
     const card = document.getElementById('main-card'), frontFace = document.getElementById('front-face');
     const gearSvg = document.getElementById('main-gear-svg'), hero = document.getElementById('hero-layer');
 
+    function smoothstep(edge0, edge1, x) {
+        const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
+        return t * t * (3 - 2 * t);
+    }
+
     function handleScroll() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         let progress = scrollTop / (trackHeight - vh);
         progress = Math.max(0, Math.min(1, progress));
 
-        let x=0, y=0, scale=0.32, rotY=0, rotZ=0, hOp=1, pOp=0, pScale=0.05, cardOp=1;
         const startX = (cachedSlotRect.left + cachedSlotRect.width/2) - (vw/2);
         const startY = (cachedSlotRect.top + cachedSlotRect.height/2) - (vh/2);
 
-        hOp = Math.max(0, 1 - (progress * 10));
-
-        if (progress <= 0.1) { x = startX; y = startY; scale = 0.32; } 
-        else if (progress <= 0.3) {
-            const p = easeInOutCubic((progress - 0.1) / 0.2);
-            x = startX * (1 - p); y = startY * (1 - p); rotY = p * 180; rotZ = p * 90; scale = 0.32;
-        } 
-        else if (progress <= 0.75) {
-            const p = easeInOutCubic((progress - 0.3) / 0.45);
-            rotY = 180; rotZ = 90 + (p * 500);
-            scale = 0.32 + (Math.pow(p, 2) * (8 - 0.32));
-            cardOp = 1; pOp = 0; pScale = 0.05;
-        }
-        else {
-            const p = easeInOutCubic((progress - 0.75) / 0.25); 
-            rotY = 180; rotZ = 590 + (p * 220);
-            scale = 8 + (p * 4); cardOp = 1 - (p * 1.5);
-            pOp = p; pScale = 0.05 + (p * 0.95);
-        }
+        const hOp = 1 - smoothstep(0, 0.12, progress);
+        const posFactor = 1 - smoothstep(0, 0.35, progress);
+        const x = startX * posFactor;
+        const y = startY * posFactor;
+        const rotY = smoothstep(0.05, 0.35, progress) * 180;
+        const rotZ = progress * progress * 900;
+        const scale = 0.32 + Math.pow(progress, 2) * (12 - 0.32);
+        const cardOp = 1 - smoothstep(0.85, 1, progress);
+        const pOp = smoothstep(0.7, 1, progress);
+        const pScale = 0.05 + smoothstep(0.7, 1, progress) * 0.95;
 
         frontFace.style.opacity = (rotY > 90) ? '0' : '1';
-        // USE SCALE3D TO ENSURE HARDWARE ACCELERATION KEEPS IMAGE SHARP
         card.style.transform = `translate3d(${x}px, ${y}px, 0) rotateY(${rotY}deg) scale3d(${scale}, ${scale}, 1)`;
         card.style.opacity = cardOp;
         gearSvg.style.transform = `rotate(${rotZ}deg)`;
-        
+
         hero.style.opacity = hOp;
         projectsLayer.style.opacity = pOp;
         projectsLayer.style.transform = `scale3d(${pScale}, ${pScale}, 1)`;
