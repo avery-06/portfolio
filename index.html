@@ -214,6 +214,8 @@
     window.addEventListener('keydown', (e) => {
         const navKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
         if (isLockedScrolling && navKeys.includes(e.key)) e.preventDefault();
+        if (e.key === 'ArrowDown' || e.key === 'PageDown') slowScrollToProjects();
+        if (e.key === 'ArrowUp' || e.key === 'PageUp') slowScrollToAbout();
     });
 
     function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
