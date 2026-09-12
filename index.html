@@ -274,6 +274,9 @@
 
     window.onload = () => {
         updateMetrics();
+        if (window.location.hash === '#projects-instant') {
+        window.scrollTo(0, trackHeight - vh);
+        }
         handleScroll();
         document.querySelector('.card-container').style.opacity = '1';
 
