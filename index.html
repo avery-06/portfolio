@@ -201,7 +201,7 @@
     }
 
     function scrollToProjects() {
-        window.scrollTo({ top: trackHeight - vh, behavior: 'smooth' });
+        animateScrollTo(trackHeight - vh, 2000);
     }
 
     // --- Slow scroll + permanent scroll lock (for the "To Projects" / "To About" buttons) ---
