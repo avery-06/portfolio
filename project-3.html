@@ -38,6 +38,15 @@
 
         img { border-radius: 1.5rem; width: 100%; height: auto; border: 1px solid rgba(0,0,0,0.08); background: white; }
         .caption { text-align: center; font-size: 0.7rem; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.75rem; }
+
+        /* CHANGE 1: phone spacing and text sizes */
+        @media (max-width: 767px) {
+            .project-hero { padding-top: 6rem; padding-bottom: 2rem; }
+            .project-hero h1 { font-size: clamp(1.75rem, 9.5vw, 3rem); }
+            .apple-bubble { padding: 1.5rem; border-radius: 2rem; margin-bottom: 1.25rem; }
+            .apple-bubble h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+            .apple-bubble p:not(.caption), .apple-bubble li { font-size: 1rem; }
+        }
     </style>
 </head>
 <body>
@@ -46,10 +55,11 @@
 <nav class="glass fixed top-0 w-full z-[200] border-b border-gray-200">
     <div class="max-w-6xl mx-auto px-6 h-12 flex justify-between items-center text-sm font-medium">
         <a href="index.html" class="flex items-center gap-2 cursor-pointer group">
-            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <svg class="w-5 h-5 text-sapphire animate-gear-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             <span class="font-bold group-hover:text-sapphire transition-colors text-black">Avery Wong</span>
         </a>
-        <div class="space-x-8">
+        <!-- CHANGE 2: tighter nav spacing on phones -->
+        <div class="space-x-4 sm:space-x-8">
             <a href="index.html" class="text-gray-500 hover:text-black transition">Home</a>
             <a href="index.html#projects-instant" class="text-gray-500 hover:text-sapphire transition">Projects</a>
             <a href="resume.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-sapphire transition">Resume</a>
@@ -114,11 +124,12 @@
     <section class="apple-bubble bg-white border-2 border-[#f5f5f7]">
         <h2 class="text-3xl font-bold tracking-tight mb-8 text-sapphire">Project Leadership</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="p-8 bg-[#f5f5f7] rounded-[2rem]">
+            <!-- CHANGE 3: smaller card padding on phones -->
+            <div class="p-5 md:p-8 bg-[#f5f5f7] rounded-[2rem]">
                 <h4 class="font-bold text-xl mb-3">Project Management</h4>
                 <p class="text-gray-600 leading-relaxed">As Team Leader, I facilitated weekly team meetings to assign tasks through a Gantt Chart and update the project timeline using Microsoft Project, ensuring all milestones were delivered on schedule.</p>
             </div>
-            <div class="p-8 bg-[#f5f5f7] rounded-[2rem]">
+            <div class="p-5 md:p-8 bg-[#f5f5f7] rounded-[2rem]">
                 <h4 class="font-bold text-xl mb-3">Technical Coordination</h4>
                 <p class="text-gray-600 leading-relaxed">Managed technical documentation through a structured iterative process, engineering design development with the team generating over 75 solutions, and communication our engineering manager and client.</p>
             </div>
@@ -126,11 +137,12 @@
     </section>
 
     <!-- Footer Nav -->
-    <div class="flex justify-between items-center mt-12 pt-8 border-t border-gray-100">
-        <a href="project-2.html" class="bg-white text-gray-500 px-10 py-5 rounded-full font-bold border border-gray-200 hover:border-sapphire hover:text-sapphire transition shadow-lg flex items-center gap-2">
+    <!-- CHANGE 4: footer buttons stack on phones instead of overflowing -->
+    <div class="flex flex-col-reverse sm:flex-row sm:justify-between items-stretch sm:items-center gap-4 mt-12 pt-8 border-t border-gray-100">
+        <a href="project-2.html" class="bg-white text-gray-500 px-6 sm:px-10 py-4 sm:py-5 text-sm sm:text-base text-center rounded-full font-bold border border-gray-200 hover:border-sapphire hover:text-sapphire transition shadow-lg flex items-center justify-center gap-2">
             ← Previous: Rehabilitation Knee Sleeve
         </a>
-        <a href="project-4.html" class="bg-black text-white px-10 py-5 rounded-full font-bold hover:bg-sapphire transition shadow-lg">
+        <a href="project-4.html" class="bg-black text-white px-6 sm:px-10 py-4 sm:py-5 text-sm sm:text-base text-center rounded-full font-bold hover:bg-sapphire transition shadow-lg">
             Next Project: Dissections →
         </a>
     </div>
