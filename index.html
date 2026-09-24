@@ -78,7 +78,19 @@
         .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
 
         #projects-layer { z-index: 10; opacity: 0; background: var(--project-bg); pointer-events: none; justify-content: center; transform: scale(0.05); }
-        #hero-layer { z-index: 30; justify-content: center; background: #ffffff; }
+        /* CHANGE 7: keep the typed name clear of the fixed nav bar */
+        #hero-layer {
+            z-index: 30; background: #ffffff;
+            justify-content: center;
+            justify-content: safe center; /* if content is too tall, align to the top instead of cutting it off */
+            padding-top: 3.5rem; padding-bottom: 1rem;
+        }
+        #hero-layer > div:first-child { margin-top: 0.5rem; }
+        @media (min-width: 768px) and (max-height: 820px) {
+            #image-slot { width: 200px !important; height: 200px !important; }
+            #about-bubble { padding: 1.5rem 2rem; }
+            #about-bubble p { font-size: 1rem; }
+        }
 
         .card-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); perspective: 2000px; z-index: 20; pointer-events: none; opacity: 0; }
         
@@ -229,7 +241,12 @@
     let isLockedScrolling = true; // user can never scroll manually; only the buttons move the page
 
     function preventScroll(e) { if (isLockedScrolling) e.preventDefault(); }
-    window.addEventListener('wheel', preventScroll, { passive: false });
+    window.addEventListener('wheel', (e) => {
+        e.preventDefault(); // still block normal scrolling
+        if (isAnimating || wheelCooldown || Math.abs(e.deltaY) < 10) return;
+        if (e.deltaY > 0) slowScrollToProjects();
+        else slowScrollToAbout();
+    }, { passive: false });
     window.addEventListener('touchmove', preventScroll, { passive: false });
     window.addEventListener('keydown', (e) => {
         const navKeys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '];
@@ -263,16 +280,28 @@
             return endHold + eased * (1 - endHold);
 }
 
+    // CHANGE 8: lock + cooldown so a single wheel/trackpad gesture triggers the animation once
+    let isAnimating = false, wheelCooldown = false;
+
     function animateScrollTo(targetY, duration) {
+        if (isAnimating) return; // ignore new requests mid-animation
         const startY = window.pageYOffset || document.documentElement.scrollTop;
         const distance = targetY - startY;
+        if (Math.abs(distance) < 1) return; // already there
+        isAnimating = true;
         const startTime = performance.now();
 
         function step(now) {
             const t = Math.min((now - startTime) / duration, 1);
             const eased = easeMostlyLinear(t);
             window.scrollTo(0, startY + distance * eased);
-            if (t < 1) requestAnimationFrame(step);
+            if (t < 1) {
+                requestAnimationFrame(step);
+            } else {
+                isAnimating = false;
+                wheelCooldown = true;
+                setTimeout(() => { wheelCooldown = false; }, 500);
+            }
         }
         requestAnimationFrame(step);
     }
