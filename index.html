@@ -87,9 +87,15 @@
         }
         #hero-layer > div:first-child { margin-top: 0.5rem; }
         @media (min-width: 768px) and (max-height: 820px) {
-            #image-slot { width: 200px !important; height: 200px !important; }
+            /* headshot stays full size on desktop; only spacing and text tighten */
+            #hero-layer > div:first-child { margin-bottom: 1rem; }
             #about-bubble { padding: 1.5rem 2rem; }
             #about-bubble p { font-size: 1rem; }
+            #hero-layer > div:last-child { margin-top: 1rem; }
+        }
+        /* landscape phones: very short screens need a smaller photo */
+        @media (max-height: 520px) and (min-width: 768px) {
+            #image-slot { width: 120px !important; height: 120px !important; }
         }
 
         .card-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); perspective: 2000px; z-index: 20; pointer-events: none; opacity: 0; }
@@ -124,7 +130,15 @@
             #about-bubble h2 { font-size: 1.75rem; }
             #about-bubble p { font-size: 0.9rem; line-height: 1.4; }
             #about-bubble .flex-wrap > * { padding: 0.6rem 1rem; font-size: 0.75rem; }
-            #image-slot { width: 120px !important; height: 120px !important; }
+            #image-slot { width: 88px !important; height: 88px !important; }
+            /* CHANGE 9: tighter phone spacing so the "To Projects" button isn't cut off */
+            #hero-layer { padding-top: 3.25rem; padding-bottom: 0.75rem; }
+            #hero-layer > div:first-child { margin-top: 0.25rem; margin-bottom: 0.75rem; }
+            #hero-layer > div:first-child > div { height: 1.75rem; margin-bottom: 0.25rem; }
+            #about-bubble .space-y-4 > * + * { margin-top: 0.5rem; }
+            #about-bubble .flex-wrap { gap: 0.5rem; }
+            #hero-layer > div:last-child { margin-top: 0.75rem; }
+            #hero-layer > div:last-child button { padding: 0.7rem 1.5rem; }
         }
     </style>
 </head>
@@ -187,7 +201,7 @@
                     <span id="name-type"></span><span id="name-cursor" class="cursor"></span>
                 </div>
                 <h1 class="font-extrabold tracking-tighter leading-none whitespace-nowrap"
-                    style="font-size: clamp(1.5rem, 8vw, 6rem); height: 1.1em;">
+                    style="font-size: clamp(1.5rem, min(8vw, 12vh), 6rem); height: 1.1em;">
                     <span id="title-type"></span><span id="title-cursor" class="cursor hidden"></span>
                 </h1>
             </div>
