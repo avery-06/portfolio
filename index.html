@@ -37,19 +37,28 @@
 
         .apple-bubble { background: #f5f5f7; border-radius: 3.5rem; border: 1px solid rgba(0,0,0,0.03); }
 
+        /* CHANGE 1: fluid project grid */
         .project-grid {
-            display: grid; grid-template-columns: repeat(2, 400px); grid-template-rows: repeat(2, 250px);
-            gap: 30px; width: max-content; margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: clamp(12px, 2.5vw, 30px);
+            width: min(830px, 92vw);
+            margin: 20px auto;
         }
 
-        .project-card { width: 400px; height: 250px; perspective: 1500px; text-decoration: none; }
+        .project-card { width: 100%; aspect-ratio: 8 / 5; perspective: 1500px; text-decoration: none; }
+        .project-card h3 { font-size: clamp(0.8rem, 2.6vw, 1.875rem); }
         .card-inner { position: relative; width: 100%; height: 100%; transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); transform-style: preserve-3d; }
-        .project-card:hover .card-inner { transform: rotateY(180deg); }
+        @media (hover: hover) {
+            .project-card:hover .card-inner { transform: rotateY(180deg); }
+        }
 
         .card-face-p {
             position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden;
-            backface-visibility: hidden; border-radius: 3.5rem; display: flex; align-items: center;
-            justify-content: center; padding: 2.5rem; text-align: center;
+            backface-visibility: hidden; display: flex; align-items: center; justify-content: center;
+            text-align: center;
+            border-radius: clamp(1.25rem, 5vw, 3.5rem);
+            padding: clamp(0.75rem, 2.5vw, 2.5rem);
         }
 
         .project-card:nth-child(1) .card-front-p,
@@ -58,13 +67,14 @@
         .project-card:nth-child(2) .card-front-p,
         .project-card:nth-child(3) .card-front-p { background: white; color: #1d1d1f; border: 1px solid black; }
         .card-back-p { background: #f5f5f7; transform: rotateY(180deg); overflow: hidden; border: 1px solid rgba(0,0,0,0.1); }
-        .card-back-p img { width: 100%; height: 100%; object-fit: cover; border-radius: 2.5rem; }
+        .card-back-p img { width: 100%; height: 100%; object-fit: cover; border-radius: clamp(1rem, 4vw, 2.5rem); }
 
         .cursor { display: inline-block; width: 3px; background-color: var(--sapphire); margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        #transition-track { height: 600vh; position: relative; }
-        .sticky-viewport { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background: #ffffff; }
+        /* CHANGE 4: svh fallbacks for mobile browser address bars */
+        #transition-track { height: 600vh; height: 600svh; position: relative; }
+        .sticky-viewport { position: sticky; top: 0; height: 100vh; height: 100svh; width: 100%; overflow: hidden; background: #ffffff; }
         .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
 
         #projects-layer { z-index: 10; opacity: 0; background: var(--project-bg); pointer-events: none; justify-content: center; transform: scale(0.05); }
@@ -95,6 +105,15 @@
         }
 
         #image-slot img { width: 100%; height: 100%; object-fit: cover; border-radius: 2.5rem; filter: grayscale(100%); transform: rotateZ(0.1deg) translateZ(0); backface-visibility: hidden; }
+
+        /* CHANGE 2: phone-only About card sizing */
+        @media (max-width: 767px) {
+            #about-bubble { padding: 1.25rem; gap: 1rem; border-radius: 2rem; }
+            #about-bubble h2 { font-size: 1.75rem; }
+            #about-bubble p { font-size: 0.9rem; line-height: 1.4; }
+            #about-bubble .flex-wrap > * { padding: 0.6rem 1rem; font-size: 0.75rem; }
+            #image-slot { width: 120px !important; height: 120px !important; }
+        }
     </style>
 </head>
 <body>
@@ -108,7 +127,7 @@
             </svg>
             <span class="font-bold group-hover:text-sapphire transition-colors">Avery Wong</span>
         </div>
-        <div class="space-x-8">
+        <div class="space-x-4 sm:space-x-8">
             <button onclick="animateScrollTo(0, 2000)" class="text-gray-500 hover:text-black transition">Home</button>
             <button onclick="scrollToProjects()" class="text-gray-500 hover:text-sapphire transition">Projects</button>
             <a href="resume.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-sapphire transition">Resume</a>
@@ -155,7 +174,8 @@
                 <div class="text-2xl md:text-4xl font-bold tracking-tight mb-2 h-10">
                     <span id="name-type"></span><span id="name-cursor" class="cursor"></span>
                 </div>
-                <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter leading-none h-24 md:h-32">
+                <h1 class="font-extrabold tracking-tighter leading-none whitespace-nowrap"
+                    style="font-size: clamp(1.5rem, 8vw, 6rem); height: 1.1em;">
                     <span id="title-type"></span><span id="title-cursor" class="cursor hidden"></span>
                 </h1>
             </div>
@@ -163,7 +183,7 @@
                 <div class="flex-1 space-y-4">
                     <h2 class="text-4xl font-extrabold tracking-tight">About</h2>
                     <p class="text-gray-500 text-lg leading-relaxed">Mechanical engineering student at the University of Toronto pursuing a minor in Engineering Business. A technical-focused engineer with strong interests in problem solving, design, and collaborative engineering environments.</p>
-                    <div class="flex wrap gap-4">
+                    <div class="flex flex-wrap gap-4">
                         <a href="https://www.linkedin.com/in/averywong0" target="_blank" class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold hover:border-sapphire transition shadow-sm">LinkedIn</a>
                         <div class="px-8 py-4 bg-white border border-gray-200 rounded-3xl text-sm font-bold text-black shadow-sm">averywong3@gmail.com</div>
                     </div>
@@ -218,6 +238,17 @@
         if (e.key === 'ArrowUp' || e.key === 'PageUp') slowScrollToAbout();
     });
 
+    // CHANGE 6: swipe support for touch devices
+    let touchStartY = null;
+    window.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchend', e => {
+        if (touchStartY === null) return;
+        const dy = touchStartY - e.changedTouches[0].clientY;
+        if (dy > 60) slowScrollToProjects();
+        else if (dy < -60) slowScrollToAbout();
+        touchStartY = null;
+    });
+
     function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
     function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
         function easeMostlyLinear(t) {
@@ -253,7 +284,9 @@
         const slot = document.getElementById('image-slot'), t = document.getElementById('transition-track');
         if(slot) cachedSlotRect = slot.getBoundingClientRect(); 
         trackHeight = t.offsetHeight;
-        vh = window.innerHeight; vw = window.innerWidth;
+        // CHANGE 4: measure the actual sticky viewport (matches svh on phones)
+        vh = document.querySelector('.sticky-viewport').offsetHeight;
+        vw = window.innerWidth;
     }
 
     function type(elId, fullText, speed, callback) {
@@ -312,7 +345,9 @@
         const rotY = rotProgress * 180;
         const rotZ = smoothstep(0, 1, progress) * 900;
         const scaleT = smoothstep(0.3, 0.75, progress);
-        const scale = 0.32 + scaleT * (7 - 0.32);
+        // CHANGE 5: start the card at the photo's actual size
+        const startScale = Math.min(cachedSlotRect.width, cachedSlotRect.height) / 1000;
+        const scale = startScale + scaleT * (7 - startScale);
         const cardOp = 1 - smoothstep(0.65, 1, progress);
         const pOp = smoothstep(0.65, 1, progress);;
         const pScale = 1;
